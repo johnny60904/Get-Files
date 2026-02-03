@@ -1,0 +1,33 @@
+# ModuleName
+
+## Overview
+一句話說清楚「這模組解決什麼問題」
+
+## Design Principles
+- Non-recursive vs recursive semantics
+- Streaming-first
+- Allocation-aware
+- Boundary-driven design
+
+## Cmdlets
+- Get-XXX
+- New-XXXOptions
+- Get-XXXDefaultOptions
+
+## Usage
+最小可用範例（不要教學文）
+
+## Options Model
+說明 Options 是 value object、immutable、如何取得
+
+## Performance Characteristics
+- Streaming
+- Enumeration strategy
+- Memory behavior
+
+## Compatibility
+- PowerShell 7.5+
+- .NET version
+
+## License
+MIT

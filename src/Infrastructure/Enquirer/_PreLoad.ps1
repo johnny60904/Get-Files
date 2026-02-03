@@ -1,0 +1,1 @@
+. "$([System.IO.Path]::Join($PSScriptRoot, 'SystemEnquirer.ps1'))"

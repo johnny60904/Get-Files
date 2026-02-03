@@ -1,0 +1,6 @@
+. "$([System.IO.Path]::Join($PSScriptRoot, 'IOPathStructureWindowsRule.ps1'))"
+. "$([System.IO.Path]::Join($PSScriptRoot, 'IOPathStructureLinuxRule.ps1'))"
+. "$([System.IO.Path]::Join($PSScriptRoot, 'IOPathStructureMacOSRule.ps1'))"
+. "$([System.IO.Path]::Join($PSScriptRoot, 'IOPathSyntaxWindowsRule.ps1'))"
+. "$([System.IO.Path]::Join($PSScriptRoot, 'IOPathSyntaxLinuxRule.ps1'))"
+. "$([System.IO.Path]::Join($PSScriptRoot, 'IOPathSyntaxMacOSRule.ps1'))"

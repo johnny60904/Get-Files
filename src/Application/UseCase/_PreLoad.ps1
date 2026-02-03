@@ -1,0 +1,1 @@
+. "$([System.IO.Path]::Join($PSScriptRoot, 'DiscoverStructuredFilesSet.ps1'))"

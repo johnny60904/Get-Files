@@ -1,0 +1,4 @@
+bin/
+obj/
+*.psd1.user
+*.log

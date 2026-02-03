@@ -1,0 +1,6 @@
+. "$([System.IO.Path]::Join($PSScriptRoot, 'IOPathMaxLengthWindowsResolver.ps1'))"
+. "$([System.IO.Path]::Join($PSScriptRoot, 'IOPathEvaluationResolver.ps1'))"
+. "$([System.IO.Path]::Join($PSScriptRoot, 'IOPathNormalizationResolver.ps1'))"
+. "$([System.IO.Path]::Join($PSScriptRoot, 'IOPathStructureRuleResolver.ps1'))"
+. "$([System.IO.Path]::Join($PSScriptRoot, 'IOPathSyntaxRuleResolver.ps1'))"
+. "$([System.IO.Path]::Join($PSScriptRoot, 'IOPathConstraintsResolver.ps1'))"
