@@ -5,10 +5,10 @@ class DiscoveryRequestFactory {
     static [DiscoveryRequest] Map (
         [string] $directoryPath,
         [string[]] $childNames,
-        [switch] $recurse,
         [string] $fileFilter,
-        [switch] $depthFirst,
-        [TraversalOptions] $traversalOptions
+        [TraversalOptions] $traversalOptions,
+        [switch] $recurse,
+        [switch] $depthFirst
     ) {
         [TraversalDepthStrategy]$traversalDepthStrategy = [DiscoveryRequestParser]::ParseTraversalDepthStrategy(
             $recurse,

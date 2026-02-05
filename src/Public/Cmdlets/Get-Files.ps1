@@ -1,54 +1,54 @@
-[string[]]$TraversalModeAllowed = [TraversalStrategyTokens]::Allowed
-[System.StringComparison]$TraversalModeComparison = [TraversalStrategyTokens]::Comparison
 
-function Get-DiscoveredFilesSet {
+function Get-Files {
 # TODO: Add Comment-Based Help
     [CmdletBinding()]
     param(
         [Parameter(Mandatory, Position = 0)]
         [ValidateScript({
-            [IOPathSyntaxValidators]::ValidateAbsolutePathSyntax($_, 'DirectoryPath')
-            [FileSystemStateValidators]::ValidateDirectoryExistence($_, 'DirectoryPath')
+            [IOPathSyntaxValidators]::ValidateAbsolutePathSyntax($_, 'Path')
+            [FileSystemStateValidators]::ValidateDirectoryExistence($_, 'Path')
             return $true
         })]
-        [string] $DirectoryPath, # DirectoryPath
+        [string] $Path, # DirectoryPath
         
-        # 可空 (不指定), 就變成遍歷並收集 $DirectoryPath 下所有檔案
+        # 可空 (不指定), 就變成遍歷並收集 $Path 下所有檔案
         [Parameter(Position = 1)]
         [ValidateScript({
             if ([IOPathSegmentValidators]::ValidateIsNullOrEmpty($_)) { return $true }
-            [IOPathSegmentValidators]::ValidateFolderNameSyntax($_, 'ChildNames')
+            [IOPathSegmentValidators]::ValidateFolderNameSyntax($_, 'FilterNames')
             return $true
         })]
-        [string[]] $ChildNames = @(), # ChildNames
-        
-        [Parameter()]
-        # Validate removed
-        [switch] $Recurse, # TraversalMode
+        [string[]] $FilterNames = @(), # ChildNames
         
         # 因為是 Files 用, 所以要求有附檔名, 即格式: xxx.xxx
-        [Parameter(Position = 3)]
+        [Parameter(Position = 2)]
         [ValidateScript({
-            [FileFilterPatternValidators]::ValidateFileFilterPattern($_, 'FileFilter')
+            [FileFilterPatternValidators]::ValidateFileFilterPattern($_, 'Filter')
             return $true
         })]
-        [string] $FileFilter = "*.*", # FileFilter
+        [string] $Filter = "*.*", # FileFilter
+        
+        # 基本上在 New-FilesOptions 那邊都 Validate 完了, 所以這邊應該就不處理了
+        # 頂多使用者亂傳 hashtable / pscustomobject 之類的, 無法轉換成 FilesOptions,
+        # 但也會 powershell 原生自動噴錯, 等於第一層防護了
+        [Parameter(Position = 3)]
+        [FilesOptions] $Options = (New-FilesOptions),
         
         [Parameter()]
-        [switch] $DepthFirst, # RecursionDepthMode
+        # Validation removed
+        [switch] $Recurse, # TraversalMode
         
-        # 基本上在 New-DiscoveredFilesSetOptions 那邊都 Validate 完了, 所以這邊應該就不處理了
-        # 頂多使用者亂傳 hashtable / pscustomobject 之類的, 無法轉換成 TraversalOptions,
-        # 但也會 powershell 原生自動噴錯, 等於第一層防護了
-        [Parameter(Position = 5)]
-        [FilesOptions] $Options = (New-DiscoveredFilesSetOptions)
+        [Parameter()]
+        # Validation removed
+        [switch] $DepthFirst # RecursionDepthMode
+        
     )
     try {
         [TraversalOptions]$traversalOptions = [DiscoveryOptionsMapper]::Map(
-            $Options.ContinueOnAccessDenied,
-            $Options.IOBufferSize,
-            $Options.ExcludedFileAttributes,
-            $Options.MatchCaseSensitivity
+            $Options.IgnoreErrors,
+            $Options.BufferSizeKB,
+            $Options.ExcludeAttributes,
+            $Options.CaseSensitivity
         )
     } catch [ApplicationException] {
         [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::FromException(
@@ -61,12 +61,12 @@ function Get-DiscoveredFilesSet {
     }
     try {
         [DiscoveryRequest]$request = [DiscoveryRequestFactory]::Map(
-            $DirectoryPath,
-            $ChildNames,
+            $Path,
+            $FilterNames,
+            $Filter,
+            $traversalOptions,
             $Recurse,
-            $FileFilter,
-            $DepthFirst,
-            $traversalOptions
+            $DepthFirst
         )
     } catch [ApplicationException] {
         [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::FromException(

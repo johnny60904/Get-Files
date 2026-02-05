@@ -3,21 +3,21 @@
 [string[]]$MatchCaseSensitivityAllowed = [NameCaseSensitivityTokens]::Allowed
 [System.StringComparison]$MatchCaseSensitivityComparison = [NameCaseSensitivityTokens]::Comparison
 
-function New-DiscoveredFilesSetOptions {
+function New-FilesOptions {
 # TODO: Add Comment-Based Help
     [CmdletBinding()]
-    # 此函式只是為了獲得 options 而已, 一般如 js 那般函式使用方式即可, 不支援 pipeline, 下面會 Assert
+    # 此函式只是為了獲得 options 而已, 一般如 js 那般函式使用方式即可, 不支援 pipeline, 下面會 Validate
     param(
         
         [Parameter(Position = 0)]
-        [bool] $ContinueOnAccessDenied = $true, # ContinueOnAccessDenied
+        [bool] $IgnoreErrors = $true, # ContinueOnAccessDenied
         
         [Parameter(Position = 1)]
         [ValidateScript({
-            [NumericValidators]::ValidateNonNegtiveInteger($_, 'IOBufferSize')
+            [NumericValidators]::ValidateNonNegtiveInteger($_, 'BufferSizeKB')
             return $true
         })]
-        [int] $IOBufferSize = 0, # IOBufferSize
+        [int] $BufferSizeKB = 0, # IOBufferSize
         
         [Parameter(Position = 2)]
         [ValidateScript({
@@ -25,11 +25,11 @@ function New-DiscoveredFilesSetOptions {
                 $_,
                 $ExcludedFileAttributesAllowed,
                 $ExcludedFileAttributesComparison,
-                'ExcludedFileAttributes'
+                'ExcludeAttributes'
             )
             return $true
         })]
-        [string[]] $ExcludedFileAttributes = @('Hidden', 'System'), # ExcludedFileAttributes
+        [string[]] $ExcludeAttributes = @('Hidden', 'System'), # ExcludedFileAttributes
         
         [Parameter(Position = 3)]
         [ValidateScript({
@@ -37,11 +37,11 @@ function New-DiscoveredFilesSetOptions {
                 $_,
                 $MatchCaseSensitivityAllowed,
                 $MatchCaseSensitivityComparison,
-                'MatchCaseSensitivity'
+                'CaseSensitivity'
             )
             return $true
         })]        
-        [string] $MatchCaseSensitivity = 'Auto' # MatchCaseSensitivity
+        [string] $CaseSensitivity = 'Auto' # MatchCaseSensitivity
     )
     if ($MyInvocation.ExpectingInput) {
         [System.InvalidOperationException]$excp = [System.InvalidOperationException]::new(
@@ -56,10 +56,10 @@ function New-DiscoveredFilesSetOptions {
         $PSCmdlet.ThrowTerminatingError($err)
     }
     return [FilesOptions]::new(
-        $ContinueOnAccessDenied,
-        $IOBufferSize,
-        $ExcludedFileAttributes,
-        $MatchCaseSensitivity
+        $IgnoreErrors,
+        $BufferSizeKB,
+        $ExcludeAttributes,
+        $CaseSensitivity
     )
 }
 # (.SYNOPSIS)

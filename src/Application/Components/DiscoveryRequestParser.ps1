@@ -33,6 +33,14 @@ class DiscoveryRequestParser {
         [System.StringComparison] $comparison
     ) {
         [string]$semanticName = ([ApplicationSemanticNames]::TraversalStrategy).ToString()
+        if ([System.String]::IsNullOrWhiteSpace($flag)) {
+            throw [UseCaseParsingException]::new(
+                [DiscoveryRequestParser]::Component, # ComponentName
+                ([ApplicationExceptionContext]::AssertSemanticTokenMeaningfulness).ToString(), # Context
+                ([ApplicationExceptionReason]::SemanticTokenNullOrWhiteSpace).ToString(), # Reason
+                "$($semanticName) must not be null, empty, or whitespace." # Message
+            )
+        }
         [string]$mapped = [TraversalStrategyMapper]::FromSwitchFlag($flag)
         [bool]$isCaseInsensitive = [StringComparisonInspector]::IsCaseInsensitive($comparison)
         $parsed = $null
@@ -57,6 +65,14 @@ class DiscoveryRequestParser {
         [System.StringComparison] $comparison
     ) {
         [string]$semanticName = ([ApplicationSemanticNames]::TraversalDepthStrategy).ToString()
+        if ([System.String]::IsNullOrWhiteSpace($flag)) {
+            throw [UseCaseParsingException]::new(
+                [DiscoveryRequestParser]::Component, # ComponentName
+                ([ApplicationExceptionContext]::AssertSemanticTokenMeaningfulness).ToString(), # Context
+                ([ApplicationExceptionReason]::SemanticTokenNullOrWhiteSpace).ToString(), # Reason
+                "$($semanticName) must not be null, empty, or whitespace." # Message
+            )
+        }
         [string]$mapped = [TraversalDepthStrategyMapper]::FromSwitchFlag($flag)
         [bool]$isCaseInsensitive = [StringComparisonInspector]::IsCaseInsensitive($comparison)
         $parsed = $null
