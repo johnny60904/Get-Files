@@ -11,7 +11,7 @@ function Get-DiscoveredFilesSet {
             [FileSystemStateValidators]::ValidateDirectoryExistence($_, 'DirectoryPath')
             return $true
         })]
-        [string] $DirectoryPath,
+        [string] $DirectoryPath, # DirectoryPath
         
         # 可空 (不指定), 就變成遍歷並收集 $DirectoryPath 下所有檔案
         [Parameter(Position = 1)]
@@ -20,19 +20,11 @@ function Get-DiscoveredFilesSet {
             [IOPathSegmentValidators]::ValidateFolderNameSyntax($_, 'ChildNames')
             return $true
         })]
-        [string[]] $ChildNames = @(),
+        [string[]] $ChildNames = @(), # ChildNames
         
-        [Parameter(Position = 2)]
-        [ValidateScript({
-            [StringValidators]::ValidateIsOneOf(
-                $_,
-                $TraversalModeAllowed,
-                $TraversalModeComparison,
-                'TraversalMode'
-            )
-            return $true
-        })]
-        [string] $TraversalMode = 'DFS',
+        [Parameter()]
+        # Validate removed
+        [switch] $Recurse, # TraversalMode
         
         # 因為是 Files 用, 所以要求有附檔名, 即格式: xxx.xxx
         [Parameter(Position = 3)]
@@ -40,14 +32,10 @@ function Get-DiscoveredFilesSet {
             [FileFilterPatternValidators]::ValidateFileFilterPattern($_, 'FileFilter')
             return $true
         })]
-        [string] $FileFilter = "*.*",
+        [string] $FileFilter = "*.*", # FileFilter
         
-        [Parameter(Position = 4)]
-        [ValidateScript({
-            # Validate @('Current', 'All')
-            return $true
-        })]
-        [string] $RecursionDepthMode = 'All',
+        [Parameter()]
+        [switch] $DepthFirst, # RecursionDepthMode
         
         # 基本上在 New-DiscoveredFilesSetOptions 那邊都 Validate 完了, 所以這邊應該就不處理了
         # 頂多使用者亂傳 hashtable / pscustomobject 之類的, 無法轉換成 TraversalOptions,
@@ -56,7 +44,7 @@ function Get-DiscoveredFilesSet {
         [FilesOptions] $Options = (New-DiscoveredFilesSetOptions)
     )
     try {
-        [TraversalOptions]$traversalOptions = [DiscoveryOptionsFactory]::MapOptions(
+        [TraversalOptions]$traversalOptions = [DiscoveryOptionsMapper]::Map(
             $Options.ContinueOnAccessDenied,
             $Options.IOBufferSize,
             $Options.ExcludedFileAttributes,
@@ -72,12 +60,12 @@ function Get-DiscoveredFilesSet {
         $PSCmdlet.ThrowTerminatingError($err)
     }
     try {
-        [DiscoveryRequest]$request = [DiscoveryRequestFactory]::MapRequest(
+        [DiscoveryRequest]$request = [DiscoveryRequestFactory]::Map(
             $DirectoryPath,
             $ChildNames,
-            $TraversalMode,
+            $Recurse,
             $FileFilter,
-            $RecursionDepthMode,
+            $DepthFirst,
             $traversalOptions
         )
     } catch [ApplicationException] {

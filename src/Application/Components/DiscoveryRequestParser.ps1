@@ -29,23 +29,15 @@ class DiscoveryRequestParser {
     }
     
     static [TraversalStrategy] ParseTraversalStrategy (
-        [string] $value,
+        [switch] $flag,
         [System.StringComparison] $comparison
     ) {
         [string]$semanticName = ([ApplicationSemanticNames]::TraversalStrategy).ToString()
-        if ([System.String]::IsNullOrWhiteSpace($value)) {
-            throw [UseCaseParsingException]::new(
-                [DiscoveryRequestParser]::Component, # ComponentName
-                ([ApplicationExceptionContext]::AssertSemanticTokenMeaningfulness).ToString(), # Context
-                ([ApplicationExceptionReason]::SemanticTokenNullOrWhiteSpace).ToString(), # Reason
-                "$($semanticName) must not be null, empty, or whitespace." # Message
-            )
-        }
-        [string]$normalized = [TraversalStrategyNormalizer]::Normalize($value, $comparison)
+        [string]$mapped = [TraversalStrategyMapper]::FromSwitchFlag($flag)
         [bool]$isCaseInsensitive = [StringComparisonInspector]::IsCaseInsensitive($comparison)
         $parsed = $null
         [bool]$isValid = [DiscoveryRequestParser]::TryParseTraversalStrategy(
-            $normalized,
+            $mapped,
             $isCaseInsensitive,
             [ref]$parsed
         )
@@ -54,30 +46,22 @@ class DiscoveryRequestParser {
                 [DiscoveryRequestParser]::Component, # ComponentName
                 ([ApplicationExceptionContext]::TranslateSemanticTokenToDomainValue).ToString(), # Context
                 ([ApplicationExceptionReason]::SemanticTokenTranslationFailure).ToString(), # Reason
-                "$($semanticName) is not a valid domain-supported value: '$($value)'." # Message
+                "$($semanticName) is not a valid domain-supported value: '$($flag)'." # Message
             )
         }
         return $parsed
     }
     
     static [TraversalDepthStrategy] ParseTraversalDepthStrategy (
-        [string] $value,
+        [switch] $flag,
         [System.StringComparison] $comparison
     ) {
         [string]$semanticName = ([ApplicationSemanticNames]::TraversalDepthStrategy).ToString()
-        if ([System.String]::IsNullOrWhiteSpace($value)) {
-            throw [UseCaseParsingException]::new(
-                [DiscoveryRequestParser]::Component, # ComponentName
-                ([ApplicationExceptionContext]::AssertSemanticTokenMeaningfulness).ToString(), # Context
-                ([ApplicationExceptionReason]::SemanticTokenNullOrWhiteSpace).ToString(), # Reason
-                "$($semanticName) must not be null, empty, or whitespace." # Message
-            )
-        }
-        [string]$normalized = [TraversalDepthStrategyNormalizer]::Normalize($value, $comparison)
+        [string]$mapped = [TraversalDepthStrategyMapper]::FromSwitchFlag($flag)
         [bool]$isCaseInsensitive = [StringComparisonInspector]::IsCaseInsensitive($comparison)
         $parsed = $null
         [bool]$isValid = [DiscoveryRequestParser]::TryParseTraversalDepthStrategy(
-            $normalized,
+            $mapped,
             $isCaseInsensitive,
             [ref]$parsed
         )
@@ -86,7 +70,7 @@ class DiscoveryRequestParser {
                 [DiscoveryRequestParser]::Component, # ComponentName
                 ([ApplicationExceptionContext]::TranslateSemanticTokenToDomainValue).ToString(), # Context
                 ([ApplicationExceptionReason]::SemanticTokenTranslationFailure).ToString(), # Reason
-                "$($semanticName) is not a valid domain-supported value: '$($value)'." # Message
+                "$($semanticName) is not a valid domain-supported value: '$($flag)'." # Message
             )
         }
         return $parsed

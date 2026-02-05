@@ -2,8 +2,10 @@
 . "$([System.IO.Path]::Join($PSScriptRoot, 'AllowedTokens', '_PreLoad.ps1'))"
 . "$([System.IO.Path]::Join($PSScriptRoot, 'IdentifierNames', '_PreLoad.ps1'))"
 . "$([System.IO.Path]::Join($PSScriptRoot, 'Normalizers', '_PreLoad.ps1'))"
+. "$([System.IO.Path]::Join($PSScriptRoot, 'Mappers', '_PreLoad.ps1'))"
 
 . "$([System.IO.Path]::Join($PSScriptRoot, 'DiscoveryOptionsParser.ps1'))"
+. "$([System.IO.Path]::Join($PSScriptRoot, 'DiscoveryOptionsMapper.ps1'))"
 . "$([System.IO.Path]::Join($PSScriptRoot, 'DiscoveryRequestParser.ps1'))"
 . "$([System.IO.Path]::Join($PSScriptRoot, 'DiscoveryOptionsFactory.ps1'))"
 . "$([System.IO.Path]::Join($PSScriptRoot, 'DiscoveryRequestFactory.ps1'))"

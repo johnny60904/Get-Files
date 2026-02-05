@@ -2,21 +2,21 @@ class DiscoveryRequestFactory {
     
     hidden static [string] $Component = 'DiscoveryRequestFactory'
     
-    static [DiscoveryRequest] MapRequest (
+    static [DiscoveryRequest] Map (
         [string] $directoryPath,
         [string[]] $childNames,
-        [string] $traversalMode,
+        [switch] $recurse,
         [string] $fileFilter,
-        [string] $recursionDepthMode,
+        [switch] $depthFirst,
         [TraversalOptions] $traversalOptions
     ) {
-        [TraversalStrategy]$traversalStrategy = [DiscoveryRequestParser]::ParseTraversalStrategy(
-            $traversalMode,
-            [TraversalStrategyComparison]::Comparison
-        ) # ParsingException
         [TraversalDepthStrategy]$traversalDepthStrategy = [DiscoveryRequestParser]::ParseTraversalDepthStrategy(
-            $recursionDepthMode,
+            $recurse,
             [TraversalDepthStrategyComparison]::Comparison
+        ) # ParsingException
+        [TraversalStrategy]$traversalStrategy = [DiscoveryRequestParser]::ParseTraversalStrategy(
+            $depthFirst,
+            [TraversalStrategyComparison]::Comparison
         ) # ParsingException
         return [DiscoveryRequest]::new(
             $directoryPath,
