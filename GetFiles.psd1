@@ -1,5 +1,5 @@
 @{
-    RootModule = 'StructuredFilesDiscover.psm1'
+    RootModule = 'GetFiles.psm1'
 
     ModuleVersion = '1.0.0'
 
