@@ -53,8 +53,24 @@ function Get-DiscoveredFilesSet {
         # 頂多使用者亂傳 hashtable / pscustomobject 之類的, 無法轉換成 TraversalOptions,
         # 但也會 powershell 原生自動噴錯, 等於第一層防護了
         [Parameter(Position = 5)]
-        [TraversalOptions] $Options = (Get-DiscoveredFilesSetOptions)
+        [FilesOptions] $Options = (New-DiscoveredFilesSetOptions)
     )
+    try {
+        [TraversalOptions]$traversalOptions = [DiscoveryOptionsFactory]::MapOptions(
+            $Options.ContinueOnAccessDenied,
+            $Options.IOBufferSize,
+            $Options.ExcludedFileAttributes,
+            $Options.MatchCaseSensitivity
+        )
+    } catch [ApplicationException] {
+        [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::FromException(
+            $_.Exception,
+            'UseCaseComponentFailed',
+            [System.Management.Automation.ErrorCategory]::InvalidOperation,
+            $null
+        )
+        $PSCmdlet.ThrowTerminatingError($err)
+    }
     try {
         [DiscoveryRequest]$request = [DiscoveryRequestFactory]::MapRequest(
             $DirectoryPath,
@@ -62,7 +78,7 @@ function Get-DiscoveredFilesSet {
             $TraversalMode,
             $FileFilter,
             $RecursionDepthMode,
-            $Options
+            $traversalOptions
         )
     } catch [ApplicationException] {
         [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::FromException(

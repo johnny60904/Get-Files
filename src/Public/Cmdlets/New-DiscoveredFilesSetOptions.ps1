@@ -10,14 +10,14 @@ function New-DiscoveredFilesSetOptions {
     param(
         
         [Parameter(Position = 0)]
-        [bool] $ContinueOnAccessDenied = $true,
+        [bool] $ContinueOnAccessDenied = $true, # ContinueOnAccessDenied
         
         [Parameter(Position = 1)]
         [ValidateScript({
             [NumericValidators]::ValidateNonNegtiveInteger($_, 'IOBufferSize')
             return $true
         })]
-        [int] $IOBufferSize = 0,
+        [int] $IOBufferSize = 0, # IOBufferSize
         
         [Parameter(Position = 2)]
         [ValidateScript({
@@ -29,7 +29,7 @@ function New-DiscoveredFilesSetOptions {
             )
             return $true
         })]
-        [string[]] $ExcludedFileAttributes = @('Hidden', 'System'),
+        [string[]] $ExcludedFileAttributes = @('Hidden', 'System'), # ExcludedFileAttributes
         
         [Parameter(Position = 3)]
         [ValidateScript({
@@ -41,7 +41,7 @@ function New-DiscoveredFilesSetOptions {
             )
             return $true
         })]        
-        [string] $MatchCaseSensitivity = 'Auto'
+        [string] $MatchCaseSensitivity = 'Auto' # MatchCaseSensitivity
     )
     if ($MyInvocation.ExpectingInput) {
         [System.InvalidOperationException]$excp = [System.InvalidOperationException]::new(
@@ -55,23 +55,12 @@ function New-DiscoveredFilesSetOptions {
         )
         $PSCmdlet.ThrowTerminatingError($err)
     }
-    try { # 會驗證參數合法性 (AssertXXX -> 錯直接噴錯), 因此 try
-        [TraversalOptions]$traversalOptions = [DiscoveryOptionsFactory]::MapOptions(
-            $ContinueOnAccessDenied,
-            $IOBufferSize,
-            $ExcludedFileAttributes,
-            $MatchCaseSensitivity
-        )
-        return [TraversalOptions]$traversalOptions
-    } catch [ApplicationException] {
-        [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::FromException(
-            $_.Exception,
-            'UseCaseComponentFailed',
-            [System.Management.Automation.ErrorCategory]::InvalidOperation,
-            $null
-        )
-        $PSCmdlet.ThrowTerminatingError($err)
-    }
+    return [FilesOptions]::new(
+        $ContinueOnAccessDenied,
+        $IOBufferSize,
+        $ExcludedFileAttributes,
+        $MatchCaseSensitivity
+    )
 }
 # (.SYNOPSIS)
 # (.DESCRIPTION)
