@@ -28,11 +28,15 @@ function Get-Files {
         })]
         [string] $Filter = "*.*", # FileFilter
         
-        # 基本上在 New-FilesOptions 那邊都 Validate 完了, 所以這邊應該就不處理了
+        # 基本上在 New-Files*Options 那邊都 Validate 完了, 所以這邊應該就不處理了
         # 頂多使用者亂傳 hashtable / pscustomobject 之類的, 無法轉換成 FilesOptions,
         # 但也會 powershell 原生自動噴錯, 等於第一層防護了
+        
         [Parameter(Position = 3)]
         [FilesOptions] $Options = (New-FilesOptions),
+        
+        [Parameter(Position = 4)]
+        [FilesAdvancedOptions] $Advanced = (New-FilesAdvancedOptions),
         
         [Parameter()]
         # Validation removed
@@ -46,9 +50,9 @@ function Get-Files {
     try {
         [TraversalOptions]$traversalOptions = [DiscoveryOptionsMapper]::Map(
             $Options.IgnoreErrors,
-            $Options.BufferSizeKB,
-            $Options.ExcludeAttributes,
-            $Options.CaseSensitivity
+            $Options.CaseSensitivity,
+            $Advanced.BufferSizeKB,
+            $Advanced.ExcludeAttributes
         )
     } catch [ApplicationException] {
         [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::FromException(

@@ -1,26 +1,31 @@
-[string[]]$MatchCaseSensitivityAllowed = [NameCaseSensitivityTokens]::Allowed
-[System.StringComparison]$MatchCaseSensitivityComparison = [NameCaseSensitivityTokens]::Comparison
+[string[]]$ExcludedFileAttributesAllowed = [SkipFileAttributesTokens]::Allowed
+[System.StringComparison]$ExcludedFileAttributesComparison = [SkipFileAttributesTokens]::Comparison
 
-function New-FilesOptions {
+function New-FilesAdvancedOptions {
 # TODO: Add Comment-Based Help
     [CmdletBinding()]
     # 此函式只是為了獲得 options 而已, 一般如 js 那般函式使用方式即可, 不支援 pipeline, 下面會 Validate
     param(
         
         [Parameter(Position = 0)]
-        [bool] $IgnoreErrors = $true, # ContinueOnAccessDenied
+        [ValidateScript({
+            [NumericValidators]::ValidateNonNegtiveInteger($_, 'BufferSizeKB')
+            return $true
+        })]
+        [int] $BufferSizeKB = 0, # IOBufferSize
         
         [Parameter(Position = 1)]
         [ValidateScript({
             [StringValidators]::ValidateIsOneOf(
                 $_,
-                $MatchCaseSensitivityAllowed,
-                $MatchCaseSensitivityComparison,
-                'CaseSensitivity'
+                $ExcludedFileAttributesAllowed,
+                $ExcludedFileAttributesComparison,
+                'ExcludeAttributes'
             )
             return $true
-        })]        
-        [string] $CaseSensitivity = 'Auto' # MatchCaseSensitivity
+        })]
+        [string[]] $ExcludeAttributes = @('Hidden', 'System') # ExcludedFileAttributes
+        
     )
     if ($MyInvocation.ExpectingInput) {
         [System.InvalidOperationException]$excp = [System.InvalidOperationException]::new(
@@ -34,9 +39,9 @@ function New-FilesOptions {
         )
         $PSCmdlet.ThrowTerminatingError($err)
     }
-    return [FilesOptions]::new(
-        $IgnoreErrors,
-        $CaseSensitivity
+    return [FilesAdvancedOptions]::new(
+        $BufferSizeKB,
+        $ExcludeAttributes
     )
 }
 # (.SYNOPSIS)

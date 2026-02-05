@@ -4,15 +4,15 @@ class DiscoveryOptionsMapper {
     
     static [TraversalOptions] Map (
         [bool] $ignoreErrors,
+        [string] $caseSensitivity,
         [int] $bufferSizeKB,
-        [string[]] $excludeAttributes,
-        [string] $caseSensitivity
+        [string[]] $excludeAttributes
     ) {
         [TraversalOptions]$traversalOptions = [TraversalOptions]::new(
             $ignoreErrors,
+            ([DiscoveryOptionsParser]::ParseNameCaseSensitivity($caseSensitivity, [NameCaseSensitivityComparison]::Comparison)), # ParsingException
             $bufferSizeKB,
-            ([DiscoveryOptionsParser]::ParseSkipFileAttributes($excludeAttributes, [SkipFileAttributesComparison]::Comparison)), # ParsingException
-            ([DiscoveryOptionsParser]::ParseNameCaseSensitivity($caseSensitivity, [NameCaseSensitivityComparison]::Comparison)) # ParsingException
+            ([DiscoveryOptionsParser]::ParseSkipFileAttributes($excludeAttributes, [SkipFileAttributesComparison]::Comparison)) # ParsingException
         )
         [string]$semanticName = ([ApplicationSemanticNames]::TraversalOptions).ToString()
         try { [TraversalRules]::AssertAdvancedOptionsValid($traversalOptions) } catch [DomainException] {

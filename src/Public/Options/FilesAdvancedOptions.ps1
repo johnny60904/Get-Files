@@ -1,21 +1,15 @@
 
 class FilesAdvancedOptions {
     
-    [bool] $ContinueOnAccessDenied
-    [int] $IOBufferSize
-    [string[]] $ExcludedFileAttributes
-    [string] $MatchCaseSensitivity
+    [int] $BufferSizeKB
+    [string[]] $ExcludeAttributes
     
     FilesAdvancedOptions (
-        [bool] $continueOnAccessDenied,
-        [int] $ioBufferSize,
-        [string[]] $excludedFileAttributes,
-        [string] $matchCaseSensitivity
+        [int] $bufferSizeKB,
+        [string[]] $excludeAttributes
     ) {
-        $this.ContinueOnAccessDenied = $continueOnAccessDenied
-        $this.IOBufferSize = $ioBufferSize
-        $this.ExcludedFileAttributes = $excludedFileAttributes
-        $this.MatchCaseSensitivity = $matchCaseSensitivity
+        $this.BufferSizeKB = $bufferSizeKB
+        $this.ExcludeAttributes = $excludeAttributes
     }
     
 }
