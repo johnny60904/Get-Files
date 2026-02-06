@@ -20,7 +20,7 @@ function Get-Files {
         })]
         [string[]] $FilterNames = @(), # ChildNames
         
-        # 因為是 Files 用, 所以要求有附檔名, 即格式: xxx.xxx
+        # 因為是 Files 用, 所以要求有附檔名, 即格式: xxx.xxx / 特例允許 *.* / *.<xxx> / <xxx>.*
         [Parameter(Position = 2)]
         [ValidateScript({
             [FileFilterPatternValidators]::ValidateFileFilterPattern($_, 'Filter')
@@ -39,12 +39,10 @@ function Get-Files {
         [FilesAdvancedOptions] $Advanced = (New-FilesAdvancedOptions),
         
         [Parameter()]
-        # Validation removed
-        [switch] $Recurse, # TraversalMode
+        [switch] $Recurse,
         
         [Parameter()]
-        # Validation removed
-        [switch] $DepthFirst # RecursionDepthMode
+        [switch] $DepthFirst
         
     )
     try {
@@ -63,14 +61,16 @@ function Get-Files {
         )
         $PSCmdlet.ThrowTerminatingError($err)
     }
+    [bool]$RecurseFlag = if ($Recurse.IsPresent) { $true } else { $false }
+    [bool]$DepthFirstFlag = if ($DepthFirst.IsPresent) { $true } else { $false }
     try {
-        [DiscoveryRequest]$request = [DiscoveryRequestFactory]::Map(
+        [DiscoveryRequest]$request = [DiscoveryRequestMapper]::Map(
             $Path,
             $FilterNames,
             $Filter,
             $traversalOptions,
-            $Recurse,
-            $DepthFirst
+            $RecurseFlag,
+            $DepthFirstFlag
         )
     } catch [ApplicationException] {
         [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::FromException(

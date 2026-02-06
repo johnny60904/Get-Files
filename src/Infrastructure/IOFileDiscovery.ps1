@@ -36,7 +36,7 @@ class IOFileDiscovery {
         return $discovered.ToArray()
     }
     
-    [string[]] DiscoverThoroughly (
+    [string[]] DiscoverAll (
         [string[]] $directoriesBatch
     ) {
         [System.IO.EnumerationOptions]$enumOpts = [IOTraversalOptionsConverter]::ToEnumerationOptions(

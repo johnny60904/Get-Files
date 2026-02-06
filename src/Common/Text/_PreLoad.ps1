@@ -1,5 +1,3 @@
-. "$([System.IO.Path]::Join($PSScriptRoot, 'BooleanSelector.ps1'))"
-. "$([System.IO.Path]::Join($PSScriptRoot, 'SwitchSelector.ps1'))"
 . "$([System.IO.Path]::Join($PSScriptRoot, 'StringMatchSelector.ps1'))"
 . "$([System.IO.Path]::Join($PSScriptRoot, 'StringTokenPredicate.ps1'))"
 . "$([System.IO.Path]::Join($PSScriptRoot, 'StringComparisonInspector.ps1'))"

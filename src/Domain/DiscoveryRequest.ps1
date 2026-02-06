@@ -2,25 +2,25 @@ class DiscoveryRequest {
     
     [string] $DirectoryPath
     [string[]] $ChildNames
-    [TraversalStrategy] $TraversalStrategy
     [string] $FileFilter
-    [TraversalDepthStrategy] $TraversalDepthStrategy
     [TraversalOptions] $TraversalOptions
+    [TraversalDepthStrategy] $TraversalDepthStrategy
+    [TraversalStrategy] $TraversalStrategy
     
     DiscoveryRequest (
         [string] $directoryPath,
         [string[]] $childNames,
-        [TraversalStrategy] $traversalStrategy,
         [string] $fileFilter,
+        [TraversalOptions] $traversalOptions,
         [TraversalDepthStrategy] $traversalDepthStrategy,
-        [TraversalOptions] $traversalOptions
+        [TraversalStrategy] $traversalStrategy
     ) {
         $this.DirectoryPath = $directoryPath
         $this.ChildNames = $childNames
-        $this.TraversalStrategy = $traversalStrategy
         $this.FileFilter = $fileFilter
-        $this.TraversalDepthStrategy = $traversalDepthStrategy
         $this.TraversalOptions = $traversalOptions
+        $this.TraversalDepthStrategy = $traversalDepthStrategy
+        $this.TraversalStrategy = $traversalStrategy
     }
     
 }

@@ -10,11 +10,11 @@ class IOFileDiscoveryStrategySelector {
                 return ($ioFileDiscovery.DiscoverCurrentLevel($directoriesBatch))
             }
             Infinity {
-                return ($ioFileDiscovery.DiscoverThoroughly($directoriesBatch))
+                return ($ioFileDiscovery.DiscoverAll($directoriesBatch))
             }
             default {
                 throw [System.InvalidOperationException]::new(
-                    'Unknown identifier name for [TraversalDepthStrategy] in Select.'
+                    'Unknown identifier name for [TraversalScope] in Select.'
                 )
             }
         }

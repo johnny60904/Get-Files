@@ -14,7 +14,7 @@
 class DirectoryEnumerationPreset { # or DirectoryEnumerationDefaults
     
     # RecurseSubdirectories
-    # 開啟 true 會和實作 (DFS / BFS) 不一致
+    # 開啟 true 會和實作 (DFS / BFS) 不一致, 結果 / 行為 會偏移
     hidden static [bool] $IncludeSubdirectories = $false
     
     # MatchType
@@ -23,8 +23,8 @@ class DirectoryEnumerationPreset { # or DirectoryEnumerationDefaults
     hidden static [System.IO.MatchType] $PatternMatchStrategy = [System.IO.MatchType]::Simple
     
     # MaxRecursionDepth
-    # 直接允許極限最大值, 實作不是使用呼叫自己的 call stack, 所以不會炸 stack
-    hidden static [int] $MaxRecursionDepth = [System.Int32]::MaxValue
+    # RecurseSubdirectories 為 False, 為對應語意一致, 此處應為 0
+    hidden static [int] $MaxRecursionDepth = 0
     
     # ReturnSpecialDirectories
     # 不打算 return . / ..  , 用不上

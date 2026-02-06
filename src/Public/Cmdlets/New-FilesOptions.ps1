@@ -21,6 +21,7 @@ function New-FilesOptions {
             return $true
         })]        
         [string] $CaseSensitivity = 'Auto' # MatchCaseSensitivity
+        
     )
     if ($MyInvocation.ExpectingInput) {
         [System.InvalidOperationException]$excp = [System.InvalidOperationException]::new(
