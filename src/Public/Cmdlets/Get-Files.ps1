@@ -42,14 +42,31 @@ function Get-Files {
         [switch] $Recurse,
         
         [Parameter()]
-        [switch] $DepthFirst
+        [switch] $DepthFirst,
+        
+        [Parameter()]
+        [switch] $ExcludeHidden,
+        
+        [Parameter()]
+        [switch] $ExcludeSystem,
+        
+        [Parameter()]
+        [switch] $ExcludeReadonly
         
     )
+    [bool]$RecurseFlag = if ($Recurse.IsPresent) { $true } else { $false }
+    [bool]$DepthFirstFlag = if ($DepthFirst.IsPresent) { $true } else { $false }
+    [bool]$ExcludeHiddenFlag = if ($ExcludeHidden.IsPresent) { $true } else { $false }
+    [bool]$ExcludeSystemFlag = if ($ExcludeSystem.IsPresent) { $true } else { $false }
+    [bool]$ExcludeReadonlyFlag = if ($ExcludeReadonly.IsPresent) { $true } else { $false }
     try {
         [TraversalOptions]$traversalOptions = [DiscoveryOptionsMapper]::Map(
             $Options.IgnoreErrors,
             $Options.CaseSensitivity,
             $Advanced.BufferSizeKB,
+            $ExcludeHiddenFlag,
+            $ExcludeSystemFlag,
+            $ExcludeReadonlyFlag,
             $Advanced.ExcludeAttributes
         )
     } catch [ApplicationException] {
@@ -61,8 +78,6 @@ function Get-Files {
         )
         $PSCmdlet.ThrowTerminatingError($err)
     }
-    [bool]$RecurseFlag = if ($Recurse.IsPresent) { $true } else { $false }
-    [bool]$DepthFirstFlag = if ($DepthFirst.IsPresent) { $true } else { $false }
     try {
         [DiscoveryRequest]$request = [DiscoveryRequestMapper]::Map(
             $Path,
