@@ -10,13 +10,13 @@ class TraversalPolicyAssembler {
         }
     }
     
-    static [TraversalDepthStrategy] ResolveDepthStrategy (
+    static [TraversalScope] ResolveScope (
         [bool] $recurse
     ) {
         if ($recurse) {
-            return [TraversalDepthStrategy]::Infinity
+            return [TraversalScope]::Recurse
         } else {
-            return [TraversalDepthStrategy]::CurrentLevelOnly
+            return [TraversalScope]::Shallow
         }
     }
     

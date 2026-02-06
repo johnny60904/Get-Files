@@ -2,14 +2,14 @@ class IOFileDiscoveryStrategySelector {
     
     static [string[]] Select (
         [string[]] $directoriesBatch,
-        [TraversalDepthStrategy] $traversalDepthStrategy,
+        [TraversalScope] $traversalScope,
         [IOFileDiscovery] $ioFileDiscovery
     ) {
-        switch ($traversalDepthStrategy) {
-            CurrentLevelOnly {
+        switch ($traversalScope) {
+            Shallow {
                 return ($ioFileDiscovery.DiscoverCurrentLevel($directoriesBatch))
             }
-            Infinity {
+            Recurse {
                 return ($ioFileDiscovery.DiscoverAll($directoriesBatch))
             }
             default {

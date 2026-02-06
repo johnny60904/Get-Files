@@ -10,14 +10,14 @@ class DiscoveryRequestMapper {
         [bool] $recurse,
         [bool] $depthFirst
     ) {
-        [TraversalDepthStrategy]$traversalDepthStrategy = [TraversalPolicyAssembler]::ResolveDepthStrategy($recurse)
+        [TraversalScope]$traversalScope = [TraversalPolicyAssembler]::ResolveScope($recurse)
         [TraversalStrategy]$traversalStrategy = [TraversalPolicyAssembler]::ResolveStrategy($depthFirst)
         return [DiscoveryRequest]::new(
             $path,
             $filterNames,
             $filter,
             $traversalOptions,
-            $traversalDepthStrategy,
+            $traversalScope,
             $traversalStrategy
         )
     }

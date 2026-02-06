@@ -39,7 +39,7 @@ class DiscoverStructuredFilesSet {
             [DiscoveryResult]$result = [DiscoveryResult]::new(
                 ([IOFileDiscoveryStrategySelector]::Select(
                     $resolvedPathsBatch,
-                    $this.DiscoveryRequest.TraversalDepthStrategy,
+                    $this.DiscoveryRequest.TraversalScope,
                     $traversalEngine
                 ))
             )
