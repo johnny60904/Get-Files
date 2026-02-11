@@ -1,15 +1,21 @@
 class StringValidators {
     
-    static [void] ValidateNotNullOrWhiteSpace (
-        [string] $val,
-        [string] $parName
+    static [void] ValidateIsRequired (
+        [string] $value,
+        [string] $paramName
     ) {
-        if ([System.String]::IsNullOrWhiteSpace($val)) {
+        if ([System.String]::IsNullOrWhiteSpace($value)) {
             throw [System.ArgumentNullException]::new(
-                $parName,
-                "Value cannot be empty or null or whitespace."
+                $paramName,
+                "Value UNPROVIDED (empty, null, or whitespace).   Please provide a valid value and try again."
             )
         }
+    }
+    
+    static [void] ValidateAllowedAbsence (
+        [string] $value
+    ) {
+        if ([System.String]::IsNullOrEmpty($value)) { return }
     }
     
     static [void] ValidateIsOneOf (
@@ -18,14 +24,14 @@ class StringValidators {
         [System.StringComparison] $comparison,
         [string] $paramName
     ) {
-        [StringValidators]::ValidateNotNullOrWhiteSpace($value, $paramName)
+        [StringValidators]::ValidateIsRequired($value, $paramName)
         [bool]$isAllowed = [StringTokenMatcher]::EqualsAny($value, $allowed, $comparison)
         if (-not $isAllowed) {
             [string]$allowedValuesDiagnostic = [ArgumentErrorDiagnosticFactory]::FormatAllowedValuesDiagnostic(
                 $allowed,
                 '',
                 $comparison,
-                "Value ({0}) must be: {1}."
+                "Valid values ({0}): {1}." # CaseSensitivity  / Valid Values
             )
             throw [System.ArgumentOutOfRangeException]::new(
                 $paramName,

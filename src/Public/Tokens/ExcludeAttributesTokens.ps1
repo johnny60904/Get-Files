@@ -1,5 +1,5 @@
 
-class SkipFileAttributesTokens {
+class ExcludeAttributesTokens {
     
     hidden static [System.StringComparison] $Comparison = [System.StringComparison]::OrdinalIgnoreCase
     

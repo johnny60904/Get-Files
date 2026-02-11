@@ -1,5 +1,5 @@
-[string[]]$ExcludedFileAttributesAllowed = [SkipFileAttributesTokens]::Allowed
-[System.StringComparison]$ExcludedFileAttributesComparison = [SkipFileAttributesTokens]::Comparison
+[string[]]$ExcludeAttributesAllowed = [ExcludeAttributesTokens]::Allowed
+[System.StringComparison]$ExcludeAttributesComparison = [ExcludeAttributesTokens]::Comparison
 
 function New-FilesAdvancedOptions {
 # TODO: Add Comment-Based Help
@@ -18,8 +18,8 @@ function New-FilesAdvancedOptions {
         [ValidateScript({
             [StringValidators]::ValidateIsOneOf(
                 $_,
-                $ExcludedFileAttributesAllowed,
-                $ExcludedFileAttributesComparison,
+                $ExcludeAttributesAllowed,
+                $ExcludeAttributesComparison,
                 'ExcludeAttributes'
             )
             return $true

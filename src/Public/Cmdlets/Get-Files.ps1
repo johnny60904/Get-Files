@@ -28,7 +28,6 @@ function Get-Files {
         [Parameter(Position = 1, ParameterSetName = 'ByValue')]
         [Parameter(Position = 0, ParameterSetName = 'ByPipeline')]
         [ValidateScript({
-            if ([IOPathSegmentValidators]::ValidateIsNullOrEmpty($_)) { return $true }
             [IOPathSegmentValidators]::ValidateFolderNameSyntax($_, 'FilterNames')
             return $true
         })]

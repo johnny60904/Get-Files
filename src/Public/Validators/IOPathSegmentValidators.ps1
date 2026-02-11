@@ -104,7 +104,7 @@ class IOPathSegmentValidators {
         [string] $displayName,
         [string] $paramName
     ) {
-        [StringValidators]::ValidateNotNullOrWhiteSpace($value, $paramName)
+        [StringValidators]::ValidateIsRequired($value, $paramName)
         [IOPathSegmentValidators]::ValidateCharactersIntrinsic($value, $displayName, $paramName)
         [IOPathSegmentValidators]::ValidateTokensPlatformSemantic($value, $displayName, $paramName)
         [IOPathSegmentValidators]::ValidateExclusiveTokensPlatformSemantic($value, $displayName, $paramName)
@@ -125,12 +125,6 @@ class IOPathSegmentValidators {
         [string] $paramName
     ) {
         [IOPathSegmentValidators]::ValidateSyntax($folderName, 'FolderName', $paramName)
-    }
-    
-    static [bool] ValidateIsNullOrEmpty (
-        [string] $value
-    ) {
-        return [System.String]::IsNullOrEmpty($value)
     }
     
 }

@@ -77,7 +77,7 @@ class IOPathSyntaxValidators {
         [string] $path,
         [string] $paramName
     ) {
-        [StringValidators]::ValidateNotNullOrWhiteSpace($path, $paramName)
+        [StringValidators]::ValidateIsRequired($path, $paramName)
         [IOPathSyntaxValidators]::ValidateCharactersIntrinsic($path, $paramName)
         [IOPathSyntaxValidators]::ValidateLength($path, $paramName)
     }

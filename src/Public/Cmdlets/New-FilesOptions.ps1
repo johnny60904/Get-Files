@@ -1,5 +1,5 @@
-[string[]]$MatchCaseSensitivityAllowed = [NameCaseSensitivityTokens]::Allowed
-[System.StringComparison]$MatchCaseSensitivityComparison = [NameCaseSensitivityTokens]::Comparison
+[string[]]$CaseSensitivityAllowed = [CaseSensitivityTokens]::Allowed
+[System.StringComparison]$CaseSensitivityComparison = [CaseSensitivityTokens]::Comparison
 
 function New-FilesOptions {
 # TODO: Add Comment-Based Help
@@ -14,8 +14,8 @@ function New-FilesOptions {
         [ValidateScript({
             [StringValidators]::ValidateIsOneOf(
                 $_,
-                $MatchCaseSensitivityAllowed,
-                $MatchCaseSensitivityComparison,
+                $CaseSensitivityAllowed,
+                $CaseSensitivityComparison,
                 'CaseSensitivity'
             )
             return $true

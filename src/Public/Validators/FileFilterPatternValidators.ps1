@@ -4,7 +4,7 @@ class FileFilterPatternValidators {
         [string] $value,
         [string] $paramName
     ) {
-        [StringValidators]::ValidateNotNullOrWhiteSpace($value, $paramName)
+        [StringValidators]::ValidateIsRequired($value, $paramName)
         if ([ExclusiveFileFilterPatternPredicate]::IsExclusiveFileFilterPattern($value)) { return }
         # 只處理檔名語意，不處理路徑
         [string]$fileName = [FileFilterExtractor]::ExtractFileName($value)

@@ -1,5 +1,5 @@
 
-class NameCaseSensitivityTokens {
+class CaseSensitivityTokens {
     
     hidden static [System.StringComparison] $Comparison = [System.StringComparison]::OrdinalIgnoreCase
     
