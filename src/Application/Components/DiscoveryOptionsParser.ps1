@@ -71,8 +71,8 @@ class DiscoveryOptionsParser {
         }
         [string]$semanticName = ([ApplicationParameter]::SkipFileAttribute).ToString()
         for ($i = 0; $i -lt $skipFileAttributes.Length; $i ++) {
-            [string]$item = $skipFileAttributes[$i]
-            if ([System.String]::IsNullOrWhiteSpace($item)) {
+            [string]$skipFileAttribute = $skipFileAttributes[$i]
+            if ([System.String]::IsNullOrWhiteSpace($skipFileAttribute)) {
                 throw [UseCaseParsingException]::new(
                     [DiscoveryOptionsParser]::Component, # ComponentName
                     ([ApplicationExceptionContext]::AssertSemanticTokenMeaningfulness).ToString(), # Context
@@ -85,7 +85,7 @@ class DiscoveryOptionsParser {
         $parsed = $null
         $invalid = $null
         [bool]$isValid = [DiscoveryOptionsParser]::TryParseSkipFileAttributes(
-            $skipFileAttribute,
+            $skipFileAttributes,
             $isCaseInsensitive,
             [ref]$parsed,
             [ref]$invalid
