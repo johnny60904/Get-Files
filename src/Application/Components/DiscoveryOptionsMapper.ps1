@@ -36,7 +36,7 @@ class DiscoveryOptionsMapper {
                     [NameCaseSensitivityComparison]::Comparison)
             ),
             $entryReadBufferSize,
-            $flagsFromAdvanced
+            $finalFlags
         )
         [string]$semanticName = ([ApplicationParameter]::TraversalOptions).ToString()
         try { [TraversalRules]::AssertAdvancedOptionsValid($traversalOptions) } catch [DomainException] {
