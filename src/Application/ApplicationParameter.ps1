@@ -1,7 +1,7 @@
 enum ApplicationParameter {
     
     TraversalStrategy
-    TraversalDepthStrategy
+    TraversalScope
     SkipFileAttribute
     SkipFileAttributes
     NameCaseSensitivity

@@ -1,3 +1,4 @@
+# . "$([System.IO.Path]::Join($PSScriptRoot, 'PublicParameter.ps1'))"
 # . "$([System.IO.Path]::Join($PSScriptRoot, 'PublicErrorId.ps1'))"
 # . "$([System.IO.Path]::Join($PSScriptRoot, 'ErrorIdResolver.ps1'))"
 # . "$([System.IO.Path]::Join($PSScriptRoot, 'ErrorCategoryResolver.ps1'))"

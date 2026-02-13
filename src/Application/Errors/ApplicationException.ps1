@@ -1,14 +1,14 @@
 class ApplicationException : StructuredFilesDiscoveryException {
     
-    [string] $Context
-    [string] $Reason
-    [string] $FieldName
+    [ApplicationExceptionContext] $Context
+    [ApplicationExceptionReason] $Reason
+    [ApplicationParameter] $FieldName
     
     ApplicationException (
         [string] $message,
-        [string] $context,
-        [string] $reason,
-        [string] $fieldName,
+        [ApplicationExceptionContext] $context,
+        [ApplicationExceptionReason] $reason,
+        [ApplicationParameter] $fieldName,
         [object] $targetObject
     ) : base ($message, $targetObject) {
         $this.Context = $context
@@ -18,9 +18,9 @@ class ApplicationException : StructuredFilesDiscoveryException {
     
     ApplicationException (
         [string] $message,
-        [string] $context,
-        [string] $reason,
-        [string] $fieldName,
+        [ApplicationExceptionContext] $context,
+        [ApplicationExceptionReason] $reason,
+        [ApplicationParameter] $fieldName,
         [object] $targetObject,
         [System.Exception] $innerException
     ) : base ($message, $targetObject, $innerException) {

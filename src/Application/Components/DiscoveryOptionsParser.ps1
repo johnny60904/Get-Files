@@ -52,36 +52,38 @@ class DiscoveryOptionsParser {
         [string[]] $skipFileAttributes,
         [System.StringComparison] $comparison
     ) {
-        [string]$collectionSemanticName = ([ApplicationParameter]::SkipFileAttributes).ToString()
+        [ApplicationParameter]$semanticCollectionIdentity = [ApplicationParameter]::SkipFileAttributes
+        [string]$semanticCollectionName = $semanticCollectionIdentity.ToString()
         if ($null -eq $skipFileAttributes) {
             throw [UseCaseParsingException]::new(
                 [DiscoveryOptionsParser]::Component, # ComponentName
-                ([ApplicationExceptionContext]::AssertSemanticTokenCollectionPresence).ToString(), # Context
-                ([ApplicationExceptionReason]::SemanticTokenCollectionIsNull).ToString(), # Reason
-                $collectionSemanticName, # FieldName
+                [ApplicationExceptionContext]::AssertSemanticTokenCollectionPresence, # Context
+                [ApplicationExceptionReason]::CollectionIsNull, # Reason
+                $semanticCollectionIdentity, # FieldName
                 $skipFileAttributes, # TargetObject
-                "$($collectionSemanticName) must not be null." # Message
+                "$($semanticCollectionName) must not be null." # Message
             )
         }
         if ($skipFileAttributes.Length -eq 0) {
             throw [UseCaseParsingException]::new(
                 [DiscoveryOptionsParser]::Component, # ComponentName
-                ([ApplicationExceptionContext]::AssertSemanticTokenCollectionMeaningfulness).ToString(), # Context
-                ([ApplicationExceptionReason]::SemanticTokenCollectionIsEmpty).ToString(), # Reason
-                $collectionSemanticName, # FieldName
+                [ApplicationExceptionContext]::AssertSemanticTokenCollectionMeaningfulness, # Context
+                [ApplicationExceptionReason]::CollectionIsEmpty, # Reason
+                $semanticCollectionIdentity, # FieldName
                 $skipFileAttributes, # TargetObject
-                "$($collectionSemanticName) must not be empty." # Message
+                "$($semanticCollectionName) must not be empty." # Message
             )
         }
-        [string]$semanticName = ([ApplicationParameter]::SkipFileAttribute).ToString()
+        [ApplicationParameter]$semanticIdentity = [ApplicationParameter]::SkipFileAttribute
+        [string]$semanticName = $semanticIdentity.ToString()
         for ($i = 0; $i -lt $skipFileAttributes.Length; $i ++) {
             [string]$skipFileAttribute = $skipFileAttributes[$i]
             if ([System.String]::IsNullOrWhiteSpace($skipFileAttribute)) {
                 throw [UseCaseParsingException]::new(
                     [DiscoveryOptionsParser]::Component, # ComponentName
-                    ([ApplicationExceptionContext]::AssertSemanticTokenMeaningfulness).ToString(), # Context
-                    ([ApplicationExceptionReason]::SemanticTokenNullOrWhiteSpace).ToString(), # Reason
-                    $semanticName, # FieldName
+                    [ApplicationExceptionContext]::AssertSemanticTokenMeaningfulness, # Context
+                    [ApplicationExceptionReason]::NullOrWhiteSpace, # Reason
+                    $semanticIdentity, # FieldName
                     $skipFileAttribute, # TargetObject
                     "$($semanticName) must not be null, empty, or whitespace." # Message
                 )
@@ -99,9 +101,9 @@ class DiscoveryOptionsParser {
         if (-not $isValid) {
             throw [UseCaseParsingException]::new(
                 [DiscoveryOptionsParser]::Component, # ComponentName
-                ([ApplicationExceptionContext]::TranslateSemanticTokenToDomainValue).ToString(), # Context
-                ([ApplicationExceptionReason]::SemanticTokenTranslationFailure).ToString(), # Reason
-                $semanticName, # FieldName
+                [ApplicationExceptionContext]::TranslateSemanticTokenToDomainValue, # Context
+                [ApplicationExceptionReason]::TranslationFailure, # Reason
+                $semanticIdentity, # FieldName
                 $invalid, # TargetObject
                 "$($semanticName) is not a valid domain-supported value: '$($invalid)'." # Message
             )
@@ -113,13 +115,14 @@ class DiscoveryOptionsParser {
         [string] $nameCaseSensitivity,
         [System.StringComparison] $comparison
     ) {
-        [string]$semanticName = ([ApplicationParameter]::NameCaseSensitivity).ToString()
+        [ApplicationParameter]$semanticIdentity = [ApplicationParameter]::NameCaseSensitivity
+        [string]$semanticName = $semanticIdentity.ToString()
         if ([System.String]::IsNullOrWhiteSpace($nameCaseSensitivity)) {
             throw [UseCaseParsingException]::new(
                 [DiscoveryOptionsParser]::Component, # ComponentName
-                ([ApplicationExceptionContext]::AssertSemanticTokenMeaningfulness).ToString(), # Context
-                ([ApplicationExceptionReason]::SemanticTokenNullOrWhiteSpace).ToString(), # Reason
-                $semanticName, # FieldName
+                [ApplicationExceptionContext]::AssertSemanticTokenMeaningfulness, # Context
+                [ApplicationExceptionReason]::NullOrWhiteSpace, # Reason
+                $semanticIdentity, # FieldName
                 $nameCaseSensitivity, # TargetObject
                 "$($semanticName) must not be null, empty, or whitespace." # Message
             )
@@ -134,9 +137,9 @@ class DiscoveryOptionsParser {
         if (-not $isValid) {
             throw [UseCaseParsingException]::new(
                 [DiscoveryOptionsParser]::Component, # ComponentName
-                ([ApplicationExceptionContext]::TranslateSemanticTokenToDomainValue).ToString(), # Context
-                ([ApplicationExceptionReason]::SemanticTokenTranslationFailure).ToString(), # Reason
-                $semanticName, # FieldName
+                [ApplicationExceptionContext]::TranslateSemanticTokenToDomainValue, # Context
+                [ApplicationExceptionReason]::SemanticTokenTranslationFailure, # Reason
+                $semanticIdentity, # FieldName
                 $nameCaseSensitivity, # TargetObject
                 "$($semanticName) is not a valid domain-supported value: '$($nameCaseSensitivity)'." # Message
             )

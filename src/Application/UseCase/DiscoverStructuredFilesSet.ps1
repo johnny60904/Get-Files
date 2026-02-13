@@ -24,9 +24,9 @@ class DiscoverStructuredFilesSet {
         } catch {
             throw [UseCaseExecutionException]::new(
                 [DiscoverStructuredFilesSet]::UseCase, # UseCaseName
-                ([ApplicationExceptionContext]::ResolveInputPaths).ToString(), # Context
-                ([ApplicationExceptionReason]::InputPathsResolutionFailure).ToString(), # Reason
-                ([ApplicationParameter]::InputPaths).ToString(), # FieldName
+                [ApplicationExceptionContext]::ResolveInputPaths, # Context
+                [ApplicationExceptionReason]::ResolutionFailure, # Reason
+                [ApplicationParameter]::InputPaths, # FieldName
                 $_.Exception.TargetObject, # TargetObject
                 "one or more input paths could not be resolved.", # Message
                 $_.Exception # InnerException (bubbled from Infrastructue Layer)
@@ -48,9 +48,9 @@ class DiscoverStructuredFilesSet {
         } catch {
             throw [UseCaseExecutionException]::new(
                 [DiscoverStructuredFilesSet]::UseCase, # UseCaseName
-                ([ApplicationExceptionContext]::TraversalDirectories).ToString(), # Context
-                ([ApplicationExceptionReason]::DirectoryTraversalFailed).ToString(), # Reason
-                ([ApplicationParameter]::TraversalDirectories).ToString(), # FieldName
+                [ApplicationExceptionContext]::TraversalDirectories, # Context
+                [ApplicationExceptionReason]::TraversalFailure, # Reason
+                [ApplicationParameter]::TraversalDirectories, # FieldName
                 $_.Exception.TargetObject, # TargetObject
                 "Failed to traverse the specified directories.", # Message
                 $_.Exception # InnerException (bubbled from Infrastructue Layer)

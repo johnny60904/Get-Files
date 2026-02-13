@@ -4,9 +4,9 @@ class UseCaseParsingException : ApplicationException {
     
     UseCaseParsingException (
         [string] $componentName,
-        [string] $context,
-        [string] $reason,
-        [string] $fieldName,
+        [ApplicationExceptionContext] $context,
+        [ApplicationExceptionReason] $reason,
+        [ApplicationParameter] $fieldName,
         [object] $targetObject,
         [string] $message
     ) : base (
@@ -21,9 +21,9 @@ class UseCaseParsingException : ApplicationException {
     
     UseCaseParsingException (
         [string] $componentName,
-        [string] $context,
-        [string] $reason,
-        [string] $fieldName,
+        [ApplicationExceptionContext] $context,
+        [ApplicationExceptionReason] $reason,
+        [ApplicationParameter] $fieldName,
         [object] $targetObject,
         [string] $message,
         [System.Exception] $innerException

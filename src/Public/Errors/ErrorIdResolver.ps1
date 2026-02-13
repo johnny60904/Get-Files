@@ -1,36 +1,36 @@
 class ErrorIdResolver {
     
     static [string] ResolveFromReason (
-        [ApplicationExceptionReason] $applicationExceptionReason
+        [string] $applicationExceptionReason
     ) {
         switch ($applicationExceptionReason) {
-            ([ApplicationExceptionReason]::SemanticTokenNullOrWhiteSpace) {
-                return ([PublicErrorId]::XXXXXXXXX).ToString()
+            'SemanticTokenNullOrWhiteSpace' {
+                return [PublicErrorId]::XXXXXXXXX
             }
-            ([ApplicationExceptionReason]::SemanticTokenCollectionIsNull) {
-                return ([PublicErrorId]::XXXXXXXXX).ToString()
+            'SemanticTokenCollectionIsNull' {
+                return [PublicErrorId]::XXXXXXXXX
             }
-            ([ApplicationExceptionReason]::SemanticTokenCollectionIsEmpty) {
-                return ([PublicErrorId]::XXXXXXXXX).ToString()
+            'SemanticTokenCollectionIsEmpty' {
+                return [PublicErrorId]::XXXXXXXXX
             }
-            ([ApplicationExceptionReason]::SemanticTokenCollectionNotProvided) {
-                return ([PublicErrorId]::XXXXXXXXX).ToString()
+            'SemanticTokenCollectionNotProvided' {
+                return [PublicErrorId]::XXXXXXXXX
             }
-            ([ApplicationExceptionReason]::SemanticTokenTranslationFailure) {
-                return ([PublicErrorId]::XXXXXXXXX).ToString()
+            'SemanticTokenTranslationFailure' {
+                return [PublicErrorId]::XXXXXXXXX
             }
-            ([ApplicationExceptionReason]::DomainInvariantViolation) {
-                return ([PublicErrorId]::XXXXXXXXX).ToString()
+            'DomainInvariantViolation' {
+                return [PublicErrorId]::XXXXXXXXX
             }
-            ([ApplicationExceptionReason]::InputPathsResolutionFailure) {
-                return ([PublicErrorId]::XXXXXXXXX).ToString()
+            'InputPathsResolutionFailure' {
+                return [PublicErrorId]::XXXXXXXXX
             }
-            ([ApplicationExceptionReason]::DirectoryTraversalFailed) {
-                return ([PublicErrorId]::XXXXXXXXX).ToString()
+            'DirectoryTraversalFailed' {
+                return [PublicErrorId]::XXXXXXXXX
             }
             default {
                 throw [System.InvalidOperationException]::new(
-                    'Unknown identifier for [ApplicationExceptionReason] in ResolveFromReason.'
+                    'Unknown application exception reason in ResolveFromReason.'
                 )
             }
         }
