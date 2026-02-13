@@ -1,30 +1,40 @@
 class UseCaseInvariantViolationException : ApplicationException {
     
-    [string] $ComponentName
+    [string] $UseCaseName
     [string] $Context
     [string] $Reason
+    [string] $FieldName
+    [object] $TargetObject
     
     UseCaseInvariantViolationException (
-        [string] $componentName,
+        [string] $useCaseName,
         [string] $context,
         [string] $reason,
+        [string] $fieldName,
+        [object] $targetObject,
         [string] $message
     ) : base ($message) {
-        $this.ComponentName = $componentName
+        $this.UseCaseName = $useCaseName
         $this.Context = $context
         $this.Reason = $reason
+        $this.FieldName = $fieldName
+        $this.TargetObject = $targetObject
     }
     
     UseCaseInvariantViolationException (
-        [string] $componentName,
+        [string] $useCaseName,
         [string] $context,
         [string] $reason,
+        [string] $fieldName,
+        [object] $targetObject,
         [string] $message,
         [System.Exception] $innerException
     ) : base ($message, $innerException) {
-        $this.ComponentName = $componentName
+        $this.UseCaseName = $useCaseName
         $this.Context = $context
         $this.Reason = $reason
+        $this.FieldName = $fieldName
+        $this.TargetObject = $targetObject
     }
     
 }

@@ -58,6 +58,8 @@ class DiscoveryOptionsParser {
                 [DiscoveryOptionsParser]::Component, # ComponentName
                 ([ApplicationExceptionContext]::AssertSemanticTokenCollectionPresence).ToString(), # Context
                 ([ApplicationExceptionReason]::SemanticTokenCollectionIsNull).ToString(), # Reason
+                $collectionSemanticName, # FieldName
+                $skipFileAttributes, # TargetObject
                 "$($collectionSemanticName) must not be null." # Message
             )
         }
@@ -66,6 +68,8 @@ class DiscoveryOptionsParser {
                 [DiscoveryOptionsParser]::Component, # ComponentName
                 ([ApplicationExceptionContext]::AssertSemanticTokenCollectionMeaningfulness).ToString(), # Context
                 ([ApplicationExceptionReason]::SemanticTokenCollectionIsEmpty).ToString(), # Reason
+                $collectionSemanticName, # FieldName
+                $skipFileAttributes, # TargetObject
                 "$($collectionSemanticName) must not be empty." # Message
             )
         }
@@ -77,6 +81,8 @@ class DiscoveryOptionsParser {
                     [DiscoveryOptionsParser]::Component, # ComponentName
                     ([ApplicationExceptionContext]::AssertSemanticTokenMeaningfulness).ToString(), # Context
                     ([ApplicationExceptionReason]::SemanticTokenNullOrWhiteSpace).ToString(), # Reason
+                    $semanticName, # FieldName
+                    $skipFileAttribute, # TargetObject
                     "$($semanticName) must not be null, empty, or whitespace." # Message
                 )
             }
@@ -95,6 +101,8 @@ class DiscoveryOptionsParser {
                 [DiscoveryOptionsParser]::Component, # ComponentName
                 ([ApplicationExceptionContext]::TranslateSemanticTokenToDomainValue).ToString(), # Context
                 ([ApplicationExceptionReason]::SemanticTokenTranslationFailure).ToString(), # Reason
+                $semanticName, # FieldName
+                $invalid, # TargetObject
                 "$($semanticName) is not a valid domain-supported value: '$($invalid)'." # Message
             )
         }
@@ -111,6 +119,8 @@ class DiscoveryOptionsParser {
                 [DiscoveryOptionsParser]::Component, # ComponentName
                 ([ApplicationExceptionContext]::AssertSemanticTokenMeaningfulness).ToString(), # Context
                 ([ApplicationExceptionReason]::SemanticTokenNullOrWhiteSpace).ToString(), # Reason
+                $semanticName, # FieldName
+                $nameCaseSensitivity, # TargetObject
                 "$($semanticName) must not be null, empty, or whitespace." # Message
             )
         }
@@ -126,6 +136,8 @@ class DiscoveryOptionsParser {
                 [DiscoveryOptionsParser]::Component, # ComponentName
                 ([ApplicationExceptionContext]::TranslateSemanticTokenToDomainValue).ToString(), # Context
                 ([ApplicationExceptionReason]::SemanticTokenTranslationFailure).ToString(), # Reason
+                $semanticName, # FieldName
+                $nameCaseSensitivity, # TargetObject
                 "$($semanticName) is not a valid domain-supported value: '$($nameCaseSensitivity)'." # Message
             )
         }

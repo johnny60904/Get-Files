@@ -38,12 +38,14 @@ class DiscoveryOptionsMapper {
             $entryReadBufferSize,
             $finalFlags
         )
-        [string]$semanticName = ([ApplicationParameter]::TraversalOptions).ToString()
         try { [TraversalRules]::AssertAdvancedOptionsValid($traversalOptions) } catch [DomainException] {
+            [string]$semanticName = ([ApplicationParameter]::TraversalOptions).ToString()
             throw [UseCaseInvariantViolationException]::new(
                 [DiscoveryOptionsMapper]::Component, # ComponentName
                 ([ApplicationExceptionContext]::TranslateSemanticTokensToDomainModel).ToString(), # Context
                 ([ApplicationExceptionReason]::DomainInvariantViolation).ToString(), # Reason
+                $semanticName, # FieldName
+                $_.Exception.TargetObject, # TargetObject
                 "$($semanticName) violate one or more invariant rules.", # Message
                 $_.Exception # InnerException
             )

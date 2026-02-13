@@ -6,5 +6,7 @@ enum ApplicationParameter {
     SkipFileAttributes
     NameCaseSensitivity
     TraversalOptions
+    InputPaths
+    TraversalDirectories
     
 }
