@@ -10,12 +10,12 @@ class IOPathSyntaxValidators {
         [char[]]$invalidChars = [IOPathInvalidChars]::Get()
         [int]$invalidCharIdx = $path.IndexOfAny($invalidChars)
         if ($invalidCharIdx -ge 0) {
-            [string]$invalidCharDiagnostic = [ArgumentErrorDiagnosticFactory]::FormatCharHexDiagnostic(
+            [string]$invalidCharDiagnostic = [ArgumentErrorDiagnosticFormatter]::FormatCharHexDiagnostic(
                 $path[$invalidCharIdx],
                 "X4",
                 "{0} (Hex: {1})"
             )
-            [string]$invalidCharsDiagnostic = [ArgumentErrorDiagnosticFactory]::FormatInvalidCharsDiagnostic(
+            [string]$invalidCharsDiagnostic = [ArgumentErrorDiagnosticFormatter]::FormatInvalidCharsDiagnostic(
                 $invalidChars,
                 "[ Value: '{0}', Hex Value: {1:X4} ]",
                 ', ',
@@ -35,7 +35,7 @@ class IOPathSyntaxValidators {
         [int]$length = $path.Length
         [int]$maxLengthLimit = [IOPathMaxLengthResolver]::ResolveEffectiveMaxLength()
         if ($length -gt $maxLengthLimit) {
-            [string]$maxLimitDiagnostic = [ArgumentErrorDiagnosticFactory]::FormatMaxLimitDiagnostic(
+            [string]$maxLimitDiagnostic = [ArgumentErrorDiagnosticFormatter]::FormatMaxLimitDiagnostic(
                 $maxLengthLimit,
                 "{0} {1} bytes / characters (UTF-8 bytes / UTF-16 code units)"
             )

@@ -2,4 +2,4 @@
 . "$([System.IO.Path]::Join($PSScriptRoot, 'ErrorCategoryResolver.ps1'))"
 . "$([System.IO.Path]::Join($PSScriptRoot, 'ApplicationExceptionErrorRecordTranslator.ps1'))"
 . "$([System.IO.Path]::Join($PSScriptRoot, 'ErrorRecordFactory.ps1'))"
-. "$([System.IO.Path]::Join($PSScriptRoot, 'ArgumentErrorDiagnosticFactory.ps1'))"
+. "$([System.IO.Path]::Join($PSScriptRoot, 'ArgumentErrorDiagnosticFormatter.ps1'))"

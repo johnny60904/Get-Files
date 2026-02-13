@@ -11,12 +11,12 @@ class IOPathSegmentValidators {
         [char[]]$invalidChars = [IOPathInvalidChars]::Get()
         [int]$invalidCharIdx = $value.IndexOfAny($invalidChars)
         if ($invalidCharIdx -ge 0) {
-            [string]$invalidCharDiagnostic = [ArgumentErrorDiagnosticFactory]::FormatCharHexDiagnostic(
+            [string]$invalidCharDiagnostic = [ArgumentErrorDiagnosticFormatter]::FormatCharHexDiagnostic(
                 $value[$invalidCharIdx],
                 "X4",
                 "{0} (Hex: {1})"
             )
-            [string]$invalidCharsDiagnostic = [ArgumentErrorDiagnosticFactory]::FormatInvalidCharsDiagnostic(
+            [string]$invalidCharsDiagnostic = [ArgumentErrorDiagnosticFormatter]::FormatInvalidCharsDiagnostic(
                 $invalidChars,
                 "[ Value: '{0}', Hex Value: {1:X4} ]",
                 ', ',
@@ -87,7 +87,7 @@ class IOPathSegmentValidators {
         [int]$evaluatedLength = [IOPathEvaluationResolver]::ResolveLengthForSegment($value)
         [int]$maxLengthLimit = [IOPathConstraintsResolver]::ResolveMaxLengthLimitForSegment()
        if ($evaluatedLength -gt $maxLengthLimit) { 
-            [string]$maxLimitDiagnostic = [ArgumentErrorDiagnosticFactory]::FormatMaxLimitDiagnostic(
+            [string]$maxLimitDiagnostic = [ArgumentErrorDiagnosticFormatter]::FormatMaxLimitDiagnostic(
                 $maxLengthLimit,
                 "{0} {1} bytes / characters (UTF-8 bytes / UTF-16 code units)"
             )

@@ -27,7 +27,7 @@ class StringValidators {
         [StringValidators]::ValidateIsRequired($value, $paramName)
         [bool]$isAllowed = [StringTokenMatcher]::EqualsAny($value, $allowed, $comparison)
         if (-not $isAllowed) {
-            [string]$allowedValuesDiagnostic = [ArgumentErrorDiagnosticFactory]::FormatAllowedValuesDiagnostic(
+            [string]$allowedValuesDiagnostic = [ArgumentErrorDiagnosticFormatter]::FormatAllowedValuesDiagnostic(
                 $allowed,
                 '',
                 $comparison,

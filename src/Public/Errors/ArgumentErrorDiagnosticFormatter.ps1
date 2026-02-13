@@ -1,4 +1,4 @@
-class ArgumentErrorDiagnosticFactory {
+class ArgumentErrorDiagnosticFormatter {
     
     static [string] FormatCharHexDiagnostic (
         [char] $value,
