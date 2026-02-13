@@ -1,4 +1,4 @@
-enum ApplicationSemanticNames {
+enum ApplicationParameter {
     
     TraversalStrategy
     TraversalDepthStrategy

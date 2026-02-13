@@ -38,7 +38,7 @@ class DiscoveryOptionsMapper {
             $bufferSizeKB,
             $flagsFromAdvanced
         )
-        [string]$semanticName = ([ApplicationSemanticNames]::TraversalOptions).ToString()
+        [string]$semanticName = ([ApplicationParameter]::TraversalOptions).ToString()
         try { [TraversalRules]::AssertAdvancedOptionsValid($traversalOptions) } catch [DomainException] {
             throw [UseCaseInvariantViolationException]::new(
                 [DiscoveryOptionsMapper]::Component, # ComponentName

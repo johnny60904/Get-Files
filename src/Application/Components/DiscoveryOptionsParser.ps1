@@ -52,7 +52,7 @@ class DiscoveryOptionsParser {
         [string[]] $collection,
         [System.StringComparison] $comparison
     ) {
-        [string]$collectionSemanticName = ([ApplicationSemanticNames]::SkipFileAttributes).ToString()
+        [string]$collectionSemanticName = ([ApplicationParameter]::SkipFileAttributes).ToString()
         if ($null -eq $collection) {
             throw [UseCaseParsingException]::new(
                 [DiscoveryOptionsParser]::Component, # ComponentName
@@ -69,7 +69,7 @@ class DiscoveryOptionsParser {
                 "$($collectionSemanticName) must not be empty." # Message
             )
         }
-        [string]$semanticName = ([ApplicationSemanticNames]::SkipFileAttribute).ToString()
+        [string]$semanticName = ([ApplicationParameter]::SkipFileAttribute).ToString()
         for ($i = 0; $i -lt $collection.Length; $i ++) {
             [string]$item = $collection[$i]
             if ([System.String]::IsNullOrWhiteSpace($item)) {
@@ -105,7 +105,7 @@ class DiscoveryOptionsParser {
         [string] $value,
         [System.StringComparison] $comparison
     ) {
-        [string]$semanticName = ([ApplicationSemanticNames]::NameCaseSensitivity).ToString()
+        [string]$semanticName = ([ApplicationParameter]::NameCaseSensitivity).ToString()
         if ([System.String]::IsNullOrWhiteSpace($value)) {
             throw [UseCaseParsingException]::new(
                 [DiscoveryOptionsParser]::Component, # ComponentName
