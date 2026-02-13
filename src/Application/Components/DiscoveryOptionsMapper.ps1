@@ -3,24 +3,24 @@ class DiscoveryOptionsMapper {
     hidden static [string] $Component = 'DiscoveryOptionsMapper'
     
     static [TraversalOptions] Map (
-        [bool] $ignoreErrors,
-        [string] $caseSensitivity,
-        [int] $bufferSizeKB,
+        [bool] $skipInaccessibleEntries,
+        [string] $nameCaseSensitivity,
+        [int] $entryReadBufferSize,
         # from Cmdlet switches
-        [bool] $excludeHidden,
-        [bool] $excludeSystem,
-        [bool] $excludeReadOnly,
+        [bool] $skipFileAttributeHidden,
+        [bool] $skipFileAttributeSystem,
+        [bool] $skipFileAttributeReadOnly,
         # from AdvancedOptions
-        [string[]] $excludeAttributes
+        [string[]] $skipFileAttributes
     ) {
         [SkipFileAttributes]$flagsFromSwitches = [SkipFileAttributes]::None
         [SkipFileAttributes]$flagsFromSwitches = ($flagsFromSwitches -bor 
-            ([SkipFileAttributesAssembler]::ResolveHidden($excludeHidden)) -bor 
-            ([SkipFileAttributesAssembler]::ResolveSystem($excludeSystem)) -bor 
-            ([SkipFileAttributesAssembler]::ResolveReadOnly($excludeReadOnly)))
-        [SkipFileAttributes]$flagsFromAdvanced = if ($excludeAttributes) {
+            ([SkipFileAttributesAssembler]::ResolveHidden($skipFileAttributeHidden)) -bor 
+            ([SkipFileAttributesAssembler]::ResolveSystem($skipFileAttributeSystem)) -bor 
+            ([SkipFileAttributesAssembler]::ResolveReadOnly($skipFileAttributeReadOnly)))
+        [SkipFileAttributes]$flagsFromAdvanced = if ($skipFileAttributes) {
             [DiscoveryOptionsParser]::ParseSkipFileAttributes( # ParsingException
-                $excludeAttributes,
+                $skipFileAttributes,
                 [SkipFileAttributesComparison]::Comparison
             )
         } else {
@@ -29,13 +29,13 @@ class DiscoveryOptionsMapper {
         [SkipFileAttributes]$finalFlags = ($flagsFromSwitches -bor $flagsFromAdvanced)
         # build Domain object
         [TraversalOptions]$traversalOptions = [TraversalOptions]::new(
-            $ignoreErrors,
+            $skipInaccessibleEntries,
             (
                 [DiscoveryOptionsParser]::ParseNameCaseSensitivity( # ParsingException
-                    $caseSensitivity,
+                    $nameCaseSensitivity,
                     [NameCaseSensitivityComparison]::Comparison)
             ),
-            $bufferSizeKB,
+            $entryReadBufferSize,
             $flagsFromAdvanced
         )
         [string]$semanticName = ([ApplicationParameter]::TraversalOptions).ToString()

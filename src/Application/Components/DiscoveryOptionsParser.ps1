@@ -3,30 +3,30 @@ class DiscoveryOptionsParser {
     hidden static [string] $Component = 'DiscoveryOptionsParser'
     
     static [bool] TryParseSkipFileAttribute (
-        [string] $value,
+        [string] $skipFileAttribute,
         [bool] $ignoreCase,
         [ref] $result
     ) {
         return [System.Enum]::TryParse(
             [SkipFileAttributes],
-            $value,
+            $skipFileAttribute,
             $ignoreCase,
             $result
         )
     }
     
     static [bool] TryParseSkipFileAttributes (
-        [string[]] $values,
+        [string[]] $skipFileAttributes,
         [bool] $ignoreCase,
         [ref] $Result,
         [ref] $InvalidValue
     ) {
         [int]$flag = 0
-        for ($i = 0; $i -lt $values.Length; $i ++) {
-            [string]$value = $values[$i]
+        for ($i = 0; $i -lt $skipFileAttributes.Length; $i ++) {
+            [string]$skipFileAttribute = $skipFileAttributes[$i]
             $parsed = $null
-            if (-not ([DiscoveryOptionsParser]::TryParseSkipFileAttribute($value, $ignoreCase, [ref]$parsed))) {
-                $InvalidValue.Value = $value
+            if (-not ([DiscoveryOptionsParser]::TryParseSkipFileAttribute($skipFileAttribute, $ignoreCase, [ref]$parsed))) {
+                $InvalidValue.Value = $skipFileAttribute
                 return $false
             }
             [int]$flag = $flag -bor ([int] $parsed)
@@ -36,24 +36,24 @@ class DiscoveryOptionsParser {
     }
     
     static [bool] TryParseNameCaseSensitivity (
-        [string] $value,
+        [string] $nameCaseSensitivity,
         [bool] $ignoreCase,
         [ref] $result
     ) {
         return [System.Enum]::TryParse(
             [NameCaseSensitivity],
-            $value,
+            $nameCaseSensitivity,
             $ignoreCase,
             $result
         )
     }
     
     static [SkipFileAttributes] ParseSkipFileAttributes (
-        [string[]] $collection,
+        [string[]] $skipFileAttributes,
         [System.StringComparison] $comparison
     ) {
         [string]$collectionSemanticName = ([ApplicationParameter]::SkipFileAttributes).ToString()
-        if ($null -eq $collection) {
+        if ($null -eq $skipFileAttributes) {
             throw [UseCaseParsingException]::new(
                 [DiscoveryOptionsParser]::Component, # ComponentName
                 ([ApplicationExceptionContext]::AssertSemanticTokenCollectionPresence).ToString(), # Context
@@ -61,7 +61,7 @@ class DiscoveryOptionsParser {
                 "$($collectionSemanticName) must not be null." # Message
             )
         }
-        if ($collection.Length -eq 0) {
+        if ($skipFileAttributes.Length -eq 0) {
             throw [UseCaseParsingException]::new(
                 [DiscoveryOptionsParser]::Component, # ComponentName
                 ([ApplicationExceptionContext]::AssertSemanticTokenCollectionMeaningfulness).ToString(), # Context
@@ -70,8 +70,8 @@ class DiscoveryOptionsParser {
             )
         }
         [string]$semanticName = ([ApplicationParameter]::SkipFileAttribute).ToString()
-        for ($i = 0; $i -lt $collection.Length; $i ++) {
-            [string]$item = $collection[$i]
+        for ($i = 0; $i -lt $skipFileAttributes.Length; $i ++) {
+            [string]$item = $skipFileAttributes[$i]
             if ([System.String]::IsNullOrWhiteSpace($item)) {
                 throw [UseCaseParsingException]::new(
                     [DiscoveryOptionsParser]::Component, # ComponentName
@@ -85,7 +85,7 @@ class DiscoveryOptionsParser {
         $parsed = $null
         $invalid = $null
         [bool]$isValid = [DiscoveryOptionsParser]::TryParseSkipFileAttributes(
-            $collection,
+            $skipFileAttribute,
             $isCaseInsensitive,
             [ref]$parsed,
             [ref]$invalid
@@ -102,11 +102,11 @@ class DiscoveryOptionsParser {
     }
     
     static [NameCaseSensitivity] ParseNameCaseSensitivity (
-        [string] $value,
+        [string] $nameCaseSensitivity,
         [System.StringComparison] $comparison
     ) {
         [string]$semanticName = ([ApplicationParameter]::NameCaseSensitivity).ToString()
-        if ([System.String]::IsNullOrWhiteSpace($value)) {
+        if ([System.String]::IsNullOrWhiteSpace($nameCaseSensitivity)) {
             throw [UseCaseParsingException]::new(
                 [DiscoveryOptionsParser]::Component, # ComponentName
                 ([ApplicationExceptionContext]::AssertSemanticTokenMeaningfulness).ToString(), # Context
@@ -117,7 +117,7 @@ class DiscoveryOptionsParser {
         [bool]$isCaseInsensitive = [StringComparisonInspector]::IsCaseInsensitive($comparison)
         $parsed = $null
         [bool]$isValid = [DiscoveryOptionsParser]::TryParseNameCaseSensitivity(
-            $value,
+            $nameCaseSensitivity,
             $isCaseInsensitive,
             [ref]$parsed
         )
@@ -126,7 +126,7 @@ class DiscoveryOptionsParser {
                 [DiscoveryOptionsParser]::Component, # ComponentName
                 ([ApplicationExceptionContext]::TranslateSemanticTokenToDomainValue).ToString(), # Context
                 ([ApplicationExceptionReason]::SemanticTokenTranslationFailure).ToString(), # Reason
-                "$($semanticName) is not a valid domain-supported value: '$($value)'." # Message
+                "$($semanticName) is not a valid domain-supported value: '$($nameCaseSensitivity)'." # Message
             )
         }
         return $parsed
