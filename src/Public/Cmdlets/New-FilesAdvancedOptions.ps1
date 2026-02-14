@@ -31,7 +31,7 @@ function New-FilesAdvancedOptions {
         [System.InvalidOperationException]$excp = [System.InvalidOperationException]::new(
             "This Cmdlet does NOT support pipeline input."
         )
-        [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::FromException(
+        [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::CreateFromException(
             $excp,
             'PipelineNotSupported',
             [System.Management.Automation.ErrorCategory]::InvalidOperation,

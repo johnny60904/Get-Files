@@ -6,13 +6,13 @@ class IOPathNormalizationResolver {
         [string]$osKind = [RuntimeOSContext]::CurrentPlatform()
         [IOPathStrategyKind]$strategy = [IOPathPolicy]::DecideStrategy($osKind)
         switch ($strategy) {
-            Windows {
+            ([IOPathStrategyKind]::Windows) {
                 return [IOPathSegmentWindowsNormalizer]::Normalize($value)
             }
-            Linux {
+            ([IOPathStrategyKind]::Linux) {
                 return [IOPathSegmentLinuxNormalizer]::Normalize($value)
             }
-            MacOS {
+            ([IOPathStrategyKind]::MacOS) {
                 return [IOPathSegmentMacOSNormalizer]::Normalize($value)
             }
             # Unknown

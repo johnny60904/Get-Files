@@ -6,13 +6,13 @@ class IOPathEvaluationResolver {
         [string]$osKind = [RuntimeOSContext]::CurrentPlatform()
         [IOPathStrategyKind]$strategy = [IOPathPolicy]::DecideStrategy($osKind)
         switch ($strategy) {
-            Windows {
+            ([IOPathStrategyKind]::Windows) {
                 return [IOPathSegmentLengthWindowsEvaluator]::Evaluate($value)
             }
-            Linux {
+            ([IOPathStrategyKind]::Linux) {
                 return [IOPathSegmentLengthLinuxEvaluator]::Evaluate($value)
             }
-            MacOS {
+            ([IOPathStrategyKind]::MacOS) {
                 return [IOPathSegmentLengthMacOSEvaluator]::Evaluate($value)
             }
             # Unknown

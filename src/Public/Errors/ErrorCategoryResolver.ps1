@@ -1,36 +1,36 @@
 class ErrorCategoryResolver {
     
     static [System.Management.Automation.ErrorCategory] ResolveFromReason (
-        [string] $applicationExceptionReason
+        [ApplicationExceptionReason] $applicationExceptionReason
     ) {
         switch ($applicationExceptionReason) {
-            'SemanticTokenNullOrWhiteSpace' {
+            ([ApplicationExceptionReason]::NullOrWhiteSpace) {
                 return [System.Management.Automation.ErrorCategory]::InvalidArgument
             }
-            'SemanticTokenCollectionIsNull' {
+            ([ApplicationExceptionReason]::CollectionIsNull) {
                 return [System.Management.Automation.ErrorCategory]::InvalidArgument
             }
-            'SemanticTokenCollectionIsEmpty' {
+            ([ApplicationExceptionReason]::CollectionIsEmpty) {
                 return [System.Management.Automation.ErrorCategory]::InvalidArgument
             }
-            'SemanticTokenCollectionNotProvided' {
+            ([ApplicationExceptionReason]::CollectionNotProvided) {
                 return [System.Management.Automation.ErrorCategory]::InvalidArgument
             }
-            'SemanticTokenTranslationFailure' {
+            ([ApplicationExceptionReason]::TranslationFailure) {
                 return [System.Management.Automation.ErrorCategory]::InvalidArgument
             }
-            'DomainInvariantViolation' {
+            ([ApplicationExceptionReason]::InvariantViolation) {
                 return [System.Management.Automation.ErrorCategory]::InvalidOperation
             }
-            'InputPathsResolutionFailure' {
+            ([ApplicationExceptionReason]::ResolutionFailure) {
                 return [System.Management.Automation.ErrorCategory]::ResourceUnavailable
             }
-            'DirectoryTraversalFailed' {
+            ([ApplicationExceptionReason]::TraversalFailure) {
                 return [System.Management.Automation.ErrorCategory]::ReadError
             }
             default {
                 throw [System.InvalidOperationException]::new(
-                    'Unknown application exception reason in ResolveFromReason.'
+                    'Unknown identifier name for [ApplicationExceptionReason] in ResolveFromReason.'
                 )
             }
         }

@@ -7,7 +7,6 @@ class ExcludeAttributesTokens {
             'None', 'Readonly', 'Hidden', 'System', 'Directory', 'Archive',
             'Device', 'Normal', 'Temporary', 'SparseFile', 'ReparsePoint', 'Compressed',
             'Offline', 'NotContentIndexed', 'Encrypted', 'IntegrityStream', 'NoScrubData'
-        
         )
     
 }

@@ -50,7 +50,7 @@ class DiscoverStructuredFilesSet {
                 [DiscoverStructuredFilesSet]::UseCase, # UseCaseName
                 [ApplicationExceptionContext]::TraversalDirectories, # Context
                 [ApplicationExceptionReason]::TraversalFailure, # Reason
-                [ApplicationParameter]::TraversalDirectories, # FieldName
+                [ApplicationParameter]::TraversalOperation, # FieldName
                 $_.Exception.TargetObject, # TargetObject
                 "Failed to traverse the specified directories.", # Message
                 $_.Exception # InnerException (bubbled from Infrastructue Layer)

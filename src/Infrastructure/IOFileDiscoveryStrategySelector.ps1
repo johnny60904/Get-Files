@@ -6,10 +6,10 @@ class IOFileDiscoveryStrategySelector {
         [IOFileDiscovery] $ioFileDiscovery
     ) {
         switch ($traversalScope) {
-            Shallow {
+            ([TraversalScope]::Shallow) {
                 return ($ioFileDiscovery.DiscoverCurrentLevel($directoriesBatch))
             }
-            Recurse {
+            ([TraversalScope]::Recurse) {
                 return ($ioFileDiscovery.DiscoverAll($directoriesBatch))
             }
             default {

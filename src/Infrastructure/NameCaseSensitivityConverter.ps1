@@ -4,13 +4,13 @@ class NameCaseSensitivityConverter  {
         [NameCaseSensitivity] $casingType # Auto, Sensitive, Insensitive
     ) {
         switch ($casingType) {
-            Auto {
+            ([NameCaseSensitivity]::Auto) {
                 return [System.IO.MatchCasing]::PlatformDefault
             }
-            Sensitive {
+            ([NameCaseSensitivity]::Sensitive) {
                 return [System.IO.MatchCasing]::CaseSensitive
             }
-            Insensitive {
+            ([NameCaseSensitivity]::Insensitive) {
                 return [System.IO.MatchCasing]::CaseInsensitive
             }
             default {

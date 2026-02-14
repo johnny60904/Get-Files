@@ -7,13 +7,13 @@ class IOPathSyntaxRuleResolver {
         [string]$osKind = [RuntimeOSContext]::CurrentPlatform()
         [IOPathStrategyKind]$strategy = [IOPathPolicy]::DecideStrategy($osKind)
         switch ($strategy) {
-            Windows {
+            ([IOPathStrategyKind]::Windows) {
                 return [IOPathSyntaxWindowsRule]::IsTerminalCharValid($value, $invalidValues)
             }
-            Linux {
+            ([IOPathStrategyKind]::Linux) {
                 return [IOPathSyntaxLinuxRule]::IsTerminalCharValid($value, $invalidValues)
             }
-            MacOS {
+            ([IOPathStrategyKind]::MacOS) {
                 return [IOPathSyntaxMacOSRule]::IsTerminalCharValid($value, $invalidValues)
             }
             # Unknown

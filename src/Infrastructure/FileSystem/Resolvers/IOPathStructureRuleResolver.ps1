@@ -11,13 +11,13 @@ class IOPathStructureRuleResolver {
         [string]$osKind = [RuntimeOSContext]::CurrentPlatform()
         [IOPathStrategyKind]$strategy = [IOPathPolicy]::DecideStrategy($osKind)
         switch ($strategy) {
-            Windows {
+            ([IOPathStrategyKind]::Windows) {
                 return [IOPathStructureWindowsRule]::IsQualifiedAbsolute($path)
             }
-            Linux {
+            ([IOPathStrategyKind]::Linux) {
                 return [IOPathStructureLinuxRule]::IsQualifiedAbsolute($path)
             }
-            MacOS {
+            ([IOPathStrategyKind]::MacOS) {
                 return [IOPathStructureMacOSRule]::IsQualifiedAbsolute($path)
             }
             # Unknown

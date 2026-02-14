@@ -91,9 +91,9 @@ function Get-Files {
                 [System.InvalidOperationException]$excp = [System.InvalidOperationException]::new(
                     "Unknown parameter set in Get-Files."
                 )
-                [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::FromException(
+                [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::CreateFromException(
                     $excp,
-                    'UnsupportedParameterSet',
+                    'ParameterSetUnsupported',
                     [System.Management.Automation.ErrorCategory]::InvalidOperation,
                     $null
                 )
@@ -111,11 +111,8 @@ function Get-Files {
                 $Advanced.ExcludeAttributes
             )
         } catch [ApplicationException] {
-            [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::FromException(
-                $_.Exception,
-                'UseCaseComponentFailed',
-                [System.Management.Automation.ErrorCategory]::InvalidOperation,
-                $null
+            [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::CreateFromApplicationException(
+                $_.Exception
             )
             $PSCmdlet.ThrowTerminatingError($err)
         }
@@ -129,11 +126,8 @@ function Get-Files {
                 $DepthFirstFlag
             )
         } catch [ApplicationException] {
-            [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::FromException(
-                $_.Exception,
-                'UseCaseComponentFailed',
-                [System.Management.Automation.ErrorCategory]::InvalidOperation,
-                $null
+            [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::CreateFromApplicationException(
+                $_.Exception
             )
             $PSCmdlet.ThrowTerminatingError($err)
         }
@@ -141,11 +135,8 @@ function Get-Files {
         try {
             [string[]]$discovered = ($useCase.Execute()).DiscoveredFiles
         } catch [ApplicationException] {
-            [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::FromException(
-                $_.Exception,
-                'UseCaseFailed',
-                [System.Management.Automation.ErrorCategory]::InvalidOperation,
-                $null
+            [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::CreateFromApplicationException(
+                $_.Exception
             )
             $PSCmdlet.ThrowTerminatingError($err)
         }

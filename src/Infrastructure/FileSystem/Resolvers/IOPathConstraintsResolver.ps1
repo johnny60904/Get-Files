@@ -9,13 +9,13 @@ class IOPathConstraintsResolver {
         [string]$osKind = [RuntimeOSContext]::CurrentPlatform()
         [IOPathStrategyKind]$strategy = [IOPathPolicy]::DecideStrategy($osKind)
         switch ($strategy) {
-            Windows {
+            ([IOPathStrategyKind]::Windows) {
                 return [IOPathWindowsConstraints]::GetDefaultComparison()
             }
-            Linux {
+            ([IOPathStrategyKind]::Linux) {
                 return [IOPathLinuxConstraints]::GetDefaultComparison()
             }
-            MacOS {
+            ([IOPathStrategyKind]::MacOS) {
                 return [IOPathMacOSConstraints]::GetDefaultComparison()
             }
             # Unknown

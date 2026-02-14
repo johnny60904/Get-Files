@@ -7,6 +7,6 @@ enum ApplicationParameter {
     NameCaseSensitivity
     TraversalOptions
     InputPaths
-    TraversalDirectories
+    TraversalOperation
     
 }

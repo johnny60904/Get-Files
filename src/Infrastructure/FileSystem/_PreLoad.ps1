@@ -11,7 +11,6 @@
 
 . "$([System.IO.Path]::Join($PSScriptRoot, 'ExclusiveFileFilterPatternPredicate.ps1'))"
 . "$([System.IO.Path]::Join($PSScriptRoot, 'FileFilterExtractor.ps1'))"
-. "$([System.IO.Path]::Join($PSScriptRoot, 'IOPathFolderNameRule.ps1'))"
 . "$([System.IO.Path]::Join($PSScriptRoot, 'FileSystemExistenceProbe.ps1'))"
 . "$([System.IO.Path]::Join($PSScriptRoot, 'IOPathInvalidChars.ps1'))"
 . "$([System.IO.Path]::Join($PSScriptRoot, 'IOPathExtractor.ps1'))"
@@ -21,4 +20,3 @@
 . "$([System.IO.Path]::Join($PSScriptRoot, 'IOPathMaxLengthResolver.ps1'))"
 . "$([System.IO.Path]::Join($PSScriptRoot, 'IOPathViolationResolver.ps1'))"
 . "$([System.IO.Path]::Join($PSScriptRoot, 'IOPathSegmentViolationResolver.ps1'))"
-. "$([System.IO.Path]::Join($PSScriptRoot, 'IOPathViolationSelector.ps1'))"

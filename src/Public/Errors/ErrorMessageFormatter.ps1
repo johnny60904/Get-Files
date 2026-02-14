@@ -1,43 +1,43 @@
-class ErrorIdResolver {
+class ErrorMessageFormatter {
     
-    static [string] ResolveFromApplicationException (
+    static [string] FormateFromApplicationException (
         [ApplicationException] $applicationException
     ) {
         [string]$paramName = ([CmdletParameterNameResolver]::ResolveFromFieldName($applicationException.FieldName)).ToString()
         switch ($applicationException.Reason) {
             ([ApplicationExceptionReason]::NullOrWhiteSpace) {
-                return "$($paramName)NullOrWhiteSpace"
+                return "The parameter '$($paramName)' must not be null, empty, or whitespace."
             }
             ([ApplicationExceptionReason]::CollectionIsNull) {
-                return "$($paramName)Null"
+                return "The parameter '$($paramName)' must not be null."
             }
             ([ApplicationExceptionReason]::CollectionIsEmpty) {
-                return "$($paramName)Empty"
+                return "The parameter '$($paramName)' must not be empty."
             }
             ([ApplicationExceptionReason]::CollectionNotProvided) {
-                return "$($paramName)NotProvided"
+                return "The parameter '$($paramName)' unprovided.   Please provide a valid value and try again."
             }
             ([ApplicationExceptionReason]::TranslationFailure) {
-                return "Invalid$($paramName)"
+                return "The parameter '$($paramName)' invalid.   Please check and try again."
             }
             ([ApplicationExceptionReason]::InvariantViolation) {
-                return "Invalid$($paramName)"
+                return "The parameter '$($paramName)' invalid.   Please check and try again."
             }
             ([ApplicationExceptionReason]::ResolutionFailure) {
-                return "Invalid$($paramName)"
+                return "The parameter '$($paramName)' invalid.   Please check and try again."
             }
             ([ApplicationExceptionReason]::TraversalFailure) {
-                return "InvalidOperation"
+                return "Traversal operation invalid.   Please check and try again."
             }
             default {
                 throw [System.InvalidOperationException]::new(
-                    'Unknown identifier name for [ApplicationExceptionReason] in ResolveFromApplicationException.'
+                    'Unknown identifier name for [ApplicationExceptionReason] in FormateFromApplicationException.'
                 )
             }
         }
         # Unreachable
         throw [System.InvalidOperationException]::new(
-            'Unreachable code path in ResolveFromApplicationException.'
+            'Unreachable code path in FormateFromApplicationException.'
         )
     }
     

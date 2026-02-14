@@ -23,7 +23,7 @@ class SystemEnquirer {
     }
     
     # (Windows 限定) 確認是否啟用 Long Paths -> 0: disabled; 1: enabled
-    hidden static [bool] IsLongPathEnabled () { # 
+    static [bool] IsLongPathEnabled () { # 
         # Linux ('/' 正斜線系統) / MaxOS 都沒有 regedit
         [string]$regPath = 'HKLM:\SYSTEM\CurrentControlSet\Control\FileSystem'
         [int]$flag = (Get-ItemProperty $regPath).LongPathsEnabled

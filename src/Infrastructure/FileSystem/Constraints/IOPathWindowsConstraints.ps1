@@ -24,7 +24,7 @@ class IOPathWindowsConstraints {
     hidden static [System.StringComparison] $DefaultComparison = [System.StringComparison]::OrdinalIgnoreCase
     
     static [string[]] GetInvalidTokens () {
-        return [IOPathWindowsConstraints]::ReservedTokens       
+        return [IOPathWindowsConstraints]::ReservedTokens
     }
     
     static [string[]] GetExclusiveInvalidTokens () {
