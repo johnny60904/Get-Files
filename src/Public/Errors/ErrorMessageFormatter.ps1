@@ -21,13 +21,13 @@ class ErrorMessageFormatter {
                 return "The parameter '$($paramName)' invalid.   Please check and try again."
             }
             ([ApplicationExceptionReason]::InvariantViolation) {
-                return "The parameter '$($paramName)' invalid.   Please check and try again."
+                return "Operation invalid (could be parameter(s) invalid).   Please check and try again."
             }
             ([ApplicationExceptionReason]::ResolutionFailure) {
-                return "The parameter '$($paramName)' invalid.   Please check and try again."
+                return "Operation invalid (could be parameter(s) invalid).   Please check and try again."
             }
             ([ApplicationExceptionReason]::TraversalFailure) {
-                return "Traversal operation invalid.   Please check and try again."
+                return "Traversal operation failed.   Please check and try again."
             }
             default {
                 throw [System.InvalidOperationException]::new(

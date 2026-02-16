@@ -28,7 +28,7 @@ class DiscoverStructuredFilesSet {
                 [ApplicationExceptionReason]::ResolutionFailure, # Reason
                 [ApplicationParameter]::InputPaths, # FieldName
                 $_.Exception.TargetObject, # TargetObject
-                "one or more input paths could not be resolved.", # Message
+                "One or more input paths could not be resolved.", # Message
                 $_.Exception # InnerException (bubbled from Infrastructue Layer)
             )
         }

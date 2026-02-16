@@ -28,26 +28,38 @@ class DiscoveryOptionsMapper {
         }
         [SkipFileAttributes]$finalFlags = ($flagsFromSwitches -bor $flagsFromAdvanced)
         # build Domain object
-        [TraversalOptions]$traversalOptions = [TraversalOptions]::new(
-            $skipInaccessibleEntries,
-            (
-                [DiscoveryOptionsParser]::ParseNameCaseSensitivity( # ParsingException
-                    $nameCaseSensitivity,
-                    [NameCaseSensitivityComparison]::Comparison)
-            ),
-            $entryReadBufferSize,
-            $finalFlags
-        )
-        try { [TraversalRules]::AssertAdvancedOptionsValid($traversalOptions) } catch [DomainException] {
-            [ApplicationParameter]$semanticIdentity = [ApplicationParameter]::TraversalOptions
-            [string]$semanticName = $semanticIdentity.ToString()
+        [ApplicationParameter]$semanticIdentity = [ApplicationParameter]::TraversalOptions
+        [string]$semanticName = $semanticIdentity.ToString()
+        try {
+            [TraversalOptions]$traversalOptions = [TraversalOptions]::new(
+                $skipInaccessibleEntries,
+                (
+                    [DiscoveryOptionsParser]::ParseNameCaseSensitivity( # ParsingException
+                        $nameCaseSensitivity,
+                        [NameCaseSensitivityComparison]::Comparison)
+                ),
+                $entryReadBufferSize,
+                $finalFlags
+            )
+        } catch [DomainException] {
             throw [UseCaseInvariantViolationException]::new(
                 [DiscoveryOptionsMapper]::Component, # ComponentName
                 [ApplicationExceptionContext]::TranslateSemanticTokensToDomainModel, # Context
-                [ApplicationExceptionReason]::DomainInvariantViolation, # Reason
+                [ApplicationExceptionReason]::InvariantViolation, # Reason
                 $semanticIdentity, # FieldName
                 $_.Exception.TargetObject, # TargetObject
-                "$($semanticName) violate one or more invariant rules.", # Message
+                "$($semanticName) violated one or more invariant rules.", # Message
+                $_.Exception # InnerException
+            )
+        }
+        try { [TraversalRules]::AssertAdvancedOptionsValid($traversalOptions) } catch [DomainException] {
+            throw [UseCaseInvariantViolationException]::new(
+                [DiscoveryOptionsMapper]::Component, # ComponentName
+                [ApplicationExceptionContext]::TranslateSemanticTokensToDomainModel, # Context
+                [ApplicationExceptionReason]::InvariantViolation, # Reason
+                $semanticIdentity, # FieldName
+                $_.Exception.TargetObject, # TargetObject
+                "$($semanticName) violated one or more invariant rules.", # Message
                 $_.Exception # InnerException
             )
         }

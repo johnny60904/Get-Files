@@ -22,6 +22,9 @@ class TraversalOptions {
                 $nameCaseSensitivity
             )
         }
+        # EntryReadBufferSize 讓 Infrastructure 自己原生炸並向上冒泡給 Application 接收後再 wrap
+        # EntryReadBufferSize [int] 和 [bool] 一樣, 不可能會有 null / whitespace 等 unpresent / unmeaningful 情況,
+        # 因此不 assert (Application 也不 assert), 就留給 Infrastructure 原生炸 (若是無效的負數值的話)
         if (-not $skipFileAttributes) {
             [string]$semanticName = ([DomainModelSemanticNames]::SkipFileAttributes).ToString()
             throw [DomainInvariantViolationException]::new(

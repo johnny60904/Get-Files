@@ -138,7 +138,7 @@ class DiscoveryOptionsParser {
             throw [UseCaseParsingException]::new(
                 [DiscoveryOptionsParser]::Component, # ComponentName
                 [ApplicationExceptionContext]::TranslateSemanticTokenToDomainValue, # Context
-                [ApplicationExceptionReason]::SemanticTokenTranslationFailure, # Reason
+                [ApplicationExceptionReason]::TranslationFailure, # Reason
                 $semanticIdentity, # FieldName
                 $nameCaseSensitivity, # TargetObject
                 "$($semanticName) is not a valid domain-supported value: '$($nameCaseSensitivity)'." # Message

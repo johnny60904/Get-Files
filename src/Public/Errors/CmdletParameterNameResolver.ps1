@@ -20,12 +20,15 @@ class CmdletParameterNameResolver {
                 return [CmdletParameter]::CaseSensitivity
             }
             ([ApplicationParameter]::TraversalOptions) {
-                return [CmdletParameter]::FilesOptions
+                return [CmdletParameter]::Operation
             }
             ([ApplicationParameter]::InputPaths) {
-                return [CmdletParameter]::Path
+                return [CmdletParameter]::Operation
             }
             ([ApplicationParameter]::TraversalOperation) {
+                return [CmdletParameter]::Operation
+            }
+            ([ApplicationParameter]::DiscoveryRequest) {
                 return [CmdletParameter]::Operation
             }
             default {

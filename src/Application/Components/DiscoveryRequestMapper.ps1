@@ -12,14 +12,28 @@ class DiscoveryRequestMapper {
     ) {
         [TraversalScope]$traversalScope = [TraversalPolicyAssembler]::ResolveScope($recurseSubdirectories)
         [TraversalStrategy]$traversalStrategy = [TraversalPolicyAssembler]::ResolveStrategy($depthFirst)
-        return [DiscoveryRequest]::new(
-            $directoryPath,
-            $childNames,
-            $fileFilter,
-            $traversalOptions,
-            $traversalScope,
-            $traversalStrategy
-        )
+        try {
+            return [DiscoveryRequest]::new(
+                $directoryPath,
+                $childNames,
+                $fileFilter,
+                $traversalOptions,
+                $traversalScope,
+                $traversalStrategy
+            )
+        } catch [DomainException] {
+            [ApplicationParameter]$semanticIdentity = [ApplicationParameter]::DiscoveryRequest
+            [string]$semanticName = $semanticIdentity.ToString()
+            throw [UseCaseInvariantViolationException]::new(
+                [DiscoveryRequestMapper]::Component, # ComponentName
+                [ApplicationExceptionContext]::TranslateSemanticTokensToDomainModel, # Context
+                [ApplicationExceptionReason]::InvariantViolation, # Reason
+                $semanticIdentity, # FieldName
+                $_.Exception.TargetObject, # TargetObject
+                "$($semanticName) violated one or more invariant rules.", # Message
+                $_.Exception # InnerException
+            )
+        }
     }
     
 }
