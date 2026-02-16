@@ -2,4 +2,5 @@
 . "$([System.IO.Path]::Join($PSScriptRoot, 'Validators', '_PreLoad.ps1'))"
 . "$([System.IO.Path]::Join($PSScriptRoot, 'Tokens', '_PreLoad.ps1'))"
 . "$([System.IO.Path]::Join($PSScriptRoot, 'Options', '_PreLoad.ps1'))"
+. "$([System.IO.Path]::Join($PSScriptRoot, 'Private', '_PreLoad.ps1'))"
 . "$([System.IO.Path]::Join($PSScriptRoot, 'Cmdlets', '_PreLoad.ps1'))"

@@ -2,7 +2,7 @@ function Test-UseCase {
     param()
     Write-Host "`n`nDirect UseCase Call:`n"
     
-    [string]$recurTestDir = [System.IO.Path]::GetFullPath([System.IO.Path]::Join('C:\', 'Users', 'DXjoh', 'Coding', 'practise', 'pwsh', '7.5+', 'formal', 'StructuredFilesDiscover', 'recurTest'))
+    [string[]]$recurTestDir = [System.IO.Path]::GetFullPath([System.IO.Path]::Join($PSScriptRoot, '..', '..', '..', 'tests', 'data', 'RecursionStructureTest'))
 
     Write-Host "`n`nTest Dir:`n$($recurTestDir)`n"
     

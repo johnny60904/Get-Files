@@ -38,6 +38,7 @@ class IOFileDiscovery {
                     $enumOpts
                 )
                 foreach ($file in $files) {
+                    # [System.Threading.Tasks.Task]::Delay(500, ([System.Threading.CancellationTokenSource]::new()).Token).Wait() # for 測試是否真 lazy 用
                     $file # 直接 emit, 不收集
                 }
             }
@@ -67,6 +68,7 @@ class IOFileDiscovery {
                     $enumOpts
                 )
                 foreach ($file in $files) {
+                    # [System.Threading.Tasks.Task]::Delay(500, ([System.Threading.CancellationTokenSource]::new()).Token).Wait() # for 測試是否真 lazy 用
                     $file # 直接 emit, 不收集
                 }
                 [System.Collections.Generic.IEnumerable[string]]$subDirs = [IOPathEnumeration]::EnumerateDirectories(
