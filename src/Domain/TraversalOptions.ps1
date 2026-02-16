@@ -14,6 +14,22 @@ class TraversalOptions {
         [int] $entryReadBufferSize,
         [SkipFileAttributes] $skipFileAttributes
     ) {
+        if (-not $nameCaseSensitivity) {
+            [string]$semanticName = ([DomainModelSemanticNames]::NameCaseSensitivity).ToString()
+            throw [DomainInvariantViolationException]::new(
+                $semanticName,
+                "'$($semanticName)' invalid (unmeaningfulness).",
+                $nameCaseSensitivity
+            )
+        }
+        if (-not $skipFileAttributes) {
+            [string]$semanticName = ([DomainModelSemanticNames]::SkipFileAttributes).ToString()
+            throw [DomainInvariantViolationException]::new(
+                $semanticName,
+                "'$($semanticName)' invalid (unmeaningfulness).",
+                $skipFileAttributes
+            )
+        }
         $this.SkipInaccessibleEntries = $skipInaccessibleEntries
         $this.NameCaseSensitivity = $nameCaseSensitivity
         $this.EntryReadBufferSize = $entryReadBufferSize

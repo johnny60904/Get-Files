@@ -1,3 +1,5 @@
+. "$([System.IO.Path]::Join($PSScriptRoot, 'DomainModelSemanticNames.ps1'))"
+
 . "$([System.IO.Path]::Join($PSScriptRoot, 'Errors', '_PreLoad.ps1'))"
 . "$([System.IO.Path]::Join($PSScriptRoot, 'Enums', '_PreLoad.ps1'))"
 
