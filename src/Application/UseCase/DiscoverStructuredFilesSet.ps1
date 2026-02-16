@@ -12,12 +12,12 @@ class DiscoverStructuredFilesSet {
     
     # 使用者的 options 都是透過 DiscoveryOptionsFactory 獲得的,
     # DiscoveryOptionsFactory 就 Assert 過了, 所以這裡不再 Assert
-    [DiscoveryResult] Execute () {    
+    [ScriptBlock] Execute () {    
         # $DirectoryPath + $ChildNames -> Join + Resolve
         # Join / GetFullPath 不會噴錯
         # 但 GetFullPath 長度過長會噴錯
         try {
-            [string[]]$resolvedPathsBatch = [IOPathResolver]::ResolveChildPathsBatch(
+            [System.Collections.Generic.IEnumerable[string]]$resolvedPathsBatch = [IOPathResolver]::ResolveChildPathsBatch(
                 $this.DiscoveryRequest.DirectoryPath,
                 $this.DiscoveryRequest.ChildNames
             )
@@ -38,13 +38,11 @@ class DiscoverStructuredFilesSet {
             $this.DiscoveryRequest.TraversalOptions
         )
         try {
-            [DiscoveryResult]$result = [DiscoveryResult]::new(
-                ([IOFileDiscoveryStrategySelector]::Select(
+            return [IOFileDiscoveryStrategySelector]::Select(
                     $resolvedPathsBatch,
                     $this.DiscoveryRequest.TraversalScope,
                     $traversalEngine
-                ))
-            )
+                )
         } catch {
             throw [UseCaseExecutionException]::new(
                 [DiscoverStructuredFilesSet]::UseCase, # UseCaseName
@@ -56,7 +54,6 @@ class DiscoverStructuredFilesSet {
                 $_.Exception # InnerException (bubbled from Infrastructue Layer)
             )
         }
-        return $result
     }
     
 }

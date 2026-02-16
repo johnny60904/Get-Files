@@ -1,6 +1,6 @@
 class IOPathEnumeration  {
     
-    static [string[]] EnumerateFiles (
+    static [System.Collections.Generic.IEnumerable[string]] EnumerateFiles (
         [string] $directory,
         [string] $fileFilter,
         [System.IO.EnumerationOptions] $enumOpts
@@ -8,7 +8,7 @@ class IOPathEnumeration  {
         return [System.IO.Directory]::EnumerateFiles($directory, $fileFilter, $enumOpts)
     }
     
-    static [string[]] EnumerateDirectories (
+    static [System.Collections.Generic.IEnumerable[string]] EnumerateDirectories (
         [string] $directory,
         [string] $directoryFilter,
         [System.IO.EnumerationOptions] $enumOpts

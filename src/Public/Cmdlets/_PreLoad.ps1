@@ -1,3 +1,6 @@
 . "$([System.IO.Path]::Join($PSScriptRoot, 'New-FilesOptions.ps1'))"
 . "$([System.IO.Path]::Join($PSScriptRoot, 'New-FilesAdvancedOptions.ps1'))"
 . "$([System.IO.Path]::Join($PSScriptRoot, 'Get-Files.ps1'))"
+. "$([System.IO.Path]::Join($PSScriptRoot, 'Test-Engine.ps1'))"
+. "$([System.IO.Path]::Join($PSScriptRoot, 'Test-Selector.ps1'))"
+. "$([System.IO.Path]::Join($PSScriptRoot, 'Test-UseCase.ps1'))"

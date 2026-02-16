@@ -5,9 +5,9 @@ class DiscoveryOptionsFactory {
     static [TraversalOptions] CreateDefaultOptions () {
         return [TraversalOptions]::new(
             [TraversalOptionsDefaults]::SkipInaccessibleEntries, # ContinueOnAccessDenied -> SkipInaccessibleEntries
+            [TraversalOptionsDefaults]::NameCaseSensitivity, # MatchCaseSensitivity -> NameCaseSensitivity
             [TraversalOptionsDefaults]::EntryReadBufferSize, # IOBufferSize -> EntryReadBufferSize
-            [TraversalOptionsDefaults]::SkipFileAttributes, # ExcludedFileAttributes -> SkipFileAttributes
-            [TraversalOptionsDefaults]::NameCaseSensitivity # MatchCaseSensitivity -> NameCaseSensitivity
+            [TraversalOptionsDefaults]::SkipFileAttributes # ExcludedFileAttributes -> SkipFileAttributes
         )
     }
     

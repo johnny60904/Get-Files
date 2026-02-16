@@ -1,16 +1,16 @@
 class IOFileDiscoveryStrategySelector {
     
-    static [string[]] Select (
-        [string[]] $directoriesBatch,
+    static [ScriptBlock] Select (
+        [System.Collections.Generic.IEnumerable[string]] $directoriesBatch,
         [TraversalScope] $traversalScope,
         [IOFileDiscovery] $ioFileDiscovery
     ) {
         switch ($traversalScope) {
             ([TraversalScope]::Shallow) {
-                return ($ioFileDiscovery.DiscoverCurrentLevel($directoriesBatch))
+                return $ioFileDiscovery.DiscoverCurrentLevel($directoriesBatch)
             }
             ([TraversalScope]::Recurse) {
-                return ($ioFileDiscovery.DiscoverAll($directoriesBatch))
+                return $ioFileDiscovery.DiscoverAll($directoriesBatch)
             }
             default {
                 throw [System.InvalidOperationException]::new(

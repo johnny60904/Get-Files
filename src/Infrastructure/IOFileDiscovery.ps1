@@ -16,59 +16,69 @@ class IOFileDiscovery {
         $this.TraversalOptions = $traversalOptions
     }
     
-    [string[]] DiscoverCurrentLevel (
-        [string[]] $directoriesBatch
-    ) {
-        [System.IO.EnumerationOptions]$enumOpts = [IOTraversalOptionsConverter]::ToEnumerationOptions(
-            $this.TraversalOptions
-        )
-        $discovered = [System.Collections.Generic.List[string]]::new()
-        for ($i = 0; $i -lt $directoriesBatch.Length; $i ++) {
-            [string[]]$files = [IOPathEnumeration]::EnumerateFiles(
-                $directoriesBatch[$i],
-                $this.FileFilter,
-                $enumOpts
-            )
-            for ($p = 0; $p -lt $files.Length; $p ++) {
-                $discovered.Add($files[$p])
+    [ScriptBlock] DiscoverCurrentLevel (
+        [System.Collections.Generic.IEnumerable[string]] $directoriesBatch
+    ) { 
+        [string]$file_Filter = $this.FileFilter
+        [TraversalStrategy]$traversal_Strategy = $this.TraversalStrategy
+        [TraversalOptions]$traversal_Options = $this.TraversalOptions
+        return {
+            param()
+            [System.IO.EnumerationOptions]$enumOpts = [IOTraversalOptionsConverter]::ToEnumerationOptions($traversal_Options)
+	        [ScriptBlock]$extractor = [IOTraversalContextExtractionDispatcher]::Dispatch($traversal_Strategy)
+	        [IOTraversalContext]$Context = [IOTraversalContext]::new()
+	        for ($i = 0; $i -lt $directoriesBatch.Length; $i ++) {
+                [void] $Context.Nodes.AddLast($directoriesBatch[$i]) # [void] -> 避免輸出 Nodes (LinkedList) 訊息到 console
             }
-        }
-        return $discovered.ToArray()
+	        while ($Context.Nodes.Count -gt 0) {
+                [string]$node = & $extractor $Context
+                [System.Collections.Generic.IEnumerable[string]]$files = [IOPathEnumeration]::EnumerateFiles(
+                    $node,
+                    $file_Filter,
+                    $enumOpts
+                )
+                foreach ($file in $files) {
+                    $file # 直接 emit, 不收集
+                }
+            }
+        }.GetNewClosure()
     }
     
-    [string[]] DiscoverAll (
-        [string[]] $directoriesBatch
+    [ScriptBlock] DiscoverAll (
+        [System.Collections.Generic.IEnumerable[string]] $directoriesBatch
     ) {
-        [System.IO.EnumerationOptions]$enumOpts = [IOTraversalOptionsConverter]::ToEnumerationOptions(
-            $this.TraversalOptions
-        )
-        $discovered = [System.Collections.Generic.List[string]]::new()
-        [ScriptBlock]$extractor = [IOTraversalContextExtractionDispatcher]::Dispatch($this.TraversalStrategy)
-        [IOTraversalContext]$Context = [IOTraversalContext]::new()
-        for ($i = 0; $i -lt $directoriesBatch.Length; $i ++) {
-            $Context.Nodes.AddLast($directoriesBatch[$i])
-        }
-        while ($Context.Nodes.Count -gt 0) {
-            [string]$node = & $extractor $Context
-            [string[]]$files = [IOPathEnumeration]::EnumerateFiles(
-                $node,
-                $this.FileFilter,
-                $enumOpts
-            )
-            for ($i = 0; $i -lt $files.Length; $i ++) {
-                $discovered.Add($files[$i])
+        [string]$file_Filter = $this.FileFilter
+        [string]$directory_Filter = $this.DirectoryFilter
+        [TraversalStrategy]$traversal_Strategy = $this.TraversalStrategy
+        [TraversalOptions]$traversal_Options = $this.TraversalOptions
+        return {
+            param()
+            [System.IO.EnumerationOptions]$enumOpts = [IOTraversalOptionsConverter]::ToEnumerationOptions($traversal_Options)
+	        [ScriptBlock]$extractor = [IOTraversalContextExtractionDispatcher]::Dispatch($traversal_Strategy)
+	        [IOTraversalContext]$Context = [IOTraversalContext]::new()
+	        for ($i = 0; $i -lt $directoriesBatch.Length; $i ++) {
+                [void] $Context.Nodes.AddLast($directoriesBatch[$i]) # [void] -> 避免輸出 Nodes (LinkedList) 訊息到 console
             }
-            [string[]]$subDirs = [IOPathEnumeration]::EnumerateDirectories(
-                $node,
-                $this.DirectoryFilter,
-                $enumOpts
-            )
-            if ($subDirs.Length -eq 0) { continue }
-            for ($i = 0; $i -lt $subDirs.Length; $i ++) {
-                $Context.Nodes.AddLast($subDirs[$i])
+	        while ($Context.Nodes.Count -gt 0) {
+                [string]$node = & $extractor $Context
+                [System.Collections.Generic.IEnumerable[string]]$files = [IOPathEnumeration]::EnumerateFiles(
+                    $node,
+                    $file_Filter,
+                    $enumOpts
+                )
+                foreach ($file in $files) {
+                    $file # 直接 emit, 不收集
+                }
+                [System.Collections.Generic.IEnumerable[string]]$subDirs = [IOPathEnumeration]::EnumerateDirectories(
+                    $node,
+                    $directory_Filter,
+                    $enumOpts
+                )
+                foreach ($subDir in $subDirs) {
+                    [void] $Context.Nodes.AddLast($subDir) # [void] -> 避免輸出 Nodes (LinkedList) 訊息到 console
+                }
             }
-        }
-        return $discovered.ToArray()
+        }.GetNewClosure()
     }
     
 }

@@ -133,7 +133,7 @@ function Get-Files {
         }
         [DiscoverStructuredFilesSet]$useCase = [DiscoverStructuredFilesSet]::new($request)
         try {
-            [string[]]$discovered = ($useCase.Execute()).DiscoveredFiles
+            & $useCase.Execute()
         } catch [ApplicationException] {
             [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::CreateFromApplicationException(
                 $_.Exception
@@ -142,7 +142,7 @@ function Get-Files {
         }
     }
     end {
-        return [string[]]$discovered
+        
     }
 }
 # (.SYNOPSIS)
