@@ -1,4 +1,4 @@
-. "$([System.IO.Path]::Join($PSScriptRoot, 'TraversalStrategy.ps1'))"
-. "$([System.IO.Path]::Join($PSScriptRoot, 'TraversalScope.ps1'))"
-. "$([System.IO.Path]::Join($PSScriptRoot, 'SkipFileAttributes.ps1'))"
-. "$([System.IO.Path]::Join($PSScriptRoot, 'NameCaseSensitivity.ps1'))"
+. "$PSScriptRoot/TraversalStrategy.ps1"
+. "$PSScriptRoot/TraversalScope.ps1"
+. "$PSScriptRoot/SkipFileAttributes.ps1"
+. "$PSScriptRoot/NameCaseSensitivity.ps1"

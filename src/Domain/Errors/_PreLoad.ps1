@@ -1,3 +1,3 @@
-. "$([System.IO.Path]::Join($PSScriptRoot, 'DomainException.ps1'))"
-. "$([System.IO.Path]::Join($PSScriptRoot, 'DomainInvariantViolationException.ps1'))"
-. "$([System.IO.Path]::Join($PSScriptRoot, 'DomainRuleViolationException.ps1'))"
+. "$PSScriptRoot/DomainException.ps1"
+. "$PSScriptRoot/DomainInvariantViolationException.ps1"
+. "$PSScriptRoot/DomainRuleViolationException.ps1"

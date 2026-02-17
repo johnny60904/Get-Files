@@ -1,5 +1,0 @@
-. "$([System.IO.Path]::GetFullPath([System.IO.Path]::Join($PSScriptRoot, '..', '..', 'src', 'Common', '_PreLoad.ps1')))"
-. "$([System.IO.Path]::GetFullPath([System.IO.Path]::Join($PSScriptRoot, '..', '..', 'src', 'Domain', '_PreLoad.ps1')))"
-. "$([System.IO.Path]::GetFullPath([System.IO.Path]::Join($PSScriptRoot, '..', '..', 'src', 'Infrastructure', '_PreLoad.ps1')))"
-. "$([System.IO.Path]::GetFullPath([System.IO.Path]::Join($PSScriptRoot, '..', '..', 'src', 'Application', '_PreLoad.ps1')))"
-. "$([System.IO.Path]::GetFullPath([System.IO.Path]::Join($PSScriptRoot, '..', '..', 'src', 'Public', '_PreLoad.ps1')))"

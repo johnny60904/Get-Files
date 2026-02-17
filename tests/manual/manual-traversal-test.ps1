@@ -1,5 +1,5 @@
 # using module GetFiles
-. "$([System.IO.Path]::Join($PSScriptRoot, '_PreLoad.ps1'))"
+. "$PSScriptRoot/../_PreLoad.ps1"
 
 $ErrorActionPreference = 'Stop'
 

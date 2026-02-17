@@ -1,2 +1,2 @@
-. "$([System.IO.Path]::Join($PSScriptRoot, 'SkipFileAttributesComparison.ps1'))"
-. "$([System.IO.Path]::Join($PSScriptRoot, 'NameCaseSensitivityComparison.ps1'))"
+. "$PSScriptRoot/SkipFileAttributesComparison.ps1"
+. "$PSScriptRoot/NameCaseSensitivityComparison.ps1"

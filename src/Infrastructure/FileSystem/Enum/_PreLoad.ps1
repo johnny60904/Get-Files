@@ -1,1 +1,1 @@
-. "$([System.IO.Path]::Join($PSScriptRoot, 'IOPathStrategyKind.ps1'))"
+. "$PSScriptRoot/IOPathStrategyKind.ps1"

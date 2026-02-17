@@ -1,1 +1,1 @@
-. "$([System.IO.Path]::Join($PSScriptRoot, 'RuntimeOSContext.ps1'))"
+. "$PSScriptRoot/RuntimeOSContext.ps1"

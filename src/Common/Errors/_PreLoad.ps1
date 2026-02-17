@@ -1,1 +1,1 @@
-. "$([System.IO.Path]::Join($PSScriptRoot, 'StructuredFilesDiscoveryException.ps1'))"
+. "$PSScriptRoot/StructuredFilesDiscoveryException.ps1"
