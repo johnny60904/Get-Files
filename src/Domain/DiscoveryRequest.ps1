@@ -7,7 +7,69 @@ class DiscoveryRequest {
     [TraversalScope] $TraversalScope
     [TraversalStrategy] $TraversalStrategy
     
-    DiscoveryRequest (
+    DiscoveryRequest ( # Shallow
+        [string] $directoryPath,
+        [string[]] $childNames,
+        [string] $fileFilter,
+        [TraversalOptions] $traversalOptions,
+        [TraversalScope] $traversalScope
+    ) {
+        if ([System.String]::IsNullOrWhiteSpace($directoryPath)) {
+            [string]$semanticIdentity = [DomainModelSemanticNames]::DirectoryPath
+            [string]$semanticName = $semanticIdentity.ToString()
+            throw [DomainRuleViolationException]::new(
+                [DomainModelNames]::DiscoveryRequest,
+                [DomainRuleNames]::AssertRequestSemanticTokenMeaningfulness,
+                $semanticIdentity,
+                "'$($semanticName)' is required.",
+                $directoryPath
+            )
+        }
+        if ($childNames) {
+            for ($i = 0; $i -lt $childNames.Length; $i ++) {
+                if ([System.String]::IsNullOrWhiteSpace($childNames[$i])) {
+                    [string]$semanticIdentity = [DomainModelSemanticNames]::ChildNames
+                    [string]$semanticName = $semanticIdentity.ToString()
+                    throw [DomainRuleViolationException]::new(
+                        [DomainModelNames]::DiscoveryRequest,
+                        [DomainRuleNames]::AssertRequestSemanticTokenMeaningfulness,
+                        $semanticIdentity,
+                        "'$($semanticName)' is required.",
+                        $childNames[$i]
+                    )
+                }
+            }
+        }
+        if ([System.String]::IsNullOrWhiteSpace($fileFilter)) {
+            [string]$semanticIdentity = [DomainModelSemanticNames]::FileFilter
+            [string]$semanticName = $semanticIdentity.ToString()
+            throw [DomainRuleViolationException]::new(
+                [DomainModelNames]::DiscoveryRequest,
+                [DomainRuleNames]::AssertRequestSemanticTokenMeaningfulness,
+                $semanticIdentity,
+                "'$($semanticName)' is required.",
+                $fileFilter
+            )
+        }
+        if (-not $traversalScope) {
+            [string]$semanticIdentity = [DomainModelSemanticNames]::TraversalScope
+            [string]$semanticName = $semanticIdentity.ToString()
+            throw [DomainRuleViolationException]::new(
+                [DomainModelNames]::DiscoveryRequest,
+                [DomainRuleNames]::AssertRequestSemanticTokenMeaningfulness,
+                $semanticIdentity,
+                "'$($semanticName)' is required.",
+                $traversalScope
+            )
+        }
+        $this.DirectoryPath = $directoryPath
+        $this.ChildNames = $childNames
+        $this.FileFilter = $fileFilter
+        $this.TraversalOptions = $traversalOptions
+        $this.TraversalScope = $traversalScope
+    }
+    
+    DiscoveryRequest ( # Recurse
         [string] $directoryPath,
         [string[]] $childNames,
         [string] $fileFilter,
@@ -16,46 +78,61 @@ class DiscoveryRequest {
         [TraversalStrategy] $traversalStrategy
     ) {
         if ([System.String]::IsNullOrWhiteSpace($directoryPath)) {
-            [string]$semanticName = ([DomainModelSemanticNames]::DirectoryPath).ToString()
-            throw [DomainInvariantViolationException]::new(
-                $semanticName,
-                "'$($semanticName)' invalid (unmeaningfulness).",
+            [string]$semanticIdentity = [DomainModelSemanticNames]::DirectoryPath
+            [string]$semanticName = $semanticIdentity.ToString()
+            throw [DomainRuleViolationException]::new(
+                [DomainModelNames]::DiscoveryRequest,
+                [DomainRuleNames]::AssertRequestSemanticTokenMeaningfulness,
+                $semanticIdentity,
+                "'$($semanticName)' is required.",
                 $directoryPath
             )
         }
         if ($childNames) {
             for ($i = 0; $i -lt $childNames.Length; $i ++) {
                 if ([System.String]::IsNullOrWhiteSpace($childNames[$i])) {
-                    [string]$semanticName = ([DomainModelSemanticNames]::ChildNames).ToString()
-                    throw [DomainInvariantViolationException]::new(
-                        $semanticName,
-                        "'$($semanticName)' invalid (unmeaningfulness).",
+                    [string]$semanticIdentity = [DomainModelSemanticNames]::ChildNames
+                    [string]$semanticName = $semanticIdentity.ToString()
+                    throw [DomainRuleViolationException]::new(
+                        [DomainModelNames]::DiscoveryRequest,
+                        [DomainRuleNames]::AssertRequestSemanticTokenMeaningfulness,
+                        $semanticIdentity,
+                        "'$($semanticName)' is required.",
                         $childNames[$i]
                     )
                 }
             }
         }
         if ([System.String]::IsNullOrWhiteSpace($fileFilter)) {
-            [string]$semanticName = ([DomainModelSemanticNames]::FileFilter).ToString()
-            throw [DomainInvariantViolationException]::new(
-                $semanticName,
-                "'$($semanticName)' invalid (unmeaningfulness).",
+            [string]$semanticIdentity = [DomainModelSemanticNames]::FileFilter
+            [string]$semanticName = $semanticIdentity.ToString()
+            throw [DomainRuleViolationException]::new(
+                [DomainModelNames]::DiscoveryRequest,
+                [DomainRuleNames]::AssertRequestSemanticTokenMeaningfulness,
+                $semanticIdentity,
+                "'$($semanticName)' is required.",
                 $fileFilter
             )
         }
         if (-not $traversalScope) {
-            [string]$semanticName = ([DomainModelSemanticNames]::TraversalScope).ToString()
-            throw [DomainInvariantViolationException]::new(
-                $semanticName,
-                "'$($semanticName)' invalid (unmeaningfulness).",
+            [string]$semanticIdentity = [DomainModelSemanticNames]::TraversalScope
+            [string]$semanticName = $semanticIdentity.ToString()
+            throw [DomainRuleViolationException]::new(
+                [DomainModelNames]::DiscoveryRequest,
+                [DomainRuleNames]::AssertRequestSemanticTokenMeaningfulness,
+                $semanticIdentity,
+                "'$($semanticName)' is required.",
                 $traversalScope
             )
         }
         if (-not $traversalStrategy) {
-            [string]$semanticName = ([DomainModelSemanticNames]::TraversalStrategy).ToString()
-            throw [DomainInvariantViolationException]::new(
-                $semanticName,
-                "'$($semanticName)' invalid (unmeaningfulness).",
+            [string]$semanticIdentity = [DomainModelSemanticNames]::TraversalStrategy
+            [string]$semanticName = $semanticIdentity.ToString()
+            throw [DomainRuleViolationException]::new(
+                [DomainModelNames]::DiscoveryRequest,
+                [DomainRuleNames]::AssertRequestSemanticTokenMeaningfulness,
+                $semanticIdentity,
+                "'$($semanticName)' is required.",
                 $traversalStrategy
             )
         }

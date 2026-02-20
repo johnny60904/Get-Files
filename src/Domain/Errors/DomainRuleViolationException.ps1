@@ -1,22 +1,22 @@
 class DomainRuleViolationException : DomainException {
     
-    [string] $RuleName
+    [DomainModelNames] $ModelName
     
     DomainRuleViolationException (
-        [string] $ruleName,
+        [DomainModelNames] $modelName,
+        [DomainRuleNames] $ruleName,
+        [DomainModelSemanticNames] $semanticName,
         [string] $message,
         [object] $targetObject
-    ) : base ($message, $targetObject) {
-        $this.RuleName = $ruleName
-    }
+    ) : base ($modelName, $ruleName, $semanticName, $message, $targetObject) {}
     
     DomainRuleViolationException (
-        [string] $ruleName,
+        [DomainModelNames] $modelName,
+        [DomainRuleNames] $ruleName,
+        [DomainModelSemanticNames] $semanticName,
         [string] $message,
         [object] $targetObject,
         [System.Exception] $innerException
-    ) : base ($message, $targetObject, $innerException) {
-        $this.RuleName = $ruleName
-    }
+    ) : base ($modelName, $ruleName, $semanticName, $message, $targetObject, $innerException) {}
     
 }

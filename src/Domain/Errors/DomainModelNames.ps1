@@ -1,0 +1,5 @@
+enum DomainModelNames {
+    
+    DiscoveryRequest
+    
+}
