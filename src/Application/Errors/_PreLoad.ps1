@@ -1,6 +1,7 @@
 . "$PSScriptRoot/ApplicationExceptionContext.ps1"
 . "$PSScriptRoot/ApplicationExceptionReason.ps1"
 . "$PSScriptRoot/ApplicationException.ps1"
+. "$PSScriptRoot/UseCaseNormalizationException.ps1"
 . "$PSScriptRoot/UseCaseParsingException.ps1"
 . "$PSScriptRoot/UseCaseExecutionException.ps1"
 . "$PSScriptRoot/UseCaseInvariantViolationException.ps1"

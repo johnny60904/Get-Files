@@ -32,15 +32,10 @@ class DiscoverStructuredFilesSet {
                 $_.Exception # InnerException (bubbled from Infrastructue Layer)
             )
         }
-        [IOFileDiscovery]$traversalEngine = [IOFileDiscovery]::new(
-            $this.DiscoveryRequest.TraversalStrategy,
-            $this.DiscoveryRequest.FileFilter,
-            $this.DiscoveryRequest.TraversalOptions
-        )
+        [IOFileDiscovery]$traversalEngine = [IOFileDiscovery]::new($this.DiscoveryRequest)
         try {
             return [IOFileDiscoveryStrategySelector]::Select(
                     $resolvedPathsBatch,
-                    $this.DiscoveryRequest.TraversalScope,
                     $traversalEngine
                 )
         } catch {

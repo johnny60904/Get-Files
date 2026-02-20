@@ -1,0 +1,1 @@
+. "$PSScriptRoot/TraversalStrategyNormalizer.ps1"

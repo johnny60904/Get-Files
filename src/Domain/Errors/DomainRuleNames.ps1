@@ -1,5 +1,5 @@
 enum DomainRuleNames {
     
-    AssertRequestSemanticTokenMeaningfulness
+    AssertSemanticTokenMeaningfulness
     
 }

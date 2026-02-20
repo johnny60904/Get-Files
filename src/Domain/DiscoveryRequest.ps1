@@ -14,54 +14,9 @@ class DiscoveryRequest {
         [TraversalOptions] $traversalOptions,
         [TraversalScope] $traversalScope
     ) {
-        if ([System.String]::IsNullOrWhiteSpace($directoryPath)) {
-            [string]$semanticIdentity = [DomainModelSemanticNames]::DirectoryPath
-            [string]$semanticName = $semanticIdentity.ToString()
-            throw [DomainRuleViolationException]::new(
-                [DomainModelNames]::DiscoveryRequest,
-                [DomainRuleNames]::AssertRequestSemanticTokenMeaningfulness,
-                $semanticIdentity,
-                "'$($semanticName)' is required.",
-                $directoryPath
-            )
-        }
-        if ($childNames) {
-            for ($i = 0; $i -lt $childNames.Length; $i ++) {
-                if ([System.String]::IsNullOrWhiteSpace($childNames[$i])) {
-                    [string]$semanticIdentity = [DomainModelSemanticNames]::ChildNames
-                    [string]$semanticName = $semanticIdentity.ToString()
-                    throw [DomainRuleViolationException]::new(
-                        [DomainModelNames]::DiscoveryRequest,
-                        [DomainRuleNames]::AssertRequestSemanticTokenMeaningfulness,
-                        $semanticIdentity,
-                        "'$($semanticName)' is required.",
-                        $childNames[$i]
-                    )
-                }
-            }
-        }
-        if ([System.String]::IsNullOrWhiteSpace($fileFilter)) {
-            [string]$semanticIdentity = [DomainModelSemanticNames]::FileFilter
-            [string]$semanticName = $semanticIdentity.ToString()
-            throw [DomainRuleViolationException]::new(
-                [DomainModelNames]::DiscoveryRequest,
-                [DomainRuleNames]::AssertRequestSemanticTokenMeaningfulness,
-                $semanticIdentity,
-                "'$($semanticName)' is required.",
-                $fileFilter
-            )
-        }
-        if (-not $traversalScope) {
-            [string]$semanticIdentity = [DomainModelSemanticNames]::TraversalScope
-            [string]$semanticName = $semanticIdentity.ToString()
-            throw [DomainRuleViolationException]::new(
-                [DomainModelNames]::DiscoveryRequest,
-                [DomainRuleNames]::AssertRequestSemanticTokenMeaningfulness,
-                $semanticIdentity,
-                "'$($semanticName)' is required.",
-                $traversalScope
-            )
-        }
+        [DiscoveryRequestAssertions]::AssertDirectoryPathMeaningful($directoryPath)
+        [DiscoveryRequestAssertions]::AssertFileFilterMeaningful($fileFilter)
+        [DiscoveryRequestAssertions]::AssertShallowRequest($traversalScope)
         $this.DirectoryPath = $directoryPath
         $this.ChildNames = $childNames
         $this.FileFilter = $fileFilter
@@ -77,65 +32,9 @@ class DiscoveryRequest {
         [TraversalScope] $traversalScope,
         [TraversalStrategy] $traversalStrategy
     ) {
-        if ([System.String]::IsNullOrWhiteSpace($directoryPath)) {
-            [string]$semanticIdentity = [DomainModelSemanticNames]::DirectoryPath
-            [string]$semanticName = $semanticIdentity.ToString()
-            throw [DomainRuleViolationException]::new(
-                [DomainModelNames]::DiscoveryRequest,
-                [DomainRuleNames]::AssertRequestSemanticTokenMeaningfulness,
-                $semanticIdentity,
-                "'$($semanticName)' is required.",
-                $directoryPath
-            )
-        }
-        if ($childNames) {
-            for ($i = 0; $i -lt $childNames.Length; $i ++) {
-                if ([System.String]::IsNullOrWhiteSpace($childNames[$i])) {
-                    [string]$semanticIdentity = [DomainModelSemanticNames]::ChildNames
-                    [string]$semanticName = $semanticIdentity.ToString()
-                    throw [DomainRuleViolationException]::new(
-                        [DomainModelNames]::DiscoveryRequest,
-                        [DomainRuleNames]::AssertRequestSemanticTokenMeaningfulness,
-                        $semanticIdentity,
-                        "'$($semanticName)' is required.",
-                        $childNames[$i]
-                    )
-                }
-            }
-        }
-        if ([System.String]::IsNullOrWhiteSpace($fileFilter)) {
-            [string]$semanticIdentity = [DomainModelSemanticNames]::FileFilter
-            [string]$semanticName = $semanticIdentity.ToString()
-            throw [DomainRuleViolationException]::new(
-                [DomainModelNames]::DiscoveryRequest,
-                [DomainRuleNames]::AssertRequestSemanticTokenMeaningfulness,
-                $semanticIdentity,
-                "'$($semanticName)' is required.",
-                $fileFilter
-            )
-        }
-        if (-not $traversalScope) {
-            [string]$semanticIdentity = [DomainModelSemanticNames]::TraversalScope
-            [string]$semanticName = $semanticIdentity.ToString()
-            throw [DomainRuleViolationException]::new(
-                [DomainModelNames]::DiscoveryRequest,
-                [DomainRuleNames]::AssertRequestSemanticTokenMeaningfulness,
-                $semanticIdentity,
-                "'$($semanticName)' is required.",
-                $traversalScope
-            )
-        }
-        if (-not $traversalStrategy) {
-            [string]$semanticIdentity = [DomainModelSemanticNames]::TraversalStrategy
-            [string]$semanticName = $semanticIdentity.ToString()
-            throw [DomainRuleViolationException]::new(
-                [DomainModelNames]::DiscoveryRequest,
-                [DomainRuleNames]::AssertRequestSemanticTokenMeaningfulness,
-                $semanticIdentity,
-                "'$($semanticName)' is required.",
-                $traversalStrategy
-            )
-        }
+        [DiscoveryRequestAssertions]::AssertDirectoryPathMeaningful($directoryPath)
+        [DiscoveryRequestAssertions]::AssertFileFilterMeaningful($fileFilter)
+        [DiscoveryRequestAssertions]::AssertRecursiveRequest($traversalScope)
         $this.DirectoryPath = $directoryPath
         $this.ChildNames = $childNames
         $this.FileFilter = $fileFilter

@@ -33,7 +33,6 @@ function Get-Files {
         })]
         [string[]] $FilterNames = @(), # ChildNames
         
-        # 因為是 Files 用, 所以要求有附檔名, 即格式: xxx.xxx / 特例允許 *.* / *.<xxx> / <xxx>.*
         [Parameter(Position = 2, ParameterSetName = 'ByValue')]
         [Parameter(Position = 1, ParameterSetName = 'ByPipeline')]
         [ValidateScript({
@@ -44,9 +43,6 @@ function Get-Files {
         
         [Parameter()]
         [switch] $Recurse,
-        
-        [Parameter()]
-        [switch] $DepthFirst,
         
         # ------------------ Default switches ------------------
         
@@ -77,7 +73,6 @@ function Get-Files {
     )
     begin {
         [bool]$RecurseFlag = if ($Recurse.IsPresent) { $true } else { $false }
-        [bool]$DepthFirstFlag = if ($DepthFirst.IsPresent) { $true } else { $false }
         [bool]$ExcludeHiddenFlag = if ($ExcludeHidden.IsPresent) { $true } else { $false }
         [bool]$ExcludeSystemFlag = if ($ExcludeSystem.IsPresent) { $true } else { $false }
         [bool]$ExcludeReadonlyFlag = if ($ExcludeReadonly.IsPresent) { $true } else { $false }
@@ -123,7 +118,7 @@ function Get-Files {
                 $Filter,
                 $traversalOptions,
                 $RecurseFlag,
-                $DepthFirstFlag
+                $Options.RecurseMode
             )
         } catch [ApplicationException] {
             [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::CreateFromApplicationException(

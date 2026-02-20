@@ -1,5 +1,7 @@
 [string[]]$CaseSensitivityAllowed = [CaseSensitivityTokens]::Allowed
 [System.StringComparison]$CaseSensitivityComparison = [CaseSensitivityTokens]::Comparison
+[string[]]$RecurseModeAllowed = [RecurseModeTokens]::Allowed
+[System.StringComparison]$RecurseModeComparison = [RecurseModeTokens]::Comparison
 
 function New-FilesOptions {
 # TODO: Add Comment-Based Help
@@ -19,8 +21,22 @@ function New-FilesOptions {
                 'CaseSensitivity'
             )
             return $true
-        })]        
-        [string] $CaseSensitivity = 'Auto' # MatchCaseSensitivity
+        })]
+        [string] $CaseSensitivity = 'Auto', # MatchCaseSensitivity
+        
+        [Parameter(Position = 2)]
+        [ValidateScript({
+            if ($_) {
+                [StringValidators]::ValidateIsOneOf(
+                    $_,
+                    $RecurseModeAllowed,
+                    $RecurseModeComparison,
+                    'RecurseMode'
+                )
+            }
+            return $true
+        })]
+        [string] $RecurseMode
         
     )
     if ($MyInvocation.ExpectingInput) {
@@ -37,7 +53,8 @@ function New-FilesOptions {
     }
     return [FilesOptions]::new(
         $IgnoreErrors,
-        $CaseSensitivity
+        $CaseSensitivity,
+        $RecurseMode
     )
 }
 # (.SYNOPSIS)

@@ -1,0 +1,1 @@
+. "$PSScriptRoot/TraversalPolicyAssertions.ps1"

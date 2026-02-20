@@ -1,31 +1,24 @@
 class IOFileDiscovery {
     
-    [TraversalStrategy] $TraversalStrategy
-    [string] $FileFilter
+    [DiscoveryRequest] $DiscoveryRequest
     [string] $DirectoryFilter
-    [TraversalOptions] $TraversalOptions
     
     IOFileDiscovery (
-        [TraversalStrategy] $traversalStrategy,
-        [string] $fileFilter,
-        [TraversalOptions] $traversalOptions
+        [DiscoveryRequest] $discoveryRequest
     ) {
-        $this.TraversalStrategy = $traversalStrategy
-        $this.FileFilter = $fileFilter
+        $this.DiscoveryRequest = $discoveryRequest
         $this.DirectoryFilter = [DirectorySearchPatterns]::MatchAll
-        $this.TraversalOptions = $traversalOptions
     }
     
     [ScriptBlock] DiscoverCurrentLevel (
         [System.Collections.Generic.IEnumerable[string]] $directoriesBatch
     ) { 
-        [string]$file_Filter = $this.FileFilter
-        [TraversalStrategy]$traversal_Strategy = $this.TraversalStrategy
-        [TraversalOptions]$traversal_Options = $this.TraversalOptions
+        [string]$file_Filter = $this.DiscoveryRequest.FileFilter
+        [TraversalOptions]$traversal_Options = $this.DiscoveryRequest.TraversalOptions
         return {
             param()
             [System.IO.EnumerationOptions]$enumOpts = [IOTraversalOptionsConverter]::ToEnumerationOptions($traversal_Options)
-	        [ScriptBlock]$extractor = [IOTraversalContextExtractionDispatcher]::Dispatch($traversal_Strategy)
+	        [ScriptBlock]$extractor = [IOTraversalContextExtraction]::ExtractLast
 	        [IOTraversalContext]$Context = [IOTraversalContext]::new()
 	        for ($i = 0; $i -lt $directoriesBatch.Length; $i ++) {
                 [void] $Context.Nodes.AddLast($directoriesBatch[$i]) # [void] -> 避免輸出 Nodes (LinkedList) 訊息到 console
@@ -48,10 +41,10 @@ class IOFileDiscovery {
     [ScriptBlock] DiscoverAll (
         [System.Collections.Generic.IEnumerable[string]] $directoriesBatch
     ) {
-        [string]$file_Filter = $this.FileFilter
+        [string]$file_Filter = $this.DiscoveryRequest.FileFilter
         [string]$directory_Filter = $this.DirectoryFilter
-        [TraversalStrategy]$traversal_Strategy = $this.TraversalStrategy
-        [TraversalOptions]$traversal_Options = $this.TraversalOptions
+        [TraversalStrategy]$traversal_Strategy = $this.DiscoveryRequest.TraversalStrategy
+        [TraversalOptions]$traversal_Options = $this.DiscoveryRequest.TraversalOptions
         return {
             param()
             [System.IO.EnumerationOptions]$enumOpts = [IOTraversalOptionsConverter]::ToEnumerationOptions($traversal_Options)

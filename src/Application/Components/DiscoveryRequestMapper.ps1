@@ -8,12 +8,20 @@ class DiscoveryRequestMapper {
         [string] $fileFilter,
         [TraversalOptions] $traversalOptions,
         [bool] $recurseSubdirectories,
-        [bool] $depthFirst
+        [string] $traversalStrategyToken
     ) {
+        [TraversalPolicyAssertions]::AssertRequest($recurseSubdirectories, $traversalStrategyToken) # Invariant Exception
         [TraversalScope]$traversalScope = [TraversalPolicyAssembler]::ResolveScope($recurseSubdirectories)
-        [TraversalStrategy]$traversalStrategy = [TraversalPolicyAssembler]::ResolveStrategy($depthFirst)
+        [TraversalStrategy]$traversalStrategy = if ($traversalStrategyToken) {
+            [DiscoveryRequestParser]::ParseTraversalStrategy( # Parsing Exception
+                [TraversalStrategyNormalizer]::NormalizeStrategyToken($traversalStrategyToken), # Normalization Exception
+                [TraversalStrategyComparison]::Comparison
+            )
+        } else { [TraversalPolicyDefaults]::RecursiveDefault }
+        [ApplicationParameter]$semanticIdentity = [ApplicationParameter]::DiscoveryRequest
+        [string]$semanticName = $semanticIdentity.ToString()
         try {
-            return [DiscoveryRequest]::new(
+            return [DiscoveryRequestSelector]::Select(
                 $directoryPath,
                 $childNames,
                 $fileFilter,
@@ -22,8 +30,6 @@ class DiscoveryRequestMapper {
                 $traversalStrategy
             )
         } catch [DomainException] {
-            [ApplicationParameter]$semanticIdentity = [ApplicationParameter]::DiscoveryRequest
-            [string]$semanticName = $semanticIdentity.ToString()
             throw [UseCaseInvariantViolationException]::new(
                 [DiscoveryRequestMapper]::Component, # ComponentName
                 [ApplicationExceptionContext]::TranslateSemanticTokensToDomainModel, # Context

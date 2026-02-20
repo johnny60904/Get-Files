@@ -52,7 +52,7 @@ class DiscoveryOptionsMapper {
                 $_.Exception # InnerException
             )
         }
-        try { [TraversalRules]::AssertAdvancedOptionsValid($traversalOptions) } catch [DomainException] {
+        try {  } catch [DomainException] {
             throw [UseCaseInvariantViolationException]::new(
                 [DiscoveryOptionsMapper]::Component, # ComponentName
                 [ApplicationExceptionContext]::TranslateSemanticTokensToDomainModel, # Context

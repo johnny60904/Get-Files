@@ -1,0 +1,46 @@
+class DiscoveryRequestSelector {
+    
+    hidden static [string] $Component = 'DiscoveryRequestSelector'
+    
+    static [DiscoveryRequest] Select (
+        [string] $directoryPath,
+        [string[]] $childNames,
+        [string] $fileFilter,
+        [TraversalOptions] $traversalOptions,
+        [TraversalScope] $traversalScope,
+        [TraversalStrategy] $traversalStrategy
+    ) {
+        switch ($traversalScope) {
+            ([TraversalScope]::Shallow) {
+                return [DiscoveryRequest]::new(
+                    $directoryPath,
+                    $childNames,
+                    $fileFilter,
+                    $traversalOptions,
+                    $traversalScope
+                )
+            }
+            ([TraversalScope]::Recurse) {
+                return [DiscoveryRequest]::new(
+                    $directoryPath,
+                    $childNames,
+                    $fileFilter,
+                    $traversalOptions,
+                    $traversalScope,
+                    $traversalStrategy
+                )
+            }
+            default {
+                throw [System.InvalidOperationException]::new(
+                    "Unknown identifier name for [TraversalScope] in Select."
+                )
+            }
+        }
+        # Unreachable
+        throw [System.InvalidOperationException]::new(
+            "Unreachable code path in Select."
+        )
+        
+    }
+    
+}

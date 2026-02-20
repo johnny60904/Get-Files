@@ -22,7 +22,7 @@ $dft = New-FilesOptions
 $dftAdv = New-FilesAdvancedOptions
 [System.Console]::WriteLine("`n`nNew-FilesAdvancedOptions  Default:`n`n$(ConvertTo-Json $dftAdv)")
 
-$opt = New-FilesOptions -IgnoreErrors $false -CaseSensitivity 'Sensitive'
+$opt = New-FilesOptions -IgnoreErrors $false -CaseSensitivity 'Sensitive' -RecurseMode 'Breadth'
 [System.Console]::WriteLine("`n`nNew-FilesOptions:`n`n$(ConvertTo-Json $opt)")
 
 $optAdv = New-FilesAdvancedOptions -BufferSizeKB 64 -ExcludeAttributes @('Hidden', 'System', 'Archive', 'Device')
@@ -35,7 +35,8 @@ $optAdv = New-FilesAdvancedOptions -BufferSizeKB 64 -ExcludeAttributes @('Hidden
 [string]$recurTestDirSha = [System.IO.Path]::GetFullPath([System.IO.Path]::Join($PSScriptRoot, '..', 'data', 'RecursionShallowTest'))
 [string]$recurTestDir = [System.IO.Path]::GetFullPath([System.IO.Path]::Join($PSScriptRoot, '..', 'data', 'RecursionStructureTest'))
 
-$Options = New-FilesOptions -IgnoreErrors $true -CaseSensitivity 'Auto'
+$OptionsDFS = New-FilesOptions -IgnoreErrors $true -CaseSensitivity 'Auto' -RecurseMode 'Depth'
+$OptionsBFS = New-FilesOptions -IgnoreErrors $true -CaseSensitivity 'Auto' -RecurseMode 'Breadth'
 $Advanced = New-FilesAdvancedOptions -BufferSizeKB 0 -ExcludeAttributes @('Hidden', 'System', 'ReadOnly')
 
 try {
@@ -49,17 +50,7 @@ try {
 [System.Console]::WriteLine("`n`n=====================================`n`n")
 
 try {
-    [System.Console]::WriteLine("`n`nGet-Files DFS:`n`n")
-    Get-Files -Path $recurTestDir -Recurse -DepthFirst
-} catch {
-    Write-Output $_
-    Write-Output $_.Exception.InnerException
-}
-
-[System.Console]::WriteLine("`n`n=====================================`n`n")
-
-try {
-    [System.Console]::WriteLine("`n`nGet-Files BFS:`n`n")
+    [System.Console]::WriteLine("`n`nGet-Files Default:`n`n")
     Get-Files -Path $recurTestDir -Recurse
 } catch {
     Write-Output $_
@@ -69,8 +60,28 @@ try {
 [System.Console]::WriteLine("`n`n=====================================`n`n")
 
 try {
+    [System.Console]::WriteLine("`n`nGet-Files DFS:`n`n")
+    Get-Files -Path $recurTestDir -Recurse -Options $OptionsDFS
+} catch {
+    Write-Output $_
+    Write-Output $_.Exception.InnerException
+}
+
+[System.Console]::WriteLine("`n`n=====================================`n`n")
+
+try {
+    [System.Console]::WriteLine("`n`nGet-Files BFS:`n`n")
+    Get-Files -Path $recurTestDir -Recurse -Options $OptionsBFS
+} catch {
+    Write-Output $_
+    Write-Output $_.Exception.InnerException
+}
+
+[System.Console]::WriteLine("`n`n=====================================`n`n")
+
+try {
     [System.Console]::WriteLine("`n`nGet-Files DFS Switch Flags (System, ReadOnly):`n`n")
-    Get-Files -Path $recurTestDir -Recurse -DepthFirst -ExcludeReadOnly -ExcludeSystem
+    Get-Files -Path $recurTestDir -Recurse -Options $OptionsDFS -ExcludeReadOnly -ExcludeSystem
 } catch {
     Write-Output $_
     Write-Output $_.Exception.InnerException
@@ -80,7 +91,7 @@ try {
 
 try {
     [System.Console]::WriteLine("`n`nGet-Files BFS Switch Flags (Hidden):`n`n")
-    Get-Files -Path $recurTestDir -Recurse -ExcludeHidden
+    Get-Files -Path $recurTestDir -Recurse -Options $OptionsBFS -ExcludeHidden
 } catch {
     Write-Output $_
     Write-Output $_.Exception.InnerException
@@ -90,7 +101,7 @@ try {
 
 try {
     [System.Console]::WriteLine("`n`nGet-Files DFS Switch Pipeline (System, ReadOnly):`n`n")
-    $recurTestDir | Get-Files -Recurse -DepthFirst -ExcludeReadOnly -ExcludeSystem
+    $recurTestDir | Get-Files -Recurse -Options $OptionsDFS -ExcludeReadOnly -ExcludeSystem
 } catch {
     Write-Output $_
     Write-Output $_.Exception.InnerException
@@ -100,7 +111,7 @@ try {
 
 try {
     [System.Console]::WriteLine("`n`nGet-Files BFS Switch Pipeline (Hidden):`n`n")
-    $recurTestDir | Get-Files -Recurse -ExcludeHidden
+    $recurTestDir | Get-Files -Recurse -Options $OptionsBFS -ExcludeHidden
 } catch {
     Write-Output $_
     Write-Output $_.Exception.InnerException
@@ -123,22 +134,22 @@ Test-UseCase
 [System.Console]::WriteLine("`n`n=====================================`n`n")
 
 [System.Console]::WriteLine("`n`nDirect Cmdlet Get-Files Call - Current:`n`n")
-Get-Files -Path $recurTestDir -DepthFirst
+Get-Files -Path $recurTestDir
 
 [System.Console]::WriteLine("`n`n=====================================`n`n")
 
 [System.Console]::WriteLine("`n`nDirect Cmdlet Get-Files Call - Recurse:`n`n")
-Get-Files -Path $recurTestDir -Recurse -DepthFirst
+Get-Files -Path $recurTestDir -Recurse -Options $OptionsDFS
 
 [System.Console]::WriteLine("`n`n=====================================`n`n")
 
 [System.Console]::WriteLine("`n`nDirect Cmdlet Get-Files Pipeline Call - Recurse:`n`n")
-$recurTestDir | Get-Files -Recurse -DepthFirst
+$recurTestDir | Get-Files -Recurse -Options $OptionsDFS
 
 [System.Console]::WriteLine("`n`n=====================================`n`n")
 
 [System.Console]::WriteLine("`n`nTest if true lazy - Recurse:`n`n") # 立刻停止 (只吐一個) -> lazy; 否則是 eager
-$recurTestDir | Get-Files -Recurse -DepthFirst | Select-Object -First 1
+$recurTestDir | Get-Files -Recurse -Options $OptionsDFS | Select-Object -First 1
 
 [System.Console]::WriteLine("`n`n=====================================`n`n")
 

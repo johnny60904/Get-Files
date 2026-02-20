@@ -1,7 +1,12 @@
+. "$PSScriptRoot/Defaults/_PreLoad.ps1"
 . "$PSScriptRoot/Comparisons/_PreLoad.ps1"
+. "$PSScriptRoot/Assertions/_PreLoad.ps1"
 . "$PSScriptRoot/Assemblers/_PreLoad.ps1"
+. "$PSScriptRoot/Normalizers/_PreLoad.ps1"
 
 . "$PSScriptRoot/DiscoveryOptionsFactory.ps1"
 . "$PSScriptRoot/DiscoveryOptionsParser.ps1"
 . "$PSScriptRoot/DiscoveryOptionsMapper.ps1"
+. "$PSScriptRoot/DiscoveryRequestParser.ps1"
+. "$PSScriptRoot/DiscoveryRequestSelector.ps1"
 . "$PSScriptRoot/DiscoveryRequestMapper.ps1"
