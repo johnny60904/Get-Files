@@ -20,6 +20,19 @@ class StringTokenResolver {
         return $matched
     }
     
+    static [string] ResolveEndsWithExactCandidate (
+        [string] $value,
+        [string[]] $candidates,
+        [System.StringComparison] $comparison
+    ) {
+        for ($i = 0; $i -lt $candidates.Length; $i ++) {
+            if ($value.EndsWith($candidates[$i])) {
+                return ($candidates[$i])
+            }
+        }
+        return $null
+    }
+    
     # 必須剛剛好, 如 $candidates = @('AB', 'CD'), $value = 'testaBcD' -> X; $value = 'aB' -> V
     static [string] ResolveExactCandidate (
         [string] $value,

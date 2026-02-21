@@ -24,14 +24,13 @@ function Get-Files {
         
         # ------------------ 共用參數 ------------------
         
-        # 可空 (不指定), 就變成遍歷並收集 $Path 下所有檔案
         [Parameter(Position = 1, ParameterSetName = 'ByValue')]
         [Parameter(Position = 0, ParameterSetName = 'ByPipeline')]
         [ValidateScript({
-            [IOPathSegmentValidators]::ValidateFolderNameSyntax($_, 'FilterNames')
+            [FileNamePatternValidators]::ValidateFileNamePattern($_, 'Exclude')
             return $true
         })]
-        [string[]] $FilterNames = @(), # ChildNames
+        [string[]] $Exclude, # ExcludeNames
         
         [Parameter(Position = 2, ParameterSetName = 'ByValue')]
         [Parameter(Position = 1, ParameterSetName = 'ByPipeline')]
@@ -114,7 +113,7 @@ function Get-Files {
         try {
             [DiscoveryRequest]$request = [DiscoveryRequestMapper]::Map(
                 $directory,
-                $FilterNames,
+                $Exclude,
                 $Filter,
                 $traversalOptions,
                 $RecurseFlag,

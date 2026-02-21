@@ -9,7 +9,7 @@
 
 . "$PSScriptRoot/Resolvers/_PreLoad.ps1"
 
-. "$PSScriptRoot/PathSeparatorTokens.ps1"
+# . "$PSScriptRoot/PathSeparatorTokens.ps1"
 . "$PSScriptRoot/DirectoryNavigationTokens.ps1"
 . "$PSScriptRoot/DirectoryNavigationTokenBuilder.ps1"
 

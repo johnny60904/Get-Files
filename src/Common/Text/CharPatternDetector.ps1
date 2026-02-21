@@ -2,10 +2,10 @@ class CharPatternDetector {
     
     static [bool] StartsWithAny (
         [string] $value,
-        [char[]] $tokens
+        [char[]] $candidates
     ) {
-        for ($i = 0; $i -lt $tokens.Length; $i ++) {
-            if (($value.StartsWith($tokens[$i]))) {
+        for ($i = 0; $i -lt $candidates.Length; $i ++) {
+            if (($value.StartsWith($candidates[$i]))) {
                 return $true
             }
         }
@@ -14,10 +14,10 @@ class CharPatternDetector {
     
     static [bool] EndsWithAny (
         [string] $value,
-        [char[]] $tokens
+        [char[]] $candidates
     ) {
-        for ($i = 0; $i -lt $tokens.Length; $i ++) {
-            if (($value.EndsWith($tokens[$i]))) {
+        for ($i = 0; $i -lt $candidates.Length; $i ++) {
+            if (($value.EndsWith($candidates[$i]))) {
                 return $true
             }
         }

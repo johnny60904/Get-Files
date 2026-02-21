@@ -4,7 +4,7 @@ class DiscoveryRequestMapper {
     
     static [DiscoveryRequest] Map (
         [string] $directoryPath,
-        [string[]] $childNames,
+        [string[]] $excludeNames,
         [string] $fileFilter,
         [TraversalOptions] $traversalOptions,
         [bool] $recurseSubdirectories,
@@ -23,7 +23,7 @@ class DiscoveryRequestMapper {
         try {
             return [DiscoveryRequestSelector]::Select(
                 $directoryPath,
-                $childNames,
+                $excludeNames,
                 $fileFilter,
                 $traversalOptions,
                 $traversalScope,

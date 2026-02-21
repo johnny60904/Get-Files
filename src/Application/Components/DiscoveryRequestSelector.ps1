@@ -4,7 +4,7 @@ class DiscoveryRequestSelector {
     
     static [DiscoveryRequest] Select (
         [string] $directoryPath,
-        [string[]] $childNames,
+        [string[]] $excludeNames,
         [string] $fileFilter,
         [TraversalOptions] $traversalOptions,
         [TraversalScope] $traversalScope,
@@ -14,7 +14,7 @@ class DiscoveryRequestSelector {
             ([TraversalScope]::Shallow) {
                 return [DiscoveryRequest]::new(
                     $directoryPath,
-                    $childNames,
+                    $excludeNames,
                     $fileFilter,
                     $traversalOptions,
                     $traversalScope
@@ -23,7 +23,7 @@ class DiscoveryRequestSelector {
             ([TraversalScope]::Recurse) {
                 return [DiscoveryRequest]::new(
                     $directoryPath,
-                    $childNames,
+                    $excludeNames,
                     $fileFilter,
                     $traversalOptions,
                     $traversalScope,

@@ -2,10 +2,10 @@ class StringPatternDetector {
     
     static [bool] StartsWithAny (
         [string] $value,
-        [string[]] $tokens
+        [string[]] $candidates
     ) {
-        for ($i = 0; $i -lt $tokens.Length; $i ++) {
-            if (($value.StartsWith($tokens[$i]))) {
+        for ($i = 0; $i -lt $candidates.Length; $i ++) {
+            if (($value.StartsWith($candidates[$i]))) {
                 return $true
             }
         }

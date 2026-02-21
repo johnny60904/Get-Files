@@ -1,7 +1,7 @@
 class DiscoveryRequest {
     
     [string] $DirectoryPath
-    [string[]] $ChildNames
+    [string[]] $ExcludeNames
     [string] $FileFilter
     [TraversalOptions] $TraversalOptions
     [TraversalScope] $TraversalScope
@@ -9,7 +9,7 @@ class DiscoveryRequest {
     
     DiscoveryRequest ( # Shallow
         [string] $directoryPath,
-        [string[]] $childNames,
+        [string[]] $excludeNames,
         [string] $fileFilter,
         [TraversalOptions] $traversalOptions,
         [TraversalScope] $traversalScope
@@ -18,7 +18,7 @@ class DiscoveryRequest {
         [DiscoveryRequestAssertions]::AssertFileFilterMeaningful($fileFilter)
         [DiscoveryRequestAssertions]::AssertShallowRequest($traversalScope)
         $this.DirectoryPath = $directoryPath
-        $this.ChildNames = $childNames
+        $this.ExcludeNames = $excludeNames
         $this.FileFilter = $fileFilter
         $this.TraversalOptions = $traversalOptions
         $this.TraversalScope = $traversalScope
@@ -26,7 +26,7 @@ class DiscoveryRequest {
     
     DiscoveryRequest ( # Recurse
         [string] $directoryPath,
-        [string[]] $childNames,
+        [string[]] $excludeNames,
         [string] $fileFilter,
         [TraversalOptions] $traversalOptions,
         [TraversalScope] $traversalScope,
@@ -36,7 +36,7 @@ class DiscoveryRequest {
         [DiscoveryRequestAssertions]::AssertFileFilterMeaningful($fileFilter)
         [DiscoveryRequestAssertions]::AssertRecursiveRequest($traversalScope)
         $this.DirectoryPath = $directoryPath
-        $this.ChildNames = $childNames
+        $this.ExcludeNames = $excludeNames
         $this.FileFilter = $fileFilter
         $this.TraversalOptions = $traversalOptions
         $this.TraversalScope = $traversalScope

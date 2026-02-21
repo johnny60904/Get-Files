@@ -1,5 +1,23 @@
 class IOPathResolver {
     
+    static [string] ResolvePath (
+        [string] $path
+    ) {
+        [string]$resolved = [StringTokenResolver]::ResolveEndsWithExactCandidate(
+            $path,
+            [string[]]([PathSeparatorTokens]::Tokens),
+            [StringComparisonDefault]::Default
+        )
+        if ($resolved) { # e.g. 'C:/demo\test\' / 'D/:demo\test/' -> '\' or '/'
+            return [System.IO.Path]::GetFullPath(
+                [StringPrunator]::RemoveCandidateAndTrim($path, $resolved)
+            )
+        } else {
+            return [System.IO.Path]::GetFullPath($path)
+        }
+        
+    }
+    
     static [string] ResolveChildDirectoryPath (
         [string] $parentDirectory,
         [string] $childName

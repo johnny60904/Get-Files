@@ -2,6 +2,7 @@
 . "$PSScriptRoot/StringMatchSelector.ps1"
 . "$PSScriptRoot/StringTokenPredicate.ps1"
 . "$PSScriptRoot/StringComposer.ps1"
+. "$PSScriptRoot/StringPrunator.ps1"
 . "$PSScriptRoot/StringPatternDetector.ps1"
 . "$PSScriptRoot/StringComparisonInspector.ps1"
 . "$PSScriptRoot/TokenOccurrenceSelector.ps1"

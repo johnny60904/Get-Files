@@ -41,7 +41,7 @@ $Advanced = New-FilesAdvancedOptions -BufferSizeKB 0 -ExcludeAttributes @('Hidde
 
 try {
     [System.Console]::WriteLine("`n`nGet-Files Specified Shallow:`n`n")
-    Get-Files -Path $recurTestDirSha -FilterNames @('a', 'b', 'c')
+    Get-Files -Path $recurTestDirSha
 } catch {
     Write-Output $_
     Write-Output $_.Exception.InnerException
@@ -112,6 +112,26 @@ try {
 try {
     [System.Console]::WriteLine("`n`nGet-Files BFS Switch Pipeline (Hidden):`n`n")
     $recurTestDir | Get-Files -Recurse -Options $OptionsBFS -ExcludeHidden
+} catch {
+    Write-Output $_
+    Write-Output $_.Exception.InnerException
+}
+
+[System.Console]::WriteLine("`n`n=====================================`n`n")
+
+try {
+    [System.Console]::WriteLine("`n`nGet-Files BFS Switch Pipeline (Hidden) Exclude ('C'):`n`n")
+    $recurTestDir | Get-Files -Recurse -Exclude @('C', 'C*.txt') -Options $OptionsBFS -ExcludeHidden
+} catch {
+    Write-Output $_
+    Write-Output $_.Exception.InnerException
+}
+
+[System.Console]::WriteLine("`n`n=====================================`n`n")
+
+try {
+    [System.Console]::WriteLine("`n`nGet-Files DFS Switch Pipeline (Hidden) Exclude ('B'):`n`n")
+    $recurTestDir | Get-Files -Recurse -Exclude @('B', 'B*.txt') -Options $OptionsDFS -ExcludeHidden
 } catch {
     Write-Output $_
     Write-Output $_.Exception.InnerException

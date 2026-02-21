@@ -41,7 +41,7 @@ class FileNamePatternPredicate {
     static [bool] IsRootedPathStructureContained (
         [string] $pattern
     ) {
-        return $pattern.IsPathRooted($pattern)
+        return [System.IO.Path]::IsPathRooted($pattern)
     }
     
     static [bool] IsEqualToDotDirectory (
