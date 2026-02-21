@@ -1,5 +1,8 @@
+. "$PSScriptRoot/StringComparisonDefault.ps1"
 . "$PSScriptRoot/StringMatchSelector.ps1"
 . "$PSScriptRoot/StringTokenPredicate.ps1"
+. "$PSScriptRoot/StringComposer.ps1"
+. "$PSScriptRoot/StringPatternDetector.ps1"
 . "$PSScriptRoot/StringComparisonInspector.ps1"
 . "$PSScriptRoot/TokenOccurrenceSelector.ps1"
 . "$PSScriptRoot/SymbolResolver.ps1"

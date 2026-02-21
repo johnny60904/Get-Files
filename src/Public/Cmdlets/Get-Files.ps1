@@ -36,10 +36,10 @@ function Get-Files {
         [Parameter(Position = 2, ParameterSetName = 'ByValue')]
         [Parameter(Position = 1, ParameterSetName = 'ByPipeline')]
         [ValidateScript({
-            [FileFilterPatternValidators]::ValidateFileFilterPattern($_, 'Filter')
+            [FileNamePatternValidators]::ValidateFileNamePattern($_, 'Filter')
             return $true
         })]
-        [string] $Filter = "*.*", # FileFilter
+        [string] $Filter = "*", # FileFilter
         
         [Parameter()]
         [switch] $Recurse,

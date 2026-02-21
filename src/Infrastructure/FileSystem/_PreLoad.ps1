@@ -9,8 +9,12 @@
 
 . "$PSScriptRoot/Resolvers/_PreLoad.ps1"
 
-. "$PSScriptRoot/ExclusiveFileFilterPatternPredicate.ps1"
-. "$PSScriptRoot/FileFilterExtractor.ps1"
+. "$PSScriptRoot/PathSeparatorTokens.ps1"
+. "$PSScriptRoot/DirectoryNavigationTokens.ps1"
+. "$PSScriptRoot/DirectoryNavigationTokenBuilder.ps1"
+
+. "$PSScriptRoot/FileNamePattern/_PreLoad.ps1"
+
 . "$PSScriptRoot/FileSystemExistenceProbe.ps1"
 . "$PSScriptRoot/IOPathInvalidChars.ps1"
 . "$PSScriptRoot/IOPathExtractor.ps1"

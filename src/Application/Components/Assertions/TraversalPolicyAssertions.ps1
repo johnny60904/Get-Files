@@ -16,7 +16,7 @@ class TraversalPolicyAssertions {
                 [ApplicationExceptionReason]::InvariantViolation, # Reason
                 $semanticIdentity, # FieldName
                 $traversalStrategyToken, # TargetObject
-                "$($semanticName) only allowed for recursive traversal." # Message
+                "$($semanticName) only allowed for qualified $(([ApplicationParameter]::TraversalScope).ToString())." # Message
             )
         }
     }

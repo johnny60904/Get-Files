@@ -1,0 +1,5 @@
+. "$PSScriptRoot/FileWildcardPatterns.ps1"
+. "$PSScriptRoot/FileNamePatternPredicate.ps1"
+. "$PSScriptRoot/FileNamePatternClassifier.ps1"
+. "$PSScriptRoot/FileNamePatternTransformer.ps1"
+. "$PSScriptRoot/FileNamePatternResolver.ps1"

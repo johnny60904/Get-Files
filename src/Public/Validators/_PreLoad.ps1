@@ -3,4 +3,4 @@
 . "$PSScriptRoot/IOPathSyntaxValidators.ps1"
 . "$PSScriptRoot/IOPathSegmentValidators.ps1"
 . "$PSScriptRoot/FileSystemStateValidators.ps1"
-. "$PSScriptRoot/FileFilterPatternValidators.ps1"
+. "$PSScriptRoot/FileNamePatternValidators.ps1"
