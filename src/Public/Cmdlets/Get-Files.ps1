@@ -1,12 +1,12 @@
 
 function Get-Files {
 # TODO: Add Comment-Based Help
-    [CmdletBinding(DefaultParameterSetName = 'ByValue')]
+    [CmdletBinding()]
     param(
         
         # ------------------ 核心參數 ------------------
         
-        [Parameter(Mandatory, Position = 0, ParameterSetName = 'ByValue')]
+        [Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName)]
         [ValidateScript({
             [IOPathSyntaxValidators]::ValidateAbsolutePathSyntax($_, 'Path')
             [FileSystemStateValidators]::ValidateDirectoryExistence($_, 'Path')
@@ -14,44 +14,28 @@ function Get-Files {
         })]
         [string] $Path, # DirectoryPath
         
-        [Parameter(Mandatory, ValueFromPipeline, ValueFromPipelineByPropertyName, ParameterSetName = 'ByPipeline')]
-        [ValidateScript({
-            [IOPathSyntaxValidators]::ValidateAbsolutePathSyntax($_, 'InputPath')
-            [FileSystemStateValidators]::ValidateDirectoryExistence($_, 'InputPath')
-            return $true
-        })]
-        [string] $InputPath, # # DirectoryPath
-        
         # ------------------ 共用參數 ------------------
         
-        [Parameter(Position = 1, ParameterSetName = 'ByValue')]
-        [Parameter(Position = 0, ParameterSetName = 'ByPipeline')]
         [ValidateScript({
             [FileNamePatternValidators]::ValidateFileNamePattern($_, 'Exclude')
             return $true
         })]
         [string[]] $Exclude, # ExcludeNames
         
-        [Parameter(Position = 2, ParameterSetName = 'ByValue')]
-        [Parameter(Position = 1, ParameterSetName = 'ByPipeline')]
         [ValidateScript({
             [FileNamePatternValidators]::ValidateFileNamePattern($_, 'Filter')
             return $true
         })]
         [string] $Filter = "*", # FileFilter
         
-        [Parameter()]
         [switch] $Recurse,
         
         # ------------------ Default switches ------------------
         
-        [Parameter()]
         [switch] $ExcludeHidden,
         
-        [Parameter()]
         [switch] $ExcludeSystem,
         
-        [Parameter()]
         [switch] $ExcludeReadonly,
         
         # ------------------ Options 相合組合 / 不互斥 ------------------
@@ -61,12 +45,8 @@ function Get-Files {
         # 但也會 powershell 原生自動噴錯, 等於第一層防護了
         # ------------------------------------------------
         
-        [Parameter(Position = 3, ParameterSetName = 'ByValue')]
-        [Parameter(Position = 2, ParameterSetName = 'ByPipeline')]
         [FilesOptions] $Options = (New-FilesOptions),
         
-        [Parameter(Position = 4, ParameterSetName = 'ByValue')]
-        [Parameter(Position = 3, ParameterSetName = 'ByPipeline')]
         [FilesAdvancedOptions] $Advanced = (New-FilesAdvancedOptions)
         
     )
@@ -75,25 +55,6 @@ function Get-Files {
         [bool]$ExcludeHiddenFlag = if ($ExcludeHidden.IsPresent) { $true } else { $false }
         [bool]$ExcludeSystemFlag = if ($ExcludeSystem.IsPresent) { $true } else { $false }
         [bool]$ExcludeReadonlyFlag = if ($ExcludeReadonly.IsPresent) { $true } else { $false }
-    }
-    process {
-        [string]$directory = $null
-        switch ($PSCmdlet.ParameterSetName) {
-            'ByValue' { [string]$directory = $Path }
-            'ByPipeline' { [string]$directory = $InputPath }
-            default {
-                [System.InvalidOperationException]$excp = [System.InvalidOperationException]::new(
-                    "Unknown parameter set in Get-Files."
-                )
-                [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::CreateFromException(
-                    $excp,
-                    'ParameterSetUnsupported',
-                    [System.Management.Automation.ErrorCategory]::InvalidOperation,
-                    $null
-                )
-                $PSCmdlet.ThrowTerminatingError($err)
-            }
-        }
         try {
             [TraversalOptions]$traversalOptions = [DiscoveryOptionsMapper]::Map(
                 $Options.IgnoreErrors,
@@ -110,9 +71,12 @@ function Get-Files {
             )
             $PSCmdlet.ThrowTerminatingError($err)
         }
+    }
+    process {
+        
         try {
             [DiscoveryRequest]$request = [DiscoveryRequestMapper]::Map(
-                $directory,
+                $Path,
                 $Exclude,
                 $Filter,
                 $traversalOptions,
