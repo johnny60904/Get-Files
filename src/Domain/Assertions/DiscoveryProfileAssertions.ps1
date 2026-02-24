@@ -41,7 +41,7 @@ class DiscoveryProfileAssertions {
     static [void] AssertShallowProfile (
         [TraversalScope] $traversalScope
     ) {
-        if (-not ([DiscoveryProfileRules]::IsShallowProfile($traversalScope))) {
+        if (-not ([DiscoveryProfileRules]::IsShallowRequest($traversalScope))) {
             [string]$semanticIdentity = [DomainModelSemanticNames]::TraversalScope
             [string]$semanticName = $semanticIdentity.ToString()
             throw [DomainRuleViolationException]::new(
@@ -57,7 +57,7 @@ class DiscoveryProfileAssertions {
     static [void] AssertRecursiveProfile (
         [TraversalScope] $traversalScope
     ) {
-        if (-not ([DiscoveryProfileRules]::IsRecursiveProfile($traversalScope))) {
+        if (-not ([DiscoveryProfileRules]::IsRecursiveRequest($traversalScope))) {
             [string]$semanticIdentity = [DomainModelSemanticNames]::TraversalScope
             [string]$semanticName = $semanticIdentity.ToString()
             throw [DomainRuleViolationException]::new(

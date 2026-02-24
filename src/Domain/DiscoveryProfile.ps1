@@ -40,4 +40,34 @@ class DiscoveryProfile {
         $this.TraversalStrategy = $traversalStrategy
     }
     
+    static [DiscoveryProfile] CreateShallowProfile (
+        [string[]] $excludeNames,
+        [string] $fileFilter,
+        [TraversalOptions] $traversalOptions,
+        [TraversalScope] $traversalScope
+    ) {
+        return [DiscoveryProfile]::new(
+            $excludeNames,
+            $fileFilter,
+            $traversalOptions,
+            $traversalScope
+        )
+    }
+    
+    static [DiscoveryProfile] CreateRecursiveProfile (
+        [string[]] $excludeNames,
+        [string] $fileFilter,
+        [TraversalOptions] $traversalOptions,
+        [TraversalScope] $traversalScope,
+        [TraversalStrategy] $traversalStrategy
+    ) {
+        return [DiscoveryProfile]::new(
+            $excludeNames,
+            $fileFilter,
+            $traversalOptions,
+            $traversalScope,
+            $traversalStrategy
+        )
+    }
+    
 }

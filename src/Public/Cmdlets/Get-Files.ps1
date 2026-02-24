@@ -88,7 +88,7 @@ function Get-Files {
     }
     process {
         try {
-            [string]$resolvedPath = [DiscoveryyRequestResolver]::ResolveDirectoryPathRaw($Path)
+            [string]$resolvedPath = [DiscoveryRequestResolver]::ResolveDirectoryPathRaw($Path)
         } catch [ApplicationException] {
             [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::CreateFromApplicationException(
                 $_.Exception

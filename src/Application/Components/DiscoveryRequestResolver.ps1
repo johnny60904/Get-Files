@@ -1,6 +1,6 @@
-class DiscoveryyRequestResolver {
+class DiscoveryRequestResolver {
     
-    hidden static [string] $Component = 'DiscoveryyRequestResolver'
+    hidden static [string] $Component = 'DiscoveryRequestResolver'
     
     static [string] ResolveDirectoryPathRaw (
         [string] $directoryPath
@@ -11,7 +11,7 @@ class DiscoveryyRequestResolver {
             [ApplicationParameter]$semanticIdentity = [ApplicationParameter]::DirectoryPath
             [string]$semanticName = $semanticIdentity.ToString()
             throw [UseCaseResolvingException]::new(
-                [DiscoveryyRequestResolver]::Component, # ComponentName
+                [DiscoveryRequestResolver]::Component, # ComponentName
                 [ApplicationExceptionContext]::ResolveInputPath, # Context
                 [ApplicationExceptionReason]::ResolutionFailure, # Reason
                 $semanticIdentity, # FieldName

@@ -6,7 +6,7 @@
 
 . "$PSScriptRoot/DiscoveryOptionsFactory.ps1"
 . "$PSScriptRoot/DiscoveryRequestFactory.ps1"
-. "$PSScriptRoot/DiscoveryyRequestResolver.ps1"
+. "$PSScriptRoot/DiscoveryRequestResolver.ps1"
 . "$PSScriptRoot/DiscoveryOptionsParser.ps1"
 . "$PSScriptRoot/DiscoveryOptionsMapper.ps1"
 . "$PSScriptRoot/DiscoveryProfileParser.ps1"

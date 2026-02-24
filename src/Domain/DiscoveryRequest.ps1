@@ -3,7 +3,7 @@ class DiscoveryRequest {
     [string] $DirectoryPath
     [DiscoveryProfile] $DiscoveryProfile
     
-    DiscoveryRequest (
+    DiscoveryRequest ( # Shallow
         [string] $directoryPath,
         [DiscoveryProfile] $discoveryProfile
     ) {

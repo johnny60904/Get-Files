@@ -31,7 +31,7 @@ class DiscoveryProfileRules {
         }
     }
     
-    static [bool] IsShallowProfile (
+    static [bool] IsShallowRequest (
         [TraversalScope] $traversalScope
     ) {
         if (-not ($traversalScope -eq ([TraversalScope]::Shallow))) {
@@ -41,7 +41,7 @@ class DiscoveryProfileRules {
         }
     }
     
-    static [bool] IsRecursiveProfile (
+    static [bool] IsRecursiveRequest (
         [TraversalScope] $traversalScope
     ) {
         if (-not ($traversalScope -eq ([TraversalScope]::Recurse))) {

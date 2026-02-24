@@ -11,7 +11,7 @@ class DiscoveryProfileSelector {
     ) {
         switch ($traversalScope) {
             ([TraversalScope]::Shallow) {
-                return [DiscoveryProfile]::new(
+                return [DiscoveryProfile]::CreateShallowProfile(
                     $excludeNames,
                     $fileFilter,
                     $traversalOptions,
@@ -19,7 +19,7 @@ class DiscoveryProfileSelector {
                 )
             }
             ([TraversalScope]::Recurse) {
-                return [DiscoveryProfile]::new(
+                return [DiscoveryProfile]::CreateRecursiveProfile(
                     $excludeNames,
                     $fileFilter,
                     $traversalOptions,
