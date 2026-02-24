@@ -1,28 +1,26 @@
-class DiscoveryRequestMapper {
+class DiscoveryProfileMapper {
     
-    hidden static [string] $Component = 'DiscoveryRequestMapper'
+    hidden static [string] $Component = 'DiscoveryProfileMapper'
     
-    static [DiscoveryRequest] Map (
-        [string] $directoryPath,
+    static [DiscoveryProfile] Map (
         [string[]] $excludeNames,
         [string] $fileFilter,
         [TraversalOptions] $traversalOptions,
         [bool] $recurseSubdirectories,
         [string] $traversalStrategyToken
     ) {
-        [TraversalPolicyAssertions]::AssertRequest($recurseSubdirectories, $traversalStrategyToken) # Invariant Exception
+        [TraversalPolicyAssertions]::AssertProfile($recurseSubdirectories, $traversalStrategyToken) # Invariant Exception
         [TraversalScope]$traversalScope = [TraversalPolicyAssembler]::ResolveScope($recurseSubdirectories)
         [TraversalStrategy]$traversalStrategy = if ($traversalStrategyToken) {
-            [DiscoveryRequestParser]::ParseTraversalStrategy( # Parsing Exception
+            [DiscoveryProfileParser]::ParseTraversalStrategy( # Parsing Exception
                 [TraversalStrategyNormalizer]::NormalizeStrategyToken($traversalStrategyToken), # Normalization Exception
                 [TraversalStrategyComparison]::Comparison
             )
-        } else { [TraversalPolicyDefaults]::RecursiveDefault }
-        [ApplicationParameter]$semanticIdentity = [ApplicationParameter]::DiscoveryRequest
+        } else { [TraversalPolicyDefaults]::TraversalStrategyDefault }
+        [ApplicationParameter]$semanticIdentity = [ApplicationParameter]::DiscoveryProfile
         [string]$semanticName = $semanticIdentity.ToString()
         try {
-            return [DiscoveryRequestSelector]::Select(
-                $directoryPath,
+            return [DiscoveryProfileSelector]::Select(
                 $excludeNames,
                 $fileFilter,
                 $traversalOptions,
@@ -31,7 +29,7 @@ class DiscoveryRequestMapper {
             )
         } catch [DomainException] {
             throw [UseCaseInvariantViolationException]::new(
-                [DiscoveryRequestMapper]::Component, # ComponentName
+                [DiscoveryProfileMapper]::Component, # ComponentName
                 [ApplicationExceptionContext]::TranslateSemanticTokensToDomainModel, # Context
                 [ApplicationExceptionReason]::InvariantViolation, # Reason
                 $semanticIdentity, # FieldName

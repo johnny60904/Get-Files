@@ -10,12 +10,11 @@ class IOFileDiscovery {
         $this.DirectoryFilter = [DirectorySearchPatterns]::MatchAll
     }
     
-    [ScriptBlock] DiscoverCurrentLevel (
-        [string] $directory
-    ) { 
-        [string[]]$exclude_names = $this.DiscoveryRequest.ExcludeNames
-        [string]$file_Filter = $this.DiscoveryRequest.FileFilter
-        [TraversalOptions]$traversal_Options = $this.DiscoveryRequest.TraversalOptions
+    [ScriptBlock] DiscoverCurrentLevel () { 
+        [string]$directory = $this.DiscoveryRequest.DirectoryPath
+        [string[]]$exclude_names = $this.DiscoveryRequest.DiscoveryProfile.ExcludeNames
+        [string]$file_Filter = $this.DiscoveryRequest.DiscoveryProfile.FileFilter
+        [TraversalOptions]$traversal_Options = $this.DiscoveryRequest.DiscoveryProfile.TraversalOptions
         return {
             param()
             [System.IO.EnumerationOptions]$enumOpts = [IOTraversalOptionsConverter]::ToEnumerationOptions($traversal_Options)
@@ -43,14 +42,13 @@ class IOFileDiscovery {
         }.GetNewClosure()
     }
     
-    [ScriptBlock] DiscoverAll (
-        [string] $directory
-    ) {
-        [string[]]$exclude_names = $this.DiscoveryRequest.ExcludeNames
-        [string]$file_Filter = $this.DiscoveryRequest.FileFilter
+    [ScriptBlock] DiscoverAll () {
+        [string]$directory = $this.DiscoveryRequest.DirectoryPath
+        [string[]]$exclude_names = $this.DiscoveryRequest.DiscoveryProfile.ExcludeNames
+        [string]$file_Filter = $this.DiscoveryRequest.DiscoveryProfile.FileFilter
         [string]$directory_Filter = $this.DirectoryFilter
-        [TraversalStrategy]$traversal_Strategy = $this.DiscoveryRequest.TraversalStrategy
-        [TraversalOptions]$traversal_Options = $this.DiscoveryRequest.TraversalOptions
+        [TraversalStrategy]$traversal_Strategy = $this.DiscoveryRequest.DiscoveryProfile.TraversalStrategy
+        [TraversalOptions]$traversal_Options = $this.DiscoveryRequest.DiscoveryProfile.TraversalOptions
         return {
             param()
             [System.IO.EnumerationOptions]$enumOpts = [IOTraversalOptionsConverter]::ToEnumerationOptions($traversal_Options)

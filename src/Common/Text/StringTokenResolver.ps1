@@ -22,8 +22,7 @@ class StringTokenResolver {
     
     static [string] ResolveEndsWithExactCandidate (
         [string] $value,
-        [string[]] $candidates,
-        [System.StringComparison] $comparison
+        [string[]] $candidates
     ) {
         for ($i = 0; $i -lt $candidates.Length; $i ++) {
             if ($value.EndsWith($candidates[$i])) {

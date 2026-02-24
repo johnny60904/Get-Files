@@ -2,27 +2,26 @@ function Test-UseCase {
     param()
     Write-Host "`n`nDirect UseCase Call:`n"
     
-    [string[]]$recurTestDirO = [System.IO.Path]::GetFullPath([System.IO.Path]::Join($PSScriptRoot, '..', '..', '..', 'tests', 'data', 'RecursionStructureTest'))
-    [string[]]$recurTestDir = [System.IO.Path]::GetFullPath([System.IO.Path]::Join($PSScriptRoot, '..', '..', '..', 'tests', 'data', 'RecursionStructureTest'))
+    [string]$recurTestDir = [System.IO.Path]::GetFullPath([System.IO.Path]::Join($PSScriptRoot, '..', '..', '..', 'tests', 'data', 'RecursionStructureTest'))
 
     Write-Host "`n`nTest Dir:`n$($recurTestDir)`n"
     
     $trvOpts = [DiscoveryOptionsFactory]::CreateDefaultOptions()
-    $reqC = [DiscoveryRequest]::new(
-        $recurTestDirO,
+    $profC = [DiscoveryProfile]::new(
         $null,
         "*.*",
         $trvOpts,
         [TraversalScope]::Shallow
     )
-    $reqR = [DiscoveryRequest]::new(
-        $recurTestDirO,
+    $profR = [DiscoveryProfile]::new(
         $null,
         "*.*",
         $trvOpts,
         [TraversalScope]::Recurse,
         [TraversalStrategy]::DepthFirst
     )
+    $reqC = [DiscoveryRequest]::new($recurTestDir, $profC)
+    $reqR = [DiscoveryRequest]::new($recurTestDir, $profR)
     $engineC = [IOFileDiscovery]::new($reqC)
     $engineR = [IOFileDiscovery]::new($reqR)
     

@@ -1,6 +1,6 @@
 
 class TraversalPolicyDefaults {
     
-    hidden static [TraversalStrategy] $RecursiveDefault = [TraversalStrategy]::DepthFirst
+    hidden static [TraversalStrategy] $TraversalStrategyDefault = [TraversalStrategy]::DepthFirst
     
 }

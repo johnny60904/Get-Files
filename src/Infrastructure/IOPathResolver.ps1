@@ -5,12 +5,12 @@ class IOPathResolver {
     ) {
         [string]$resolved = [StringTokenResolver]::ResolveEndsWithExactCandidate(
             $path,
-            [string[]]([PathSeparatorTokens]::Tokens),
-            [StringComparisonDefault]::Default
+            [string[]]([PathSeparatorTokens]::Tokens)
         )
         if ($resolved) { # e.g. 'C:/demo\test\' / 'D/:demo\test/' -> '\' or '/'
+            [int]$resolvedIndex = [StringMeasurer]::GetIndexOfTheEnd($path)
             return [System.IO.Path]::GetFullPath(
-                [StringPrunator]::RemoveCandidateAndTrim($path, $resolved)
+                [StringPrunator]::RemoveTerminalAndTrimByIndex($path, $resolvedIndex)
             )
         } else {
             return [System.IO.Path]::GetFullPath($path)

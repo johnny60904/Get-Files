@@ -1,5 +1,6 @@
 enum DomainModelNames {
     
-    DiscoveryRequest
+    DiscoveryProfile = 1
+    DiscoveryRequest = 2
     
 }

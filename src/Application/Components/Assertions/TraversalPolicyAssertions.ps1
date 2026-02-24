@@ -3,7 +3,7 @@ class TraversalPolicyAssertions {
     
     hidden static [string] $Component = 'TraversalPolicyAssertions'
     
-    static [void] AssertRequest (
+    static [void] AssertProfile (
         [bool] $recurseSubdirectories,
         [string] $traversalStrategyToken
     ) {
@@ -16,7 +16,7 @@ class TraversalPolicyAssertions {
                 [ApplicationExceptionReason]::InvariantViolation, # Reason
                 $semanticIdentity, # FieldName
                 $traversalStrategyToken, # TargetObject
-                "$($semanticName) only allowed for qualified $(([ApplicationParameter]::TraversalScope).ToString())." # Message
+                "$($semanticName) only allowed for corresponded $(([ApplicationParameter]::TraversalScope).ToString())." # Message
             )
         }
     }

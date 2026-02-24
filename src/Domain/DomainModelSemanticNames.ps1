@@ -1,12 +1,13 @@
 enum DomainModelSemanticNames {
     
     DirectoryPath = 1
-    ChildNames = 2
-    FileFilter = 3
-    TraversalOptions = 4
-    TraversalScope = 5
-    TraversalStrategy = 6
-    NameCaseSensitivity = 7
-    SkipFileAttributes = 8
-    
+    ExcludeName = 2
+    ExcludeNames = 3
+    FileFilter = 4
+    TraversalOptions = 5
+    TraversalScope = 6
+    TraversalStrategy = 7
+    NameCaseSensitivity = 8
+    SkipFileAttributes = 9
+        
 }

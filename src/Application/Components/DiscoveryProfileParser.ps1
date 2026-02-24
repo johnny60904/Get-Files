@@ -1,6 +1,6 @@
-class DiscoveryRequestParser {
+class DiscoveryProfileParser {
     
-    hidden static [string] $Component = 'DiscoveryRequestParser'
+    hidden static [string] $Component = 'DiscoveryProfileParser'
     
     static [bool] TryParseTraversalStrategy (
         [string] $traversalStrategy,
@@ -23,7 +23,7 @@ class DiscoveryRequestParser {
         [string]$semanticName = $semanticIdentity.ToString()
         if ([System.String]::IsNullOrWhiteSpace($traversalStrategy)) {
             throw [UseCaseParsingException]::new(
-                [DiscoveryRequestParser]::Component, # ComponentName
+                [DiscoveryProfileParser]::Component, # ComponentName
                 [ApplicationExceptionContext]::AssertSemanticTokenMeaningfulness, # Context
                 [ApplicationExceptionReason]::NullOrWhiteSpace, # Reason
                 $semanticIdentity, # FieldName
@@ -33,14 +33,14 @@ class DiscoveryRequestParser {
         }
         [bool]$isCaseInsensitive = [StringComparisonInspector]::IsCaseInsensitive($comparison)
         $parsed = $null
-        [bool]$isValid = [DiscoveryRequestParser]::TryParseTraversalStrategy(
+        [bool]$isValid = [DiscoveryProfileParser]::TryParseTraversalStrategy(
             $traversalStrategy,
             $isCaseInsensitive,
             [ref]$parsed
         )
         if (-not $isValid) {
             throw [UseCaseParsingException]::new(
-                [DiscoveryRequestParser]::Component, # ComponentName
+                [DiscoveryProfileParser]::Component, # ComponentName
                 [ApplicationExceptionContext]::TranslateSemanticTokenToDomainValue, # Context
                 [ApplicationExceptionReason]::TranslationFailure, # Reason
                 $semanticIdentity, # FieldName

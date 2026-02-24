@@ -7,6 +7,6 @@ enum ApplicationExceptionContext {
     AssertSemanticTokenCollectionInvariants = 5
     TranslateSemanticTokenToDomainValue = 6
     TranslateSemanticTokensToDomainModel = 7
-    ResolveInputPaths = 8
+    ResolveInputPath = 8
     TraversalDirectories = 9
 }

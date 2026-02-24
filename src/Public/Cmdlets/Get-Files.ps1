@@ -71,17 +71,34 @@ function Get-Files {
             )
             $PSCmdlet.ThrowTerminatingError($err)
         }
-    }
-    process {
-        
         try {
-            [DiscoveryRequest]$request = [DiscoveryRequestMapper]::Map(
-                $Path,
+            [DiscoveryProfile]$profile = [DiscoveryProfileMapper]::Map(
                 $Exclude,
                 $Filter,
                 $traversalOptions,
                 $RecurseFlag,
                 $Options.RecurseMode
+            )
+        } catch [ApplicationException] {
+            [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::CreateFromApplicationException(
+                $_.Exception
+            )
+            $PSCmdlet.ThrowTerminatingError($err)
+        }
+    }
+    process {
+        try {
+            [string]$resolvedPath = [DiscoveryyRequestResolver]::ResolveDirectoryPathRaw($Path)
+        } catch [ApplicationException] {
+            [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::CreateFromApplicationException(
+                $_.Exception
+            )
+            $PSCmdlet.ThrowTerminatingError($err)
+        }
+        try {
+            [DiscoveryRequest]$request = [DiscoveryRequestFactory]::Create(
+                $resolvedPath,
+                $profile
             )
         } catch [ApplicationException] {
             [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::CreateFromApplicationException(

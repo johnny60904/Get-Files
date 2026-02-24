@@ -1,15 +1,14 @@
 class IOFileDiscoveryStrategySelector {
     
     static [ScriptBlock] Select (
-        [string] $directory,
         [IOFileDiscovery] $traversalEngine
     ) {
-        switch ($traversalEngine.DiscoveryRequest.TraversalScope) {
+        switch ($traversalEngine.DiscoveryRequest.DiscoveryProfile.TraversalScope) {
             ([TraversalScope]::Shallow) {
-                return $traversalEngine.DiscoverCurrentLevel($directory)
+                return $traversalEngine.DiscoverCurrentLevel()
             }
             ([TraversalScope]::Recurse) {
-                return $traversalEngine.DiscoverAll($directory)
+                return $traversalEngine.DiscoverAll()
             }
             default {
                 throw [System.InvalidOperationException]::new(

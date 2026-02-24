@@ -6,8 +6,9 @@ enum ApplicationParameter {
     SkipFileAttributes = 4
     NameCaseSensitivity = 5
     TraversalOptions = 6
-    InputPaths = 7
+    DirectoryPath = 7
     TraversalOperation = 8
     DiscoveryRequest = 9
+    DiscoveryProfile = 10
     
 }

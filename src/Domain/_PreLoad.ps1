@@ -7,4 +7,5 @@
 . "$PSScriptRoot/Assertions/_PreLoad.ps1"
 
 . "$PSScriptRoot/TraversalOptions.ps1"
+. "$PSScriptRoot/DiscoveryProfile.ps1"
 . "$PSScriptRoot/DiscoveryRequest.ps1"

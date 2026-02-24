@@ -16,27 +16,9 @@ class DiscoverStructuredFilesSet {
         # $DirectoryPath -> Resolve
         # Join / GetFullPath 不會噴錯
         # 但 GetFullPath 長度過長會噴錯
-        try {
-            [string]$resolvedPath = [IOPathResolver]::ResolvePath(
-                $this.DiscoveryRequest.DirectoryPath
-            )
-        } catch {
-            throw [UseCaseExecutionException]::new(
-                [DiscoverStructuredFilesSet]::UseCase, # UseCaseName
-                [ApplicationExceptionContext]::ResolveInputPaths, # Context
-                [ApplicationExceptionReason]::ResolutionFailure, # Reason
-                [ApplicationParameter]::InputPaths, # FieldName
-                $_.Exception.TargetObject, # TargetObject
-                "One or more input paths could not be resolved.", # Message
-                $_.Exception # InnerException (bubbled from Infrastructue Layer)
-            )
-        }
         [IOFileDiscovery]$traversalEngine = [IOFileDiscovery]::new($this.DiscoveryRequest)
         try {
-            return [IOFileDiscoveryStrategySelector]::Select(
-                    $resolvedPath,
-                    $traversalEngine
-                )
+            return [IOFileDiscoveryStrategySelector]::Select($traversalEngine)
         } catch {
             throw [UseCaseExecutionException]::new(
                 [DiscoverStructuredFilesSet]::UseCase, # UseCaseName

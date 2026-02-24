@@ -5,8 +5,10 @@
 . "$PSScriptRoot/Normalizers/_PreLoad.ps1"
 
 . "$PSScriptRoot/DiscoveryOptionsFactory.ps1"
+. "$PSScriptRoot/DiscoveryRequestFactory.ps1"
+. "$PSScriptRoot/DiscoveryyRequestResolver.ps1"
 . "$PSScriptRoot/DiscoveryOptionsParser.ps1"
 . "$PSScriptRoot/DiscoveryOptionsMapper.ps1"
-. "$PSScriptRoot/DiscoveryRequestParser.ps1"
-. "$PSScriptRoot/DiscoveryRequestSelector.ps1"
-. "$PSScriptRoot/DiscoveryRequestMapper.ps1"
+. "$PSScriptRoot/DiscoveryProfileParser.ps1"
+. "$PSScriptRoot/DiscoveryProfileSelector.ps1"
+. "$PSScriptRoot/DiscoveryProfileMapper.ps1"

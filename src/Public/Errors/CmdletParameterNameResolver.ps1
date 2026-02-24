@@ -22,8 +22,8 @@ class CmdletParameterNameResolver {
             ([ApplicationParameter]::TraversalOptions) {
                 return [CmdletParameter]::Operation
             }
-            ([ApplicationParameter]::InputPaths) {
-                return [CmdletParameter]::Operation
+            ([ApplicationParameter]::DirectoryPath) {
+                return [CmdletParameter]::Path
             }
             ([ApplicationParameter]::TraversalOperation) {
                 return [CmdletParameter]::Operation

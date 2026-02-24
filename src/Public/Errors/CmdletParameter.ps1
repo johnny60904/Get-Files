@@ -4,6 +4,7 @@ enum CmdletParameter {
     Recurse = 2 # TraversalScope
     ExcludeAttributes = 3 # SkipFileAttributes
     CaseSensitivity = 4 # NameCaseSensitivity
-    Operation = 5 # InputPaths / TraversalOperation / TraversalOptions / DiscoveryRequest
+    Path = 5 # DirectoryPath
+    Operation = 6 # TraversalOperation / TraversalOptions / DiscoveryRequest
     
 }
