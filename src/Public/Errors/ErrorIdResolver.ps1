@@ -21,7 +21,7 @@ class ErrorIdResolver {
                 return "Invalid$($paramName)"
             }
             ([ApplicationExceptionReason]::InvariantViolation) {
-                return "Invalid$($paramName)"
+                return "InvalidOperation"
             }
             ([ApplicationExceptionReason]::ResolutionFailure) {
                 return "Invalid$($paramName)"

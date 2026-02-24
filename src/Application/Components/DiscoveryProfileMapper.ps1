@@ -17,8 +17,6 @@ class DiscoveryProfileMapper {
                 [TraversalStrategyComparison]::Comparison
             )
         } else { [TraversalPolicyDefaults]::TraversalStrategyDefault }
-        [ApplicationParameter]$semanticIdentity = [ApplicationParameter]::DiscoveryProfile
-        [string]$semanticName = $semanticIdentity.ToString()
         try {
             return [DiscoveryProfileSelector]::Select(
                 $excludeNames,
@@ -28,10 +26,12 @@ class DiscoveryProfileMapper {
                 $traversalStrategy
             )
         } catch [DomainException] {
+            [ApplicationParameter]$semanticIdentity = [ApplicationParameterConverter]::FromDomainException($_)
+            [string]$semanticName = $semanticIdentity.ToString()
             throw [UseCaseInvariantViolationException]::new(
                 [DiscoveryProfileMapper]::Component, # ComponentName
                 [ApplicationExceptionContext]::TranslateSemanticTokensToDomainModel, # Context
-                [ApplicationExceptionReason]::InvariantViolation, # Reason
+                [ApplicationExceptionReasonConverter]::FromDomainException($_), # Reason
                 $semanticIdentity, # FieldName
                 $_.Exception.TargetObject, # TargetObject
                 "$($semanticName) violated one or more invariant rules.", # Message

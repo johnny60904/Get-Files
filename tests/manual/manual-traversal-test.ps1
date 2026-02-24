@@ -173,6 +173,18 @@ $recurTestDir | Get-Files -Recurse -Options $OptionsDFS | Select-Object -First 1
 
 [System.Console]::WriteLine("`n`n=====================================`n`n")
 
+# ================================== Test Bloom ==================================
+
+try {
+    [System.Console]::WriteLine("`n`nBloom:`n`n")
+    $recurTestDir | Get-Files -Exclude @('B', 'B*.txt') -Options $OptionsDFS -ExcludeHidden
+} catch {
+    Write-Output $_
+    Write-Output $_.Exception.InnerException
+}
+
+[System.Console]::WriteLine("`n`n=====================================`n`n")
+
 $ErrorActionPreference = 'Continue'
 
 [System.Console]::WriteLine("`n`nPlease press ENTER to continue ...`n`n")

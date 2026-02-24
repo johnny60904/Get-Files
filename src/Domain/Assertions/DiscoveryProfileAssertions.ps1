@@ -14,7 +14,7 @@ class DiscoveryProfileAssertions {
             [string]$semanticName = $semanticIdentity.ToString()
             throw [DomainRuleViolationException]::new(
                 [DomainModelNames]::DiscoveryProfile,
-                [DomainRuleNames]::AssertSemanticTokenMeaningfulness,
+                [DomainRuleNames]::AssertSemanticTokenCollectionMeaningfulness,
                 $semanticIdentity,
                 "'$($semanticName)' is required.",
                 $excludeNames

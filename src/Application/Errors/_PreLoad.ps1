@@ -6,3 +6,4 @@
 . "$PSScriptRoot/UseCaseParsingException.ps1"
 . "$PSScriptRoot/UseCaseExecutionException.ps1"
 . "$PSScriptRoot/UseCaseInvariantViolationException.ps1"
+. "$PSScriptRoot/ApplicationExceptionReasonConverter.ps1"

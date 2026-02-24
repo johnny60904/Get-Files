@@ -28,10 +28,8 @@ class DiscoveryOptionsMapper {
         }
         [SkipFileAttributes]$finalFlags = ($flagsFromSwitches -bor $flagsFromAdvanced)
         # build Domain object
-        [ApplicationParameter]$semanticIdentity = [ApplicationParameter]::TraversalOptions
-        [string]$semanticName = $semanticIdentity.ToString()
         try {
-            [TraversalOptions]$traversalOptions = [TraversalOptions]::new(
+            return [TraversalOptions]::new(
                 $skipInaccessibleEntries,
                 (
                     [DiscoveryOptionsParser]::ParseNameCaseSensitivity( # ParsingException
@@ -42,28 +40,18 @@ class DiscoveryOptionsMapper {
                 $finalFlags
             )
         } catch [DomainException] {
+            [ApplicationParameter]$semanticIdentity = [ApplicationParameterConverter]::FromDomainException($_)
+            [string]$semanticName = $semanticIdentity.ToString()
             throw [UseCaseInvariantViolationException]::new(
                 [DiscoveryOptionsMapper]::Component, # ComponentName
                 [ApplicationExceptionContext]::TranslateSemanticTokensToDomainModel, # Context
-                [ApplicationExceptionReason]::InvariantViolation, # Reason
+                [ApplicationExceptionReasonConverter]::FromDomainException($_), # Reason
                 $semanticIdentity, # FieldName
                 $_.Exception.TargetObject, # TargetObject
                 "$($semanticName) violated one or more invariant rules.", # Message
                 $_.Exception # InnerException
             )
         }
-        try {  } catch [DomainException] {
-            throw [UseCaseInvariantViolationException]::new(
-                [DiscoveryOptionsMapper]::Component, # ComponentName
-                [ApplicationExceptionContext]::TranslateSemanticTokensToDomainModel, # Context
-                [ApplicationExceptionReason]::InvariantViolation, # Reason
-                $semanticIdentity, # FieldName
-                $_.Exception.TargetObject, # TargetObject
-                "$($semanticName) violated one or more invariant rules.", # Message
-                $_.Exception # InnerException
-            )
-        }
-        return $traversalOptions
     }
     
 }

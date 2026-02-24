@@ -7,7 +7,7 @@ class DiscoveryyRequestResolver {
     ) {
         try {
             return [IOPathResolver]::ResolvePath($directoryPath)
-        } catch {
+        } catch { # Infrastructure
             [ApplicationParameter]$semanticIdentity = [ApplicationParameter]::DirectoryPath
             [string]$semanticName = $semanticIdentity.ToString()
             throw [UseCaseResolvingException]::new(
