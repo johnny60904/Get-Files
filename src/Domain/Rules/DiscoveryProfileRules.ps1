@@ -31,6 +31,26 @@ class DiscoveryProfileRules {
         }
     }
     
+    static [bool] IsMaxDepthThresholdValidForShallow (
+        [int] $maxDepthThreshold
+    ) {
+        if ($maxDepthThreshold -eq 0) {
+            return $true
+        } else {
+            return $false
+        }
+    }
+    
+    static [bool] IsMaxDepthThresholdValidForRecursive (
+        [int] $maxDepthThreshold
+    ) {
+        if (($maxDepthThreshold -gt 0) -and ($maxDepthThreshold -le ([System.Int32]::MaxValue))) {
+            return $true
+        } else {
+            return $false
+        }
+    }
+    
     static [bool] IsShallowRequest (
         [TraversalScope] $traversalScope
     ) {

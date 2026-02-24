@@ -5,22 +5,28 @@ class DiscoveryProfileMapper {
     static [DiscoveryProfile] Map (
         [string[]] $excludeNames,
         [string] $fileFilter,
+        [int] $maxDepthThresholdRaw, # [int] $null
         [TraversalOptions] $traversalOptions,
         [bool] $recurseSubdirectories,
-        [string] $traversalStrategyToken
+        [string] $traversalStrategyToken # [string] $null
     ) {
-        [TraversalPolicyAssertions]::AssertProfile($recurseSubdirectories, $traversalStrategyToken) # Invariant Exception
+        [TraversalPolicyAssertions]::AssertMaxDepthThreshold($recurseSubdirectories, $maxDepthThresholdRaw) # Invariant Exception
+        [TraversalPolicyAssertions]::AssertScopeAndStrategy($recurseSubdirectories, $traversalStrategyToken) # Invariant Exception
+        [int]$maxDepthThreshold = if ($recurseSubdirectories -and ($maxDepthThresholdRaw -eq 0)) {
+            [TraversalPolicyDefaults]::DefaultMaxDepthThresholdWhenRecurse
+        } else { $maxDepthThresholdRaw }
         [TraversalScope]$traversalScope = [TraversalPolicyAssembler]::ResolveScope($recurseSubdirectories)
         [TraversalStrategy]$traversalStrategy = if ($traversalStrategyToken) {
             [DiscoveryProfileParser]::ParseTraversalStrategy( # Parsing Exception
                 [TraversalStrategyNormalizer]::NormalizeStrategyToken($traversalStrategyToken), # Normalization Exception
                 [TraversalStrategyComparison]::Comparison
             )
-        } else { [TraversalPolicyDefaults]::TraversalStrategyDefault }
+        } else { [TraversalPolicyDefaults]::DefaultTraversalStrategy }
         try {
             return [DiscoveryProfileSelector]::Select(
                 $excludeNames,
                 $fileFilter,
+                $maxDepthThreshold,
                 $traversalOptions,
                 $traversalScope,
                 $traversalStrategy

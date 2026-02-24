@@ -5,6 +5,7 @@ class DiscoveryProfileSelector {
     static [DiscoveryProfile] Select (
         [string[]] $excludeNames,
         [string] $fileFilter,
+        [int] $maxDepthThreshold,
         [TraversalOptions] $traversalOptions,
         [TraversalScope] $traversalScope,
         [TraversalStrategy] $traversalStrategy
@@ -14,6 +15,7 @@ class DiscoveryProfileSelector {
                 return [DiscoveryProfile]::CreateShallowProfile(
                     $excludeNames,
                     $fileFilter,
+                    $maxDepthThreshold,
                     $traversalOptions,
                     $traversalScope
                 )
@@ -22,6 +24,7 @@ class DiscoveryProfileSelector {
                 return [DiscoveryProfile]::CreateRecursiveProfile(
                     $excludeNames,
                     $fileFilter,
+                    $maxDepthThreshold,
                     $traversalOptions,
                     $traversalScope,
                     $traversalStrategy

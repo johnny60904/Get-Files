@@ -16,6 +16,9 @@ class ApplicationParameterConverter {
             ([DomainModelSemanticNames]::FileFilter) {
                 return [ApplicationParameter]::FileFilter
             }
+            ([DomainModelSemanticNames]::MaxDepthThreshold) {
+                return [ApplicationParameter]::MaxDepthThreshold
+            }
             ([DomainModelSemanticNames]::TraversalOptions) {
                 return [ApplicationParameter]::TraversalOptions
             }

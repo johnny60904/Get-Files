@@ -26,4 +26,19 @@ class NumericValidators {
         }
     }
     
+    static [void] ValidateIntegerIsWithinAllowedRange (
+        [int] $value,
+        [int] $min,
+        [int] $max,
+        [string] $paramName
+    ) {
+        if (-not (($value -ge $min) -and ($value -le $max))) {
+            throw [System.ArgumentOutOfRangeException]::new(
+                $paramName,
+                $value,
+                "Value must be within $($min) to $($max).   Value: $($value)."
+            )
+        }
+    }
+    
 }

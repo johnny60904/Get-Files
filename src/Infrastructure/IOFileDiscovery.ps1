@@ -47,10 +47,12 @@ class IOFileDiscovery {
         [string[]]$exclude_names = $this.DiscoveryRequest.DiscoveryProfile.ExcludeNames
         [string]$file_Filter = $this.DiscoveryRequest.DiscoveryProfile.FileFilter
         [string]$directory_Filter = $this.DirectoryFilter
+        [int]$maxDepth_Threshold = $this.DiscoveryRequest.DiscoveryProfile.MaxDepthThreshold
         [TraversalStrategy]$traversal_Strategy = $this.DiscoveryRequest.DiscoveryProfile.TraversalStrategy
         [TraversalOptions]$traversal_Options = $this.DiscoveryRequest.DiscoveryProfile.TraversalOptions
         return {
             param()
+            [int]$depth = 0
             [System.IO.EnumerationOptions]$enumOpts = [IOTraversalOptionsConverter]::ToEnumerationOptions($traversal_Options)
 	        [ScriptBlock]$extractor = [IOTraversalContextExtractionDispatcher]::Dispatch($traversal_Strategy)
 	        [IOTraversalContext]$Context = [IOTraversalContext]::new()
@@ -72,6 +74,8 @@ class IOFileDiscovery {
                     )) { continue }
                     $file # 直接 emit, 不收集
                 }
+                $depth++
+                if ($depth -eq $maxDepth_Threshold) { return }
                 [System.Collections.Generic.IEnumerable[string]]$subDirs = [IOPathEnumeration]::EnumerateDirectories(
                     $node,
                     $directory_Filter,

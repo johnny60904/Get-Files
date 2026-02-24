@@ -1,5 +1,5 @@
 class TraversalPolicyAssembler {
-    
+        
     static [TraversalScope] ResolveScope (
         [bool] $recurse
     ) {

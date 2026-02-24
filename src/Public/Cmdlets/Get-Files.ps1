@@ -30,6 +30,12 @@ function Get-Files {
         
         [switch] $Recurse,
         
+        [ValidateScript({
+            [NumericValidators]::ValidateIntegerIsWithinAllowedRange($_, 0, [System.Int32]::MaxValue, 'Depth')
+            return $true
+        })]
+        [int] $Depth,
+        
         # ------------------ Default switches ------------------
         
         [switch] $ExcludeHidden,
@@ -75,6 +81,7 @@ function Get-Files {
             [DiscoveryProfile]$profile = [DiscoveryProfileMapper]::Map(
                 $Exclude,
                 $Filter,
+                $Depth,
                 $traversalOptions,
                 $RecurseFlag,
                 $Options.RecurseMode

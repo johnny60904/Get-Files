@@ -10,12 +10,14 @@ function Test-Engine {
     $profC = [DiscoveryProfile]::new(
         $null,
         "*.*",
+        0,
         $trvOpts,
         [TraversalScope]::Shallow
     )
     $profR = [DiscoveryProfile]::new(
         $null,
         "*.*",
+        [System.Int32]::MaxValue,
         $trvOpts,
         [TraversalScope]::Recurse,
         [TraversalStrategy]::DepthFirst

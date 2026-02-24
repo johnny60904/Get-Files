@@ -91,7 +91,17 @@ try {
 
 try {
     [System.Console]::WriteLine("`n`nGet-Files BFS Switch Flags (Hidden):`n`n")
-    Get-Files -Path $recurTestDir -Recurse -Options $OptionsBFS -ExcludeHidden
+    Get-Files -Path $recurTestDir -Recurse -ExcludeHidden -Options $OptionsBFS
+} catch {
+    Write-Output $_
+    Write-Output $_.Exception.InnerException
+}
+
+[System.Console]::WriteLine("`n`n=====================================`n`n")
+
+try {
+    [System.Console]::WriteLine("`n`nGet-Files BFS Switch Flags (Hidden) Depth 2:`n`n")
+    Get-Files -Path $recurTestDir -Depth 2 -Recurse -ExcludeHidden -Options $OptionsBFS
 } catch {
     Write-Output $_
     Write-Output $_.Exception.InnerException
@@ -101,7 +111,7 @@ try {
 
 try {
     [System.Console]::WriteLine("`n`nGet-Files DFS Switch Pipeline (System, ReadOnly):`n`n")
-    $recurTestDir | Get-Files -Recurse -Options $OptionsDFS -ExcludeReadOnly -ExcludeSystem
+    $recurTestDir | Get-Files -Recurse -ExcludeReadOnly -ExcludeSystem -Options $OptionsDFS
 } catch {
     Write-Output $_
     Write-Output $_.Exception.InnerException
@@ -111,7 +121,7 @@ try {
 
 try {
     [System.Console]::WriteLine("`n`nGet-Files BFS Switch Pipeline (Hidden):`n`n")
-    $recurTestDir | Get-Files -Recurse -Options $OptionsBFS -ExcludeHidden
+    $recurTestDir | Get-Files -Recurse -ExcludeHidden -Options $OptionsBFS
 } catch {
     Write-Output $_
     Write-Output $_.Exception.InnerException
@@ -121,7 +131,7 @@ try {
 
 try {
     [System.Console]::WriteLine("`n`nGet-Files BFS Switch Pipeline (Hidden) Exclude ('C'):`n`n")
-    $recurTestDir | Get-Files -Recurse -Exclude @('C', 'C*.txt') -Options $OptionsBFS -ExcludeHidden
+    $recurTestDir | Get-Files -Exclude @('C', 'C*.txt') -Recurse -ExcludeHidden -Options $OptionsBFS
 } catch {
     Write-Output $_
     Write-Output $_.Exception.InnerException
@@ -131,7 +141,17 @@ try {
 
 try {
     [System.Console]::WriteLine("`n`nGet-Files DFS Switch Pipeline (Hidden) Exclude ('B'):`n`n")
-    $recurTestDir | Get-Files -Recurse -Exclude @('B', 'B*.txt') -Options $OptionsDFS -ExcludeHidden
+    $recurTestDir | Get-Files -Exclude @('B', 'B*.txt') -Recurse -ExcludeHidden -Options $OptionsDFS
+} catch {
+    Write-Output $_
+    Write-Output $_.Exception.InnerException
+}
+
+[System.Console]::WriteLine("`n`n=====================================`n`n")
+
+try {
+    [System.Console]::WriteLine("`n`nGet-Files DFS Switch Pipeline (Hidden) Exclude ('B') Depth 2:`n`n")
+    $recurTestDir | Get-Files -Exclude @('B', 'B*.txt') -Recurse -Depth 2 -ExcludeHidden -Options $OptionsDFS
 } catch {
     Write-Output $_
     Write-Output $_.Exception.InnerException
@@ -173,11 +193,11 @@ $recurTestDir | Get-Files -Recurse -Options $OptionsDFS | Select-Object -First 1
 
 [System.Console]::WriteLine("`n`n=====================================`n`n")
 
-# ================================== Test Bloom ==================================
+# ================================== Test Boom ==================================
 
 try {
-    [System.Console]::WriteLine("`n`nBloom:`n`n")
-    $recurTestDir | Get-Files -Exclude @('B', 'B*.txt') -Options $OptionsDFS -ExcludeHidden
+    [System.Console]::WriteLine("`n`nBoom:`n`n")
+    $recurTestDir | Get-Files -Exclude @('B', 'B*.txt') -ExcludeHidden -Options $OptionsDFS
 } catch {
     Write-Output $_
     Write-Output $_.Exception.InnerException

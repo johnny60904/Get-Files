@@ -38,6 +38,38 @@ class DiscoveryProfileAssertions {
         }
     }
     
+    static [void] AssertMaxDepthThresholdForShallow (
+        [string] $maxDepthThreshold
+    ) {
+        if (-not ([DiscoveryProfileRules]::IsMaxDepthThresholdValidForShallow($maxDepthThreshold))) {
+            [string]$semanticIdentity = [DomainModelSemanticNames]::MaxDepthThreshold
+            [string]$semanticName = $semanticIdentity.ToString()
+            throw [DomainRuleViolationException]::new(
+                [DomainModelNames]::DiscoveryProfile, # ModelName
+                [DomainRuleNames]::AssertDomainModelInvariants, # RuleName
+                $semanticIdentity, # SemanticName
+                "'$($semanticName)' value out of range for shallow profile.", # Message
+                $maxDepthThreshold # TargetObject
+            )
+        }
+    }
+    
+    static [void] AssertMaxDepthThresholdForRecursive (
+        [string] $maxDepthThreshold
+    ) {
+        if (-not ([DiscoveryProfileRules]::IsMaxDepthThresholdValidForRecursive($maxDepthThreshold))) {
+            [string]$semanticIdentity = [DomainModelSemanticNames]::MaxDepthThreshold
+            [string]$semanticName = $semanticIdentity.ToString()
+            throw [DomainRuleViolationException]::new(
+                [DomainModelNames]::DiscoveryProfile, # ModelName
+                [DomainRuleNames]::AssertDomainModelInvariants, # RuleName
+                $semanticIdentity, # SemanticName
+                "'$($semanticName)' value out of range for recursive profile.", # Message
+                $maxDepthThreshold # TargetObject
+            )
+        }
+    }
+    
     static [void] AssertShallowProfile (
         [TraversalScope] $traversalScope
     ) {
