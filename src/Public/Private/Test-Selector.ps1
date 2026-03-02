@@ -27,11 +27,14 @@ function Test-Selector {
     $engineC = [IOFileDiscovery]::new($reqC)
     $engineR = [IOFileDiscovery]::new($reqR)
     
-    [ScriptBlock]$oprC = [IOFileDiscoveryStrategySelector]::Select($engineC)
+    $selectorC = [IOFileDiscoveryStrategySelector]::new($engineC)
+    $selectorR = [IOFileDiscoveryStrategySelector]::new($engineR)
+    
+    [ScriptBlock]$oprC = $selectorC.Select()
     Write-Host "`n`nCurrent Level:`n`n"
     & $oprC
     
-    [ScriptBlock]$oprR = [IOFileDiscoveryStrategySelector]::Select($engineR)
+    [ScriptBlock]$oprR = $selectorR.Select()
     Write-Host "`n`nAll Levels:`n`n"
     & $oprR
     

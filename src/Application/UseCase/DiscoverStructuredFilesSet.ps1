@@ -2,23 +2,17 @@ class DiscoverStructuredFilesSet {
     
     hidden static [string] $UseCase = 'DiscoverStructuredFilesSet'
     
-    [DiscoveryRequest] $DiscoveryRequest
+    [IOFileDiscoveryStrategySelector] $TraversalStrategySelector
     
     DiscoverStructuredFilesSet (
-        [DiscoveryRequest] $discoveryRequest
+        [IOFileDiscoveryStrategySelector] $traversalStrategySelector
     ) {
-        $this.DiscoveryRequest = $discoveryRequest
+        $this.TraversalStrategySelector = $traversalStrategySelector
     }
     
-    # 使用者的 options 都是透過 DiscoveryOptionsFactory 獲得的,
-    # DiscoveryOptionsFactory 就 Assert 過了, 所以這裡不再 Assert
-    [ScriptBlock] Execute () {    
-        # $DirectoryPath -> Resolve
-        # Join / GetFullPath 不會噴錯
-        # 但 GetFullPath 長度過長會噴錯
-        [IOFileDiscovery]$traversalEngine = [IOFileDiscovery]::new($this.DiscoveryRequest)
+    [ScriptBlock] Execute () {
         try {
-            return [IOFileDiscoveryStrategySelector]::Select($traversalEngine)
+            return $this.TraversalStrategySelector.Select()
         } catch {
             throw [UseCaseExecutionException]::new(
                 [DiscoverStructuredFilesSet]::UseCase, # UseCaseName

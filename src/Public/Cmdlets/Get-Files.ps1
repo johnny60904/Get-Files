@@ -95,7 +95,8 @@ function Get-Files {
     }
     process {
         try {
-            [string]$resolvedPath = [DiscoveryRequestResolver]::ResolveDirectoryPathRaw($Path)
+            [IOPathResolver]$pathResolver = [IOPathResolver]::new($Path)
+            [string]$resolvedPath = [DiscoveryRequestResolver]::ResolveDirectoryPathRaw($pathResolver)
         } catch [ApplicationException] {
             [System.Management.Automation.ErrorRecord]$err = [ErrorRecordFactory]::CreateFromApplicationException(
                 $_.Exception
@@ -113,7 +114,9 @@ function Get-Files {
             )
             $PSCmdlet.ThrowTerminatingError($err)
         }
-        [DiscoverStructuredFilesSet]$useCase = [DiscoverStructuredFilesSet]::new($request)
+        $traversal_engine = [IOFileDiscovery]::new($request)
+        $traversal_strategy_selector = [IOFileDiscoveryStrategySelector]::new($traversal_engine)
+        [DiscoverStructuredFilesSet]$useCase = [DiscoverStructuredFilesSet]::new($traversal_strategy_selector)
         try {
             & $useCase.Execute()
         } catch [ApplicationException] {

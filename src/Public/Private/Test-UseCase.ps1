@@ -27,9 +27,12 @@ function Test-UseCase {
     $engineC = [IOFileDiscovery]::new($reqC)
     $engineR = [IOFileDiscovery]::new($reqR)
     
-    $useCaseC = [DiscoverStructuredFilesSet]::new($reqC)
+    $selectorC = [IOFileDiscoveryStrategySelector]::new($engineC)
+    $selectorR = [IOFileDiscoveryStrategySelector]::new($engineR)
     
-    $useCaseR = [DiscoverStructuredFilesSet]::new($reqR)
+    $useCaseC = [DiscoverStructuredFilesSet]::new($selectorC)
+    
+    $useCaseR = [DiscoverStructuredFilesSet]::new($selectorR)
     
     Write-Host "`n`nCurrent Level:`n`n"
     & $useCaseC.Execute()

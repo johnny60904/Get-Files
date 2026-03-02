@@ -3,10 +3,10 @@ class DiscoveryRequestResolver {
     hidden static [string] $Component = 'DiscoveryRequestResolver'
     
     static [string] ResolveDirectoryPathRaw (
-        [string] $directoryPath
+        [IOPathResolver] $resolver
     ) {
         try {
-            return [IOPathResolver]::ResolvePath($directoryPath)
+            return $resolver.Resolve()
         } catch { # Infrastructure
             [ApplicationParameter]$semanticIdentity = [ApplicationParameter]::DirectoryPath
             [string]$semanticName = $semanticIdentity.ToString()
@@ -15,7 +15,7 @@ class DiscoveryRequestResolver {
                 [ApplicationExceptionContext]::ResolveInputPath, # Context
                 [ApplicationExceptionReason]::ResolutionFailure, # Reason
                 $semanticIdentity, # FieldName
-                $directoryPath, # TargetObject
+                $resolver.Path, # TargetObject
                 "$($semanticName) could not be resolved.", # Message
                 $_.Exception # InnerException (Bubbled from Infrastructure)
             )
